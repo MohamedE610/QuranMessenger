@@ -3,20 +3,35 @@
 
     <PreferenceCategory android:title="Settings" >
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="@string/serviceEnabledKey"
             android:title="@string/title"
             android:summary="@string/summary" />
 
-        <com.example.e610.quranmessenger.TimePreference
+        <EditTextPreference
+            android:defaultValue="1"
+            android:key="alarm_numbers"
+            android:title="عدد مرات التنبيه"
+            android:summary="ادخل عدد مرات التنبيه "
+            android:dependency="@string/serviceEnabledKey"/>
+
+       <!-- <com.example.e610.quranmessenger.TimePreference
             android:key="alarm_time"
             android:title="Lunch Alarm Time"
             android:defaultValue="12:00"
             android:summary="Set your desired time for the lunch alarm"
             />
+        android:dependency="alarm"-->
 
-        <!--android:dependency="alarm"-->
+       <!-- <com.example.e610.quranmessenger.TimePreference
+            android:key="alarm"
+            android:title="@string/alarm_time"
+            android:defaultValue="12:00"
+            android:summary="@string/alarm_time_summary"
+            android:dependency="@string/serviceEnabledKey"
+            />-->
+        <!---->
 
     </PreferenceCategory>
 </PreferenceScreen>

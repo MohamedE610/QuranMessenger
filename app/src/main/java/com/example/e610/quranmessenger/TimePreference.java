@@ -3,8 +3,10 @@ package com.example.e610.quranmessenger;
 /**
  * Created by E610 on 11/16/2017.
  */
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -27,6 +29,11 @@ public class TimePreference extends DialogPreference {
         return(Integer.parseInt(pieces[1]));
     }
 
+    /*public TimePreference(Context ctxt) {
+        super(ctxt);
+        setPositiveButtonText("Set");
+        setNegativeButtonText("Cancel");
+    }*/
     public TimePreference(Context ctxt, AttributeSet attrs) {
         super(ctxt, attrs);
 

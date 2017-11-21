@@ -9,5 +9,7 @@
     <!-- Notification -->
     <string name="notificationTitle">Head service</string>
     <string name="notificationText">Tap to configure.</string>
+    <string name="alarm_time">وقت التنبيه</string>
+    <string name="alarm_time_summary">قم بتحديد وقت التنبيه</string>
 
 </resources>
