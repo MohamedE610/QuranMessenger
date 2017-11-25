@@ -13,7 +13,9 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Standard settings screen.
@@ -126,7 +128,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         if(SERVICE_ENABLED_KEY.equals(key)) {
             if(enabled) {
-               /* String alarmNum=sharedPreferences.getString("alarm_numbers","0");
+                String alarmNum=sharedPreferences.getString("alarm_numbers","0");
                 int NumOfAlarm=Integer.valueOf(alarmNum);
                 for (int i = 0; i <NumOfAlarm ; i++) {
                     String s = sharedPreferences.getString(alarmName+i+"", "0:0");
@@ -134,9 +136,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         String[] strs = s.split(":");
                         int h = Integer.valueOf(strs[0]);
                         int m = Integer.valueOf(strs[1]);
-                        startHeadService(h, m);
+                        startHeadService(h, m,i);
                     }
-                }*/
+                }
             } else {
                 stopHeadService();
             }
@@ -151,11 +153,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 if(timePref!=null)
                     getPreferenceScreen().removePreference(timePref);
             }
-            if (alarmManager!= null) {
-                alarmManager.cancel(pendingIntent);
-                if (pendingIntent!= null)
-                    pendingIntent.cancel();
-            }
+
+            canselAlarms();
+
             alarmNum=sharedPreferences.getString("alarm_numbers","0");
             MySharedPreferences.saveData(alarmNum);
             NumOfAlarm=Integer.valueOf(alarmNum);
@@ -174,7 +174,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
         else if(key.startsWith("alarm")){
             if(enabled) {
-
                 MySharedPreferences.setUpMySharedPreferences(getActivity(),"extraSetting");
                 String alarmNum=MySharedPreferences.getData();
                 int NumOfAlarm=Integer.valueOf(alarmNum);
@@ -185,7 +184,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         String[] strs = ss.split(":");
                         int h = Integer.valueOf(strs[0]);
                         int m = Integer.valueOf(strs[1]);
-                        startHeadService(h, m);
+                        startHeadService(h, m,i);
                     }
                 }
 
@@ -205,19 +204,29 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         getPreferenceScreen().findPreference(SERVICE_ENABLED_KEY).setEnabled(enabled);
     }
 
-    PendingIntent pendingIntent;
+    HashMap<Integer,PendingIntent> pendingIntentList=new HashMap<>();
     AlarmManager alarmManager;
-    private void startHeadService(int h, int m) {
+    private void startHeadService(int h, int m , int id) {
         Intent intent=new Intent(getActivity(),HeadService.class);
-         pendingIntent=PendingIntent.getService(getActivity(),0,intent,0);
-
+        PendingIntent pendingIntent=PendingIntent.getService(getActivity(),id,intent,0);
+        if(pendingIntentList!=null && !pendingIntentList.containsKey(id))
+            pendingIntentList.put(id,pendingIntent);
+        long _alarm = 0;
+        Calendar now = Calendar.getInstance();
         Calendar calendar=Calendar.getInstance();
         //calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY,h);
         calendar.set(Calendar.MINUTE,m);
+        long asd=AlarmManager.INTERVAL_DAY;
+        if(calendar.getTimeInMillis() <= now.getTimeInMillis())
+            _alarm = calendar.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
+        else
+            _alarm = calendar.getTimeInMillis();
 
         alarmManager=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,AlarmManager.INTERVAL_DAY,pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);
         /*Context context = getActivity();
         context.startService(new Intent(context, HeadService.class));*/
     }
@@ -225,9 +234,17 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private void stopHeadService() {
         Context context = getActivity();
         context.stopService(new Intent(context, HeadService.class));
-        if (alarmManager!= null) {
-            alarmManager.cancel(pendingIntent);
-        }
-
+        canselAlarms();
     }
+
+    private void canselAlarms(){
+        if (alarmManager!= null) {
+            for (int i = 0; i <pendingIntentList.size() ; i++) {
+                alarmManager.cancel(pendingIntentList.get(i));
+            }
+        }
+    }
+
+
+
 }
