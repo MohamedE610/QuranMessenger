@@ -3,7 +3,6 @@
     package="com.example.e610.quranmessenger">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/wrdk"
@@ -11,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SettingsActivity">
+
+        </activity>
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,11 +21,9 @@
             </intent-filter>
         </activity>
 
+
         <service android:name=".HeadService" />
 
-        <activity android:name=".MainActivity">
-
-        </activity>
     </application>
 
 </manifest>

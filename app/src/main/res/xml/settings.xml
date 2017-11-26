@@ -3,11 +3,24 @@
 
     <PreferenceCategory android:title="Settings" >
 
+
         <SwitchPreference
+            android:defaultValue="false"
+            android:key="azan"
+            android:title="ألأذان"
+            android:summary="تشغيل اشعارت  ألأذان" />
+
+        <!--<SwitchPreference
             android:defaultValue="false"
             android:key="@string/serviceEnabledKey"
             android:title="@string/title"
-            android:summary="@string/summary" />
+            android:summary="@string/summary" />-->
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/serviceEnabledKey"
+            android:title="التنبيه بالورد"
+            android:summary="تشغيل الاشعارت لتبهك بوردك اليومى " />
 
         <EditTextPreference
             android:defaultValue="1"
@@ -32,6 +45,7 @@
             android:dependency="@string/serviceEnabledKey"
             />-->
         <!---->
+
 
     </PreferenceCategory>
 </PreferenceScreen>

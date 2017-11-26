@@ -6,12 +6,18 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
+
+import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
+import com.example.e610.quranmessenger.Utils.FetchAzanData;
+import com.example.e610.quranmessenger.Utils.NetworkResponse;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -194,8 +200,36 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         }
 
-        else if(key.startsWith("asd")){
-            Toast.makeText(getActivity(),"asd",Toast.LENGTH_LONG).show();
+        else if(key.equals("azan")){
+
+            boolean azan=sharedPreferences.getBoolean("azan",false);
+            if(azan) {
+                FetchAzanData fetchAzanData = new FetchAzanData();
+                fetchAzanData.setNetworkResponse(new NetworkResponse() {
+                    @Override
+                    public void OnSuccess(String JsonData) {
+                        Gson gson = new Gson();
+                        PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+                        String s=" الفجر : "+prayerTimes.getData().getTimings().Fajr +"\n"
+                                +" الظهر : "+prayerTimes.getData().getTimings().Dhuhr +"\n"
+                                +" العصر : "+prayerTimes.getData().getTimings().Asr +"\n"
+                                +" المغرب : "+prayerTimes.getData().getTimings().Maghrib +"\n"
+                                +" العشاء "+prayerTimes.getData().getTimings().Isha +"\n";
+                        Preference preference=findPreference("azan");
+                        preference.setSummary(s);
+                    }
+
+                    @Override
+                    public void OnFailure(boolean Failure) {
+
+                    }
+                });
+                fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+            else {
+                Preference preference=findPreference("azan");
+                preference.setSummary("");
+            }
         }
 
     }
@@ -245,6 +279,30 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
+    HashMap<Integer,PendingIntent> pendingIntentAzanList=new HashMap<>();
+    private void startAzanService(int h, int m , int id) {
+        Intent intent=new Intent(getActivity(),HeadService.class);
+        PendingIntent pendingIntent=PendingIntent.getService(getActivity(),id,intent,0);
+        if(pendingIntentList!=null && !pendingIntentList.containsKey(id))
+            pendingIntentList.put(id,pendingIntent);
+        long _alarm = 0;
+        Calendar now = Calendar.getInstance();
+        Calendar calendar=Calendar.getInstance();
+        //calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY,h);
+        calendar.set(Calendar.MINUTE,m);
+        long asd=AlarmManager.INTERVAL_DAY;
+        if(calendar.getTimeInMillis() <= now.getTimeInMillis())
+            _alarm = calendar.getTimeInMillis() + (AlarmManager.INTERVAL_DAY+1);
+        else
+            _alarm = calendar.getTimeInMillis();
 
+        alarmManager=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,AlarmManager.INTERVAL_DAY,pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);
+        /*Context context = getActivity();
+        context.startService(new Intent(context, HeadService.class));*/
+    }
 
 }

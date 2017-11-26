@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -18,18 +19,17 @@ import android.widget.Toast;
  * Foreground service. Creates a head view.
  * The pending intent allows to go back to the settings activity.
  */
-public class HeadService extends Service {
+public class AzanService extends Service {
 
     private final static int FOREGROUND_ID = 999;
 
-    private HeadLayer mHeadLayer;
 
-    private WindowManager mWindowManager;
-    private View mFloatingView;
-
+    MediaPlayer mPlayer;
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
 
     }
 
@@ -40,47 +40,35 @@ public class HeadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mPlayer.start();
         logServiceStarted();
-
-        initHeadLayer();
-
+        PendingIntent pendingIntent = createPendingIntent();
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("وردك اليومى الان")
+                        .setContentTitle("ألأذان")
+                        .setContentText("و الان موعد الصلاه")
+                        .setContentIntent(pendingIntent)
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_HIGH);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         notificationManager.notify(5566, mBuilder.build());
 
+        /*Notification notification = createNotification(pendingIntent);
+        startForeground(FOREGROUND_ID, notification);*/
 
-        PendingIntent pendingIntent = createPendingIntent();
-        Notification notification = createNotification(pendingIntent);
-
-        startForeground(FOREGROUND_ID, notification);
 
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        destroyHeadLayer();
         stopForeground(true);
-
         logServiceEnded();
+        mPlayer.stop();
     }
 
-    private void initHeadLayer() {
-        mHeadLayer = new HeadLayer(this);
-
-    }
-
-    private void destroyHeadLayer() {
-        mHeadLayer.destroy();
-        mHeadLayer = null;
-    }
 
     private PendingIntent createPendingIntent() {
         Intent intent = new Intent(this, SettingsActivity.class);
