@@ -19,8 +19,14 @@
     <string name="l_Ayah">﴾</string>
 
     <string name="r_Surah">﴿﴿﴿﴿</string>
-   <string name="l_Surah">﴾﴾﴾﴾</string>
+    <string name="l_Surah">﴾﴾﴾﴾</string>
     <string name="bsm_allah">﻿بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>

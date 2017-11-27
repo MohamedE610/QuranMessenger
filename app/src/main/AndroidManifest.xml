@@ -3,17 +3,22 @@
     package="com.example.e610.quranmessenger">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/wrdk"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".MainActivity">
 
         </activity>
-
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,9 +26,10 @@
             </intent-filter>
         </activity>
 
-
         <service android:name=".HeadService" />
+        <service android:name=".AzanService" />
 
+        <activity android:name=".FahrsActivity"></activity>
     </application>
 
 </manifest>

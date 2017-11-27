@@ -20,6 +20,18 @@ public class MySharedPreferences {
         sharedPref = context.getSharedPreferences(FileName, Context.MODE_PRIVATE);
         editor=sharedPref.edit();
     }
+
+    public static void setUserSetting(String key,String value){
+        editor.putString(key,value);
+        editor.commit();
+    }
+
+    public static String getUserSetting(String key){
+
+        String UserSetting=sharedPref.getString(key,"");
+
+        return UserSetting;
+    }
     //"widgetRecipe"
     public static void saveData(String data){
         editor.putString("NOA",data);

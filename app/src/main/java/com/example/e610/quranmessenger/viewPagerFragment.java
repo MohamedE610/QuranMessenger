@@ -1,6 +1,8 @@
 package com.example.e610.quranmessenger;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -116,8 +118,10 @@ public class viewPagerFragment extends Fragment implements NetworkResponse{
                 }
                     ayahStr+=getString(R.string.r_Ayah)+pageOfQuran.getData().getAyahs().get(i).getNumberInSurah()+getString(R.string.l_Ayah);
              }
-
         }
+            /*for (int i = 0; i < ayahStr.length() ; i++) {
+
+            }*/
             TextView AyahTextView=createTextView(1);
             AyahTextView.setText(ayahStr);
             linearLayout.addView(AyahTextView);
@@ -134,7 +138,7 @@ public class viewPagerFragment extends Fragment implements NetworkResponse{
 
         TextView textView=new TextView(getContext());
         textView.setTextSize(25);
-        textView.setPadding(0,0,0,0);
+        textView.setPadding(0,0,0,10);
 
         if(i==0){
             ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
@@ -145,6 +149,9 @@ public class viewPagerFragment extends Fragment implements NetworkResponse{
             ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textView.setLayoutParams(lparams);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
         }
 
         return textView;

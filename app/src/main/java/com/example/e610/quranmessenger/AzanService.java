@@ -28,7 +28,6 @@ public class AzanService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
 
     }
@@ -40,7 +39,17 @@ public class AzanService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Toast.makeText(AzanService.this,"Azan",Toast.LENGTH_LONG).show();
         mPlayer.start();
+       /* mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+        mPlayer.prepareAsync();*/
+
         logServiceStarted();
         PendingIntent pendingIntent = createPendingIntent();
         NotificationCompat.Builder mBuilder =
@@ -67,6 +76,8 @@ public class AzanService extends Service {
         stopForeground(true);
         logServiceEnded();
         mPlayer.stop();
+        mPlayer.release();
+        mPlayer=null;
     }
 
 

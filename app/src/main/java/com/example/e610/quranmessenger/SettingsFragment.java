@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
 import com.example.e610.quranmessenger.Utils.FetchAzanData;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
+import com.example.e610.quranmessenger.Utils.NetworkState;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -201,38 +202,54 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
 
         else if(key.equals("azan")){
-
+            ctx=getActivity();
             boolean azan=sharedPreferences.getBoolean("azan",false);
             if(azan) {
-                FetchAzanData fetchAzanData = new FetchAzanData();
-                fetchAzanData.setNetworkResponse(new NetworkResponse() {
-                    @Override
-                    public void OnSuccess(String JsonData) {
-                        Gson gson = new Gson();
-                        PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
-                        String s=" الفجر : "+prayerTimes.getData().getTimings().Fajr +"\n"
-                                +" الظهر : "+prayerTimes.getData().getTimings().Dhuhr +"\n"
-                                +" العصر : "+prayerTimes.getData().getTimings().Asr +"\n"
-                                +" المغرب : "+prayerTimes.getData().getTimings().Maghrib +"\n"
-                                +" العشاء "+prayerTimes.getData().getTimings().Isha +"\n";
-                        Preference preference=findPreference("azan");
-                        preference.setSummary(s);
-                    }
+                if(NetworkState.ConnectionAvailable(ctx)) {
+                    FetchAzanData fetchAzanData = new FetchAzanData();
+                    fetchAzanData.setNetworkResponse(new NetworkResponse() {
+                        @Override
+                        public void OnSuccess(String JsonData) {
+                            Gson gson = new Gson();
+                            PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+                            String s = " الفجر : " + prayerTimes.getData().getTimings().Fajr + "\n"
+                                    + " الظهر : " + prayerTimes.getData().getTimings().Dhuhr + "\n"
+                                    + " العصر : " + prayerTimes.getData().getTimings().Asr + "\n"
+                                    + " المغرب : " + prayerTimes.getData().getTimings().Maghrib + "\n"
+                                    + " العشاء " + prayerTimes.getData().getTimings().Isha + "\n";
+                            Preference preference = findPreference("azan");
+                            preference.setSummary(s);
+                            String[] times = new String[5];
+                            times[0] = prayerTimes.getData().getTimings().Fajr;
+                            times[1] = prayerTimes.getData().getTimings().Dhuhr;
+                            times[2] = prayerTimes.getData().getTimings().Asr;
+                            times[3] = prayerTimes.getData().getTimings().Maghrib;
+                            times[4] = prayerTimes.getData().getTimings().Isha;
+                            //times[4]="19:30";
+                            for (int i = 1; i < times.length; i++) {
+                                String[] str = times[i].split(":");
+                                startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), i + 1000);
+                            }
+                        }
 
-                    @Override
-                    public void OnFailure(boolean Failure) {
+                        @Override
+                        public void OnFailure(boolean Failure) {
 
-                    }
-                });
-                fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        }
+                    });
+                    fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }
             }
             else {
                 Preference preference=findPreference("azan");
                 preference.setSummary("");
+                canselAzanAlarms();
             }
         }
 
     }
+
+    Context ctx;
 
     private void enableHeadServiceCheckbox(boolean enabled) {
         getPreferenceScreen().findPreference(SERVICE_ENABLED_KEY).setEnabled(enabled);
@@ -276,15 +293,16 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             for (int i = 0; i <pendingIntentList.size() ; i++) {
                 alarmManager.cancel(pendingIntentList.get(i));
             }
+            //pendingIntentList.clear();
         }
     }
 
     HashMap<Integer,PendingIntent> pendingIntentAzanList=new HashMap<>();
     private void startAzanService(int h, int m , int id) {
-        Intent intent=new Intent(getActivity(),HeadService.class);
+        Intent intent=new Intent(getActivity(),AzanService.class);
         PendingIntent pendingIntent=PendingIntent.getService(getActivity(),id,intent,0);
-        if(pendingIntentList!=null && !pendingIntentList.containsKey(id))
-            pendingIntentList.put(id,pendingIntent);
+        if(pendingIntentAzanList!=null && !pendingIntentAzanList.containsKey(id))
+            pendingIntentAzanList.put(id,pendingIntent);
         long _alarm = 0;
         Calendar now = Calendar.getInstance();
         Calendar calendar=Calendar.getInstance();
@@ -303,6 +321,16 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);
         /*Context context = getActivity();
         context.startService(new Intent(context, HeadService.class));*/
+    }
+
+    private void canselAzanAlarms(){
+        getActivity().stopService(new Intent(getActivity(),AzanService.class));
+        if (alarmManager!= null) {
+            for (int i = 0; i <pendingIntentAzanList.size() ; i++) {
+                alarmManager.cancel(pendingIntentAzanList.get(i));
+            }
+            //pendingIntentList.clear();
+        }
     }
 
 }
