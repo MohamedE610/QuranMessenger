@@ -1,11 +1,9 @@
 package com.example.e610.quranmessenger;
 
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Models.PageOfQuran;
+import com.example.e610.quranmessenger.Models.PageOfQuran.PageOfQuran;
 import com.example.e610.quranmessenger.Utils.FetchData;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
 import com.example.e610.quranmessenger.Utils.NetworkState;

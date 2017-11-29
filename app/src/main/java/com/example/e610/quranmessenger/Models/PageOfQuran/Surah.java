@@ -1,5 +1,5 @@
 
-package com.example.e610.quranmessenger.Models;
+package com.example.e610.quranmessenger.Models.PageOfQuran;
 
 import java.io.Serializable;
 

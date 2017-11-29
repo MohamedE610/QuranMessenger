@@ -1,4 +1,4 @@
-package com.example.e610.quranmessenger;
+package com.example.e610.quranmessenger.Utils;
 
 /**
  * Created by E610 on 11/16/2017.

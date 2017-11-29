@@ -1,4 +1,4 @@
-package com.example.e610.quranmessenger;
+package com.example.e610.quranmessenger.Utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +9,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.example.e610.quranmessenger.Main2Activity;
+import com.example.e610.quranmessenger.MainActivity;
+import com.example.e610.quranmessenger.R;
+import com.example.e610.quranmessenger.Services.HeadService;
 
 /**
  * Creates the head layer view which is displayed directly on window manager.
@@ -83,7 +86,7 @@ public class HeadLayer extends View{
                         //So that is click event.
                         if (Xdiff < 5 && Ydiff < 5) {
                             Toast.makeText(mContext, "^_^", Toast.LENGTH_SHORT).show();
-                            mContext.startActivity(new Intent(mContext,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                            mContext.startActivity(new Intent(mContext,Main2Activity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             mContext.stopService(new Intent(mContext,HeadService.class));
                         }
                         return false;

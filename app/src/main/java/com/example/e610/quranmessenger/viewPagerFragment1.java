@@ -1,35 +1,37 @@
 package com.example.e610.quranmessenger;
 
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Models.PageOfQuran;
 import com.example.e610.quranmessenger.Utils.FetchData;
+import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
 import com.example.e610.quranmessenger.Utils.NetworkState;
-import com.google.gson.Gson;
-import com.nex3z.flowlayout.FlowLayout;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 
 public class viewPagerFragment1 extends Fragment implements NetworkResponse{
 
+   public interface activityCommunication{
+        void appeare();
+        void disappeare();
+    }
+    boolean flag;
     View view;
     ImageView imageView;
     FetchData fetchData;
+    String pageNumber;
+    activityCommunication communicatio;
     int currentSurahNumber;
     int currentJuzNumber;
     boolean isSajda;
@@ -39,6 +41,14 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse{
 
     String urlStr="http://www.quranmessenger.life/pages/quran_pages/";
     String extention=".jpg";
+
+    @Override
+    public void onPause() {
+        /*MySharedPreferences.setUpMySharedPreferences(getActivity(),"extraSetting");
+        MySharedPreferences.setUserSetting("pageNumber",pageNumber);*/
+        super.onPause();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,8 +56,21 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse{
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_view_pager1, container, false);
         imageView=(ImageView)view.findViewById(R.id.img);
+        flag=false;
+        communicatio=(activityCommunication)getActivity();
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag=!flag;
+                if(flag){
+                   communicatio.appeare();
+                }else {
+                   communicatio.disappeare();
+                }
+            }
+        });
         Bundle bundle=getArguments();
-        String pageNumber=bundle.get("pageNumber").toString();
+        pageNumber=bundle.get("pageNumber").toString();
 
        /* Picasso.with(getContext()).load(urlStr+pageNumber+extention)
                 .placeholder(R.drawable.ts_loading_circle)

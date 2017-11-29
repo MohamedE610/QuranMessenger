@@ -1,4 +1,4 @@
-package com.example.e610.quranmessenger;
+package com.example.e610.quranmessenger.Utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

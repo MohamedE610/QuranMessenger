@@ -15,6 +15,14 @@
             android:key="@string/serviceEnabledKey"
             android:title="@string/title"
             android:summary="@string/summary" />-->
+        <ListPreference
+            android:defaultValue="3"
+            android:dialogTitle="قم باختيار شيخ"
+            android:entries="@array/shekhNames"
+            android:entryValues="@array/shekhNamesValues"
+            android:key="shekh"
+            android:summary="قم باختيار الشيخ الذى تريد ان تستمع اليه"
+            android:title="اختر القارئ" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -29,7 +37,7 @@
             android:summary="ادخل عدد مرات التنبيه "
             android:dependency="@string/serviceEnabledKey"/>
 
-       <!-- <com.example.e610.quranmessenger.TimePreference
+       <!-- <com.example.e610.quranmessenger.Utils.TimePreference
             android:key="alarm_time"
             android:title="Lunch Alarm Time"
             android:defaultValue="12:00"
@@ -37,7 +45,7 @@
             />
         android:dependency="alarm"-->
 
-       <!-- <com.example.e610.quranmessenger.TimePreference
+       <!-- <com.example.e610.quranmessenger.Utils.TimePreference
             android:key="alarm"
             android:title="@string/alarm_time"
             android:defaultValue="12:00"

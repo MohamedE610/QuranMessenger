@@ -1,6 +1,8 @@
 package com.example.e610.quranmessenger;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,14 +20,69 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
+import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,viewPagerFragment1.activityCommunication {
 
     private ViewPager viewPager;
+    DrawerLayout relativeLayout;
+    FloatingActionButton fab;
+    FloatingActionButton fab2;
+    //String surahPageNum="-1";
+    Intent intent;
+
+
+    boolean isplaying;
+    String shekhName="";
+    //String[]shekhNameArray={"","","","","",""};
+    final String basicUrl="http://www.quranmessenger.life/sound/";
+    final String extention=".mp3";
+    final String slash="/";
+    private void playSounds(int page ,String name ){
+
+        String url=basicUrl+name+slash;
+        if(page<10){
+          url+="00"+page+extention;
+        }else if(page<100){
+            url+="0"+page+extention;
+        }else {
+            url+=page+extention;
+        }
+        runMediaPLayer(url);
+    }
+
+    MediaPlayer mediaPlayer;
+    private void runMediaPLayer(String url ){
+        try {
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    Toast.makeText(Main2Activity.this,"ملف الصوت غير متاح حاليا",Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
+            mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
+        }catch (Exception e){}
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +90,48 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Snackbar.make(v, "قم بالضغط على الزر لتستمع الى تلاوه الايات", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                return false;
+            }
+        });
+        isplaying=false;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                isplaying=!isplaying;
+                if(isplaying) {
+                    playSounds(604-viewPager.getCurrentItem(), shekhName);
+                }else{
+                    if(mediaPlayer!=null){
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                    }
+                }
             }
         });
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab2.setVisibility(View.INVISIBLE);
+        fab2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Snackbar.make(v, "قم بالضغط لقرأه التفسير", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                return false;
+            }
+        });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        //fab.setVisibility(View.INVISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,8 +145,57 @@ public class Main2Activity extends AppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager=setupViewPager(viewPager);
         viewPager.setPageTransformer(true, new DepthPageTransformer());
-        viewPager.setCurrentItem(603);
+        MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
 
+        //shekhNameArray=(String [])getResources().getTextArray(R.array.shekhNamesValues);
+        shekhName=MySharedPreferences.getUserSetting("shekhName");
+
+        intent=getIntent();
+        Bundle bundle=intent.getBundleExtra("fahrs");
+        if(bundle==null) {
+            if (MySharedPreferences.IsFirstTime()) {
+                MySharedPreferences.FirstTime();
+                viewPager.setCurrentItem(603);
+            } else {
+                String pageNumber = MySharedPreferences.getUserSetting("pageNumber");
+                if (!pageNumber.equals(""))
+                    viewPager.setCurrentItem(Integer.valueOf(pageNumber));
+                else
+                    viewPager.setCurrentItem(603);
+            }
+        }else{
+            String surahPageNum=bundle.getString("fahrs");
+            try {
+                viewPager.setCurrentItem(603-Integer.valueOf(surahPageNum));
+            }catch (Exception e){
+                viewPager.setCurrentItem(603);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if(viewPager!=null) {
+            MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
+            MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");
+           /* if(mediaPlayer!=null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }*/
+            super.onPause();
+        }
     }
 
     @Override
@@ -80,12 +221,18 @@ public class Main2Activity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this,SettingsActivity.class));
             return true;
+        }else if(id == R.id.action_fahrs){
+            startActivity(new Intent(this,FahrsActivity.class));
+            finish();
+        }else if(id == R.id.action_prayer_times){
+            startActivity(new Intent(this,PrayerTimesActivity.class));
         }
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -129,6 +276,18 @@ public class Main2Activity extends AppCompatActivity
         viewPager.setAdapter(adapter);
 
         return viewPager;
+    }
+
+    @Override
+    public void appeare() {
+        fab.setVisibility(View.VISIBLE);
+        fab2.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void disappeare() {
+        fab.setVisibility(View.INVISIBLE);
+        fab2.setVisibility(View.INVISIBLE);
     }
 
     /*
