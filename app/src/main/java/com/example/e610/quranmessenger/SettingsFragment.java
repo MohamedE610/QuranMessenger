@@ -65,7 +65,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
             TimePreference timePreference = new TimePreference(getActivity(), null);
             timePreference.setKey(alarm);
-            timePreference.setTitle(getString(R.string.alarm_time)+" "+i);
+            timePreference.setTitle(getString(R.string.alarm_time) + " " + i);
             timePreference.setDefaultValue("12:44");
             timePreference.setSummary(getString(R.string.alarm_time_summary));
             getPreferenceScreen().addPreference(timePreference);
@@ -73,7 +73,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
 
 
-        if (MySharedPreferences.getUserSetting("Fajr").equals("")) {
             if (NetworkState.ConnectionAvailable(getActivity())) {
                 FetchAzanData fetchAzanData = new FetchAzanData();
                 fetchAzanData.setNetworkResponse(new NetworkResponse() {
@@ -101,22 +100,21 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
                     }
                 });
-            }
-        }else if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
-                String s = " الفجر : " + MySharedPreferences.getUserSetting("Fajr") + "\n"
-                        + " الظهر : " + MySharedPreferences.getUserSetting("Dhuhr") + "\n"
-                        + " العصر : " + MySharedPreferences.getUserSetting("Asr") + "\n"
-                        + " المغرب : " + MySharedPreferences.getUserSetting("Maghrib") + "\n"
-                        + " العشاء " + MySharedPreferences.getUserSetting("Isha") + "\n";
-                Preference preference = findPreference("azan");
-                preference.setSummary(s);
+        } else if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
+            String s = " الفجر : " + MySharedPreferences.getUserSetting("Fajr") + "\n"
+                    + " الظهر : " + MySharedPreferences.getUserSetting("Dhuhr") + "\n"
+                    + " العصر : " + MySharedPreferences.getUserSetting("Asr") + "\n"
+                    + " المغرب : " + MySharedPreferences.getUserSetting("Maghrib") + "\n"
+                    + " العشاء " + MySharedPreferences.getUserSetting("Isha") + "\n";
+            Preference preference = findPreference("azan");
+            preference.setSummary(s);
            /* MySharedPreferences.getUserSetting("Fajr");
             MySharedPreferences.getUserSetting("Dhuhr");
             MySharedPreferences.getUserSetting("Asr");
             MySharedPreferences.getUserSetting("Maghrib");
             MySharedPreferences.getUserSetting("Isha");*/
-            } else
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        } else
+            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
 
     }
 
@@ -240,7 +238,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         String[] strs = ss.split(":");
                         int h = Integer.valueOf(strs[0]);
                         int m = Integer.valueOf(strs[1]);
-                        startHeadService(h, m, 6000+i);
+                        startHeadService(h, m, 6000 + i);
                     }
                 }
 
@@ -253,7 +251,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             boolean azan = sharedPreferences.getBoolean("azan", false);
             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
             if (azan) {
-                if (MySharedPreferences.getUserSetting("Fajr").equals("")){
                     if (NetworkState.ConnectionAvailable(ctx)) {
                         FetchAzanData fetchAzanData = new FetchAzanData();
                         fetchAzanData.setNetworkResponse(new NetworkResponse() {
@@ -295,23 +292,20 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                             }
                         });
                         fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    } else
-                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
-
-            } else if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
-                        String s = " الفجر : " + MySharedPreferences.getUserSetting("Fajr") + "\n"
-                                + " الظهر : " + MySharedPreferences.getUserSetting("Dhuhr") + "\n"
-                                + " العصر : " + MySharedPreferences.getUserSetting("Asr") + "\n"
-                                + " المغرب : " + MySharedPreferences.getUserSetting("Maghrib") + "\n"
-                                + " االعشاء :" + MySharedPreferences.getUserSetting("Isha") + "\n";
-                        Preference preference = findPreference("azan");
-                        preference.setSummary(s);
+                } else if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
+                    String s = " الفجر : " + MySharedPreferences.getUserSetting("Fajr") + "\n"
+                            + " الظهر : " + MySharedPreferences.getUserSetting("Dhuhr") + "\n"
+                            + " العصر : " + MySharedPreferences.getUserSetting("Asr") + "\n"
+                            + " المغرب : " + MySharedPreferences.getUserSetting("Maghrib") + "\n"
+                            + " االعشاء :" + MySharedPreferences.getUserSetting("Isha") + "\n";
+                    Preference preference = findPreference("azan");
+                    preference.setSummary(s);
                     String[] times = new String[5];
-                    times[0] =MySharedPreferences.getUserSetting("Fajr") ;
-                    times[1] =MySharedPreferences.getUserSetting("Dhuhr");
-                    times[2] =MySharedPreferences.getUserSetting("Asr");
-                    times[3] =MySharedPreferences.getUserSetting("Maghrib");
-                    times[4] =MySharedPreferences.getUserSetting("Isha");
+                    times[0] = MySharedPreferences.getUserSetting("Fajr");
+                    times[1] = MySharedPreferences.getUserSetting("Dhuhr");
+                    times[2] = MySharedPreferences.getUserSetting("Asr");
+                    times[3] = MySharedPreferences.getUserSetting("Maghrib");
+                    times[4] = MySharedPreferences.getUserSetting("Isha");
                     for (int i = 0; i < times.length; i++) {
                         String[] str = times[i].split(":");
                         startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), i + 8000);
@@ -321,19 +315,19 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                        MySharedPreferences.getUserSetting("Asr");
                        MySharedPreferences.getUserSetting("Maghrib");
                        MySharedPreferences.getUserSetting("Isha");*/
-                    } else
-                        Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                } else
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
 
             } else {
                 Preference preference = findPreference("azan");
                 preference.setSummary("");
                 canselAzanAlarms();
             }
-        }else if (key.equals("shekh")) {
+        } else if (key.equals("shekh")) {
             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
-            String shekhName=sharedPreferences.getString("shekh","");
-            MySharedPreferences.setUserSetting("shekhName",shekhName);
-            Toast.makeText(getActivity(),shekhName, Toast.LENGTH_LONG).show();
+            String shekhName = sharedPreferences.getString("shekh", "");
+            MySharedPreferences.setUserSetting("shekhName", shekhName);
+            Toast.makeText(getActivity(), shekhName, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -374,11 +368,31 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void canselAlarms() {
-        if (alarmManager != null) {
-            for (int i = 0; i < pendingIntentList.size(); i++) {
-                alarmManager.cancel(pendingIntentList.get(i));
+        MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+        String alarmNumbers=MySharedPreferences.getData();
+        int alarmNum=Integer.valueOf(alarmNumbers);
+        if(pendingIntentList!=null&&pendingIntentList.size()==alarmNum){
+        }else if(pendingIntentList==null||pendingIntentList.size()!=alarmNum){
+            if (alarmManager != null) {
+                for (int i = 0; i < pendingIntentList.size(); i++) {
+                    alarmManager.cancel(pendingIntentList.get(i+6000));
+                }
+                //pendingIntentList.clear();
             }
-            //pendingIntentList.clear();
+            pendingIntentList=new HashMap<>();
+            for (int i = 0; i <alarmNum ; i++) {
+                Intent intent = new Intent(getActivity(), HeadService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 6000+i, intent, 0);
+                pendingIntentList.put(i+6000,pendingIntent);
+            }
+
+            if (alarmManager != null) {
+                for (int i = 0; i < pendingIntentList.size(); i++) {
+                    alarmManager.cancel(pendingIntentList.get(i+6000));
+                }
+                //pendingIntentList.clear();
+            }
+
         }
     }
 
@@ -409,12 +423,26 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private void canselAzanAlarms() {
         getActivity().stopService(new Intent(getActivity(), AzanService.class));
-        if (alarmManager != null) {
-            for (int i = 0; i < pendingIntentAzanList.size(); i++) {
-                alarmManager.cancel(pendingIntentAzanList.get(i));
+        if (pendingIntentAzanList != null && pendingIntentAzanList.size() == 5) {
+            if (alarmManager != null) {
+                for (int i = 0; i < pendingIntentAzanList.size(); i++) {
+                    alarmManager.cancel(pendingIntentAzanList.get(i+8000));
+                }
+                //pendingIntentList.clear();
             }
-            //pendingIntentList.clear();
+        } else if (pendingIntentAzanList == null || pendingIntentAzanList.size() != 5) {
+            pendingIntentAzanList = new HashMap<>();
+            for (int i = 0; i < 5; i++) {
+                Intent intent = new Intent(getActivity(), AzanService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(getActivity(), i + 8000, intent, 0);
+                pendingIntentAzanList.put(i+8000, pendingIntent);
+            }
+            if (alarmManager != null) {
+                for (int i = 0; i < pendingIntentAzanList.size(); i++) {
+                    alarmManager.cancel(pendingIntentAzanList.get(i+8000));
+                }
+                //pendingIntentList.clear();
+            }
         }
     }
-
 }

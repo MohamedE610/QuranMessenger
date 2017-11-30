@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -31,17 +32,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,viewPagerFragment1.activityCommunication {
+        implements NavigationView.OnNavigationItemSelectedListener  {
+
+
+  public  interface PassData{
+        void passData();
+    }
 
     private ViewPager viewPager;
-    DrawerLayout relativeLayout;
-    FloatingActionButton fab;
-    FloatingActionButton fab2;
+    PassData passData;
+    OnPageChangeListener  onPageChangeListener= new OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+             passData=(PassData)adapter.getItem(position);
+             passData.passData();
+
+            if(position<adapter.getCount()) {
+                passData = (PassData) adapter.getItem(position+1);
+                passData.passData();
+            }
+
+            if(position>0){
+                passData = (PassData) adapter.getItem(position-1);
+                passData.passData();
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+/*    FloatingActionButton fab;
+    FloatingActionButton fab2;*/
     //String surahPageNum="-1";
     Intent intent;
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+       // passData=(PassData)fragment;
+        super.onAttachFragment(fragment);
+    }
 
-    boolean isplaying;
+
+    /* boolean isplaying;
     String shekhName="";
     //String[]shekhNameArray={"","","","","",""};
     final String basicUrl="http://www.quranmessenger.life/sound/";
@@ -81,7 +120,7 @@ public class Main2Activity extends AppCompatActivity
             });
             mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
         }catch (Exception e){}
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +129,7 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.INVISIBLE);
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -131,7 +170,7 @@ public class Main2Activity extends AppCompatActivity
 
             }
         });
-        //fab.setVisibility(View.INVISIBLE);
+        //fab.setVisibility(View.INVISIBLE);*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -145,10 +184,11 @@ public class Main2Activity extends AppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager=setupViewPager(viewPager);
         viewPager.setPageTransformer(true, new DepthPageTransformer());
+        viewPager.addOnPageChangeListener(onPageChangeListener);
         MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
 
         //shekhNameArray=(String [])getResources().getTextArray(R.array.shekhNamesValues);
-        shekhName=MySharedPreferences.getUserSetting("shekhName");
+       /* shekhName=MySharedPreferences.getUserSetting("shekhName");*/
 
         intent=getIntent();
         Bundle bundle=intent.getBundleExtra("fahrs");
@@ -181,7 +221,8 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-
+        MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
+        /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
         super.onResume();
     }
 
@@ -262,10 +303,10 @@ public class Main2Activity extends AppCompatActivity
         return true;
     }
 
-
+    ViewPagerAdapter adapter;
     private ViewPager setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (int i =604; i >=1 ; i--) {
             viewPagerFragment1 fragment = new viewPagerFragment1();
             Bundle bundle = new Bundle();
@@ -276,18 +317,6 @@ public class Main2Activity extends AppCompatActivity
         viewPager.setAdapter(adapter);
 
         return viewPager;
-    }
-
-    @Override
-    public void appeare() {
-        fab.setVisibility(View.VISIBLE);
-        fab2.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void disappeare() {
-        fab.setVisibility(View.INVISIBLE);
-        fab2.setVisibility(View.INVISIBLE);
     }
 
     /*
