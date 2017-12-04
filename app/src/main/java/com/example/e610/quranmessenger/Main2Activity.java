@@ -1,9 +1,11 @@
 package com.example.e610.quranmessenger;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -39,6 +42,8 @@ public class Main2Activity extends AppCompatActivity
         void passData();
     }
 
+    /**************************/
+    /*protected PowerManager.WakeLock mWakeLock;*/
     private ViewPager viewPager;
     PassData passData;
     OnPageChangeListener  onPageChangeListener= new OnPageChangeListener() {
@@ -52,12 +57,12 @@ public class Main2Activity extends AppCompatActivity
              passData=(PassData)adapter.getItem(position);
              passData.passData();
 
-            if(position<adapter.getCount()) {
+            if(position<adapter.getCount()-1) {
                 passData = (PassData) adapter.getItem(position+1);
                 passData.passData();
             }
 
-            if(position>0){
+            if(position>1){
                 passData = (PassData) adapter.getItem(position-1);
                 passData.passData();
             }
@@ -71,6 +76,7 @@ public class Main2Activity extends AppCompatActivity
 /*    FloatingActionButton fab;
     FloatingActionButton fab2;*/
     //String surahPageNum="-1";
+
     Intent intent;
 
     @Override
@@ -122,12 +128,29 @@ public class Main2Activity extends AppCompatActivity
         }catch (Exception e){}
     }*/
 
+    /**************************/
+   /* @Override
+    public void onDestroy() {
+        this.mWakeLock.release();
+        super.onDestroy();
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Android disable screen timeout while app is running
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        /**************************/
+        /* This code together with the one in onDestroy()
+         * will make the screen be always on until this Activity gets destroyed. */
+        /*final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
+        this.mWakeLock.acquire();*/
 
         /*fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.INVISIBLE);

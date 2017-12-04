@@ -18,10 +18,12 @@
         <activity android:name=".MainActivity" android:launchMode="singleTop">
 
         </activity>
+        <!--android:keepScreenOn="true"-->
         <activity
             android:name=".Main2Activity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

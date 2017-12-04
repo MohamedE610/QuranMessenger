@@ -66,8 +66,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             TimePreference timePreference = new TimePreference(getActivity(), null);
             timePreference.setKey(alarm);
             timePreference.setTitle(getString(R.string.alarm_time) + " " + i);
+            String strValue=MySharedPreferences.getUserSetting(alarm);
             timePreference.setDefaultValue("12:44");
-            timePreference.setSummary(getString(R.string.alarm_time_summary));
+            timePreference.setSummary(strValue);
             getPreferenceScreen().addPreference(timePreference);
             timePreference.setDependency(SERVICE_ENABLED_KEY);
         }
@@ -115,6 +116,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             MySharedPreferences.getUserSetting("Isha");*/
         } else
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+
+        Preference preference = findPreference("shekh");
+        String shekhName=MySharedPreferences.getUserSetting("shekhName");
+        preference.setSummary(shekhName);
+
+        String aNum = MySharedPreferences.getData();
+        Preference Pref = findPreference("alarm_numbers");
+        Pref.setSummary(aNum);
 
     }
 
@@ -201,6 +210,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         } else if (key.equals("alarm_numbers")) {
             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
             String alarmNum = MySharedPreferences.getData();
+            String aNum=sharedPreferences.getString(key,"");
+            Preference Pref = findPreference(key);
+            Pref.setSummary(aNum);
+
             int NumOfAlarm = Integer.valueOf(alarmNum);
             for (int i = 0; i < NumOfAlarm; i++) {
                 String pAlarm = alarmName + i + "";
@@ -233,12 +246,17 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 int NumOfAlarm = Integer.valueOf(alarmNum);
                 for (int i = 0; i < NumOfAlarm; i++) {
                     String pAlarm = alarmName + i + "";
-                    String ss = sharedPreferences.getString(pAlarm, "0:0");
-                    if (!ss.equals("0:0")) {
-                        String[] strs = ss.split(":");
-                        int h = Integer.valueOf(strs[0]);
-                        int m = Integer.valueOf(strs[1]);
-                        startHeadService(h, m, 6000 + i);
+                    if (key.equals(pAlarm)) {
+                        String ss = sharedPreferences.getString(pAlarm, "0:0");
+                        MySharedPreferences.setUserSetting(pAlarm,ss);
+                        if (!ss.equals("0:0")) {
+                            Preference preference = findPreference(key);
+                            preference.setSummary(ss);
+                            String[] strs = ss.split(":");
+                            int h = Integer.valueOf(strs[0]);
+                            int m = Integer.valueOf(strs[1]);
+                            startHeadService(h, m, 6000 + i);
+                        }
                     }
                 }
 
@@ -326,6 +344,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         } else if (key.equals("shekh")) {
             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
             String shekhName = sharedPreferences.getString("shekh", "");
+            Preference preference = findPreference("shekh");
+            preference.setSummary(shekhName);
             MySharedPreferences.setUserSetting("shekhName", shekhName);
             Toast.makeText(getActivity(), shekhName, Toast.LENGTH_LONG).show();
         }

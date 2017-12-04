@@ -50,6 +50,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     @Override
     public void onResume() {
         shekhName=MySharedPreferences.getUserSetting("shekhName");
+        playSounds(Integer.valueOf(pageNumber), shekhName);
         super.onResume();
     }
 
@@ -59,7 +60,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     final String slash="/";
     private void playSounds(int page ,String name ){
 
-        String url=basicUrl+name+slash;
+        String url=basicUrl+shekhName+slash;
         if(page<10){
             url+="00"+page+extentionMP3;
         }else if(page<100){
@@ -129,7 +130,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         imageView=(ImageView)view.findViewById(R.id.img);
         progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
 
-        shekhName=MySharedPreferences.getUserSetting("shekhName");
+        /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
         flag=false;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,7 +215,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         });
         //fab.setVisibility(View.INVISIBLE);
 
-        playSounds(Integer.valueOf(pageNumber), shekhName);
+        //playSounds(Integer.valueOf(pageNumber), shekhName);
 
         return view ;
     }
