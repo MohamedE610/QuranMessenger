@@ -1,6 +1,7 @@
 package com.example.e610.quranmessenger;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
@@ -210,7 +211,11 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent=new Intent(getActivity(),TafserActivity.class);
+                Bundle b=new Bundle();
+                b.putString("pageNumber",pageNumber);
+                intent.putExtra("bundle",b);
+                getActivity().startActivity(intent);
             }
         });
         //fab.setVisibility(View.INVISIBLE);
