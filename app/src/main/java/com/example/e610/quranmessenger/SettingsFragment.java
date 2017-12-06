@@ -74,34 +74,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
 
 
-            if (NetworkState.ConnectionAvailable(getActivity())) {
-                FetchAzanData fetchAzanData = new FetchAzanData();
-                fetchAzanData.setNetworkResponse(new NetworkResponse() {
-                    @Override
-                    public void OnSuccess(String JsonData) {
-                        Gson gson = new Gson();
-                        PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
-                        String s = " الفجر : " + prayerTimes.getData().getTimings().Fajr + "\n"
-                                + " الظهر : " + prayerTimes.getData().getTimings().Dhuhr + "\n"
-                                + " العصر : " + prayerTimes.getData().getTimings().Asr + "\n"
-                                + " المغرب : " + prayerTimes.getData().getTimings().Maghrib + "\n"
-                                + " االعشاء :" + prayerTimes.getData().getTimings().Isha + "\n";
-                        Preference preference = findPreference("azan");
-                        preference.setSummary(s);
-                        MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
-                        MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().getTimings().Fajr);
-                        MySharedPreferences.setUserSetting("Dhuhr", prayerTimes.getData().getTimings().Dhuhr);
-                        MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().getTimings().Asr);
-                        MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().getTimings().Maghrib);
-                        MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().getTimings().Isha);
-                    }
-
-                    @Override
-                    public void OnFailure(boolean Failure) {
-
-                    }
-                });
-        } else if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
+          if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
             String s = " الفجر : " + MySharedPreferences.getUserSetting("Fajr") + "\n"
                     + " الظهر : " + MySharedPreferences.getUserSetting("Dhuhr") + "\n"
                     + " العصر : " + MySharedPreferences.getUserSetting("Asr") + "\n"
@@ -114,7 +87,34 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             MySharedPreferences.getUserSetting("Asr");
             MySharedPreferences.getUserSetting("Maghrib");
             MySharedPreferences.getUserSetting("Isha");*/
-        } else
+        }else if (NetworkState.ConnectionAvailable(getActivity())) {
+            FetchAzanData fetchAzanData = new FetchAzanData();
+            fetchAzanData.setNetworkResponse(new NetworkResponse() {
+                @Override
+                public void OnSuccess(String JsonData) {
+                    Gson gson = new Gson();
+                    PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+                    String s = " الفجر : " + prayerTimes.getData().getTimings().Fajr + "\n"
+                            + " الظهر : " + prayerTimes.getData().getTimings().Dhuhr + "\n"
+                            + " العصر : " + prayerTimes.getData().getTimings().Asr + "\n"
+                            + " المغرب : " + prayerTimes.getData().getTimings().Maghrib + "\n"
+                            + " االعشاء :" + prayerTimes.getData().getTimings().Isha + "\n";
+                    Preference preference = findPreference("azan");
+                    preference.setSummary(s);
+                    MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+                    MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().getTimings().Fajr);
+                    MySharedPreferences.setUserSetting("Dhuhr", prayerTimes.getData().getTimings().Dhuhr);
+                    MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().getTimings().Asr);
+                    MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().getTimings().Maghrib);
+                    MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().getTimings().Isha);
+                }
+
+                @Override
+                public void OnFailure(boolean Failure) {
+
+                }
+            });
+        }  else
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
 
         Preference preference = findPreference("shekh");
@@ -269,48 +269,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             boolean azan = sharedPreferences.getBoolean("azan", false);
             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
             if (azan) {
-                    if (NetworkState.ConnectionAvailable(ctx)) {
-                        FetchAzanData fetchAzanData = new FetchAzanData();
-                        fetchAzanData.setNetworkResponse(new NetworkResponse() {
-                            @Override
-                            public void OnSuccess(String JsonData) {
-                                Gson gson = new Gson();
-                                PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
-                                String s = " الفجر : " + prayerTimes.getData().getTimings().Fajr + "\n"
-                                        + " الظهر : " + prayerTimes.getData().getTimings().Dhuhr + "\n"
-                                        + " العصر : " + prayerTimes.getData().getTimings().Asr + "\n"
-                                        + " المغرب : " + prayerTimes.getData().getTimings().Maghrib + "\n"
-                                        + " االعشاء :" + prayerTimes.getData().getTimings().Isha + "\n";
-                                Preference preference = findPreference("azan");
-                                preference.setSummary(s);
-                                String[] times = new String[5];
-                                times[0] = prayerTimes.getData().getTimings().Fajr;
-                                times[1] = prayerTimes.getData().getTimings().Dhuhr;
-                                times[2] = prayerTimes.getData().getTimings().Asr;
-                                times[3] = prayerTimes.getData().getTimings().Maghrib;
-                                times[4] = prayerTimes.getData().getTimings().Isha;
-
-                                MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
-                                MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().getTimings().Fajr);
-                                MySharedPreferences.setUserSetting("Dhuhr", prayerTimes.getData().getTimings().Dhuhr);
-                                MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().getTimings().Asr);
-                                MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().getTimings().Maghrib);
-                                MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().getTimings().Isha);
-
-                                //times[4]="19:30";
-                                for (int i = 0; i < times.length; i++) {
-                                    String[] str = times[i].split(":");
-                                    startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), i + 8000);
-                                }
-                            }
-
-                            @Override
-                            public void OnFailure(boolean Failure) {
-
-                            }
-                        });
-                        fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                } else if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
+                if (MySharedPreferences.getUserSetting("Fajr").contains(":")) {
                     String s = " الفجر : " + MySharedPreferences.getUserSetting("Fajr") + "\n"
                             + " الظهر : " + MySharedPreferences.getUserSetting("Dhuhr") + "\n"
                             + " العصر : " + MySharedPreferences.getUserSetting("Asr") + "\n"
@@ -333,6 +292,48 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                        MySharedPreferences.getUserSetting("Asr");
                        MySharedPreferences.getUserSetting("Maghrib");
                        MySharedPreferences.getUserSetting("Isha");*/
+                }
+                else if (NetworkState.ConnectionAvailable(ctx)) {
+                    FetchAzanData fetchAzanData = new FetchAzanData();
+                    fetchAzanData.setNetworkResponse(new NetworkResponse() {
+                        @Override
+                        public void OnSuccess(String JsonData) {
+                            Gson gson = new Gson();
+                            PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+                            String s = " الفجر : " + prayerTimes.getData().getTimings().Fajr + "\n"
+                                    + " الظهر : " + prayerTimes.getData().getTimings().Dhuhr + "\n"
+                                    + " العصر : " + prayerTimes.getData().getTimings().Asr + "\n"
+                                    + " المغرب : " + prayerTimes.getData().getTimings().Maghrib + "\n"
+                                    + " االعشاء :" + prayerTimes.getData().getTimings().Isha + "\n";
+                            Preference preference = findPreference("azan");
+                            preference.setSummary(s);
+                            String[] times = new String[5];
+                            times[0] = prayerTimes.getData().getTimings().Fajr;
+                            times[1] = prayerTimes.getData().getTimings().Dhuhr;
+                            times[2] = prayerTimes.getData().getTimings().Asr;
+                            times[3] = prayerTimes.getData().getTimings().Maghrib;
+                            times[4] = prayerTimes.getData().getTimings().Isha;
+
+                            MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+                            MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().getTimings().Fajr);
+                            MySharedPreferences.setUserSetting("Dhuhr", prayerTimes.getData().getTimings().Dhuhr);
+                            MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().getTimings().Asr);
+                            MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().getTimings().Maghrib);
+                            MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().getTimings().Isha);
+
+                            //times[4]="19:30";
+                            for (int i = 0; i < times.length; i++) {
+                                String[] str = times[i].split(":");
+                                startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), i + 8000);
+                            }
+                        }
+
+                        @Override
+                        public void OnFailure(boolean Failure) {
+
+                        }
+                    });
+                    fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
 
