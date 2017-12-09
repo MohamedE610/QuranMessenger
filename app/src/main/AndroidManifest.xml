@@ -23,7 +23,7 @@
         <activity
             android:name=".Main2Activity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".Services.HeadService" />
         <service android:name=".Services.AzanService" />
@@ -40,8 +40,9 @@
             android:label="@string/title_activity_prayer_times"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,6 +52,21 @@
         <activity
             android:name=".TafserActivity"
             android:label="@string/title_activity_tafser"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name=".Widget.QuranMessangerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/quran_messanger_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".AzkarActivity"
+            android:label="@string/title_activity_azkar"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

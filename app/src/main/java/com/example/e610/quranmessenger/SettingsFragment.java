@@ -346,11 +346,32 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
             String shekhName = sharedPreferences.getString("shekh", "");
             Preference preference = findPreference("shekh");
-            preference.setSummary(shekhName);
+            preference.setSummary(getArabicShekhName(shekhName));
             MySharedPreferences.setUserSetting("shekhName", shekhName);
-            Toast.makeText(getActivity(), shekhName, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),getArabicShekhName(shekhName), Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private String  getArabicShekhName(String englishName){
+        String arabicName="ماهر المعيقلي";
+        String[] names={"ماهر المعيقلي","العجمي","فارس عباد","سعود الشريم","محمود الحصري","العفاسي"};
+
+        if(englishName.equals("mueaqly")){
+            return names[0];
+        }else if(englishName.equals("ajami")){
+            return names[1];
+        }else if(englishName.equals("fares")){
+            return names[2];
+        }else if(englishName.equals("shurim")){
+            return names[3];
+        }else if(englishName.equals("hosary")){
+            return names[4];
+        }else if(englishName.equals("afasi")){
+            return names[5];
+        }
+
+        return arabicName;
     }
 
     private void enableHeadServiceCheckbox(boolean enabled) {
@@ -436,7 +457,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY , pendingIntent);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);
         /*Context context = getActivity();
         context.startService(new Intent(context, HeadService.class));*/

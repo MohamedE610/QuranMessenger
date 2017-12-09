@@ -1,6 +1,8 @@
 package com.example.e610.quranmessenger;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ExifInterface;
@@ -47,6 +49,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     boolean isplaying;
     String shekhName="";
+    private ProgressDialog progressDialog;
 
     @Override
     public void onResume() {
@@ -81,7 +84,9 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    //progressBar.setVisibility(View.INVISIBLE);
+                    if(progressDialog.isShowing())
+                        progressDialog.dismiss();
                     mp.start();
                     //fab.setEnabled(true);
                 }
@@ -122,6 +127,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         super.onPause();
     }
 
+    String progressMsg="جاري تشغيل الملف الصوتي...";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,7 +135,12 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_view_pager1, container, false);
         imageView=(ImageView)view.findViewById(R.id.img);
-        progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
+        //progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
+         //progressDialog=new ProgressDialog(getActivity());
+         //progressDialog.setMessage("جاري تشغيل الملف الصوتي...");
+
+
+
 
         /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
         flag=false;
@@ -188,13 +199,16 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                 isplaying=!isplaying;
                 if(mediaPlayer!=null && !mediaPlayer.isPlaying()) {
                         try {
-                            progressBar.setVisibility(View.VISIBLE);
+                           // progressBar.setVisibility(View.VISIBLE);
+                            progressDialog=ProgressDialog.show(getActivity(),"",progressMsg,false,false);
                             mediaPlayer.prepareAsync();
                         }
                         catch (Exception e){}
                 }else if(mediaPlayer!=null && mediaPlayer.isPlaying()) {
                         mediaPlayer.stop();
-                    progressBar.setVisibility(View.INVISIBLE);
+                   // progressBar.setVisibility(View.INVISIBLE);
+                    if(progressDialog.isShowing())
+                        progressDialog.dismiss();
                 }
             }
         });

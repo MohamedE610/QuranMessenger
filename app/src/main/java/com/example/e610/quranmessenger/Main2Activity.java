@@ -85,7 +85,6 @@ public class Main2Activity extends AppCompatActivity
         super.onAttachFragment(fragment);
     }
 
-
     /* boolean isplaying;
     String shekhName="";
     //String[]shekhNameArray={"","","","","",""};
@@ -314,6 +313,7 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_alazan) {
             startActivity(new Intent(this,PrayerTimesActivity.class));
         } else if (id == R.id.nav_alazkar) {
+            startActivity(new Intent(this,AzkarActivity.class));
 
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(this,SettingsActivity.class));
