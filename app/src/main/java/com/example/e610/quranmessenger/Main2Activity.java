@@ -1,11 +1,15 @@
 package com.example.e610.quranmessenger;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -30,6 +34,8 @@ import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +140,28 @@ public class Main2Activity extends AppCompatActivity
         super.onDestroy();
     }*/
 
+
+    private void loadAds(){
+
+        /*// Code to get device id
+        String androidIdDevice = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);*/
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        // Create an ad request. Check logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+       /* AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(androidIdDevice)
+                .build();*/
+        mAdView.loadAd(adRequest);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +171,7 @@ public class Main2Activity extends AppCompatActivity
 
         //Android disable screen timeout while app is running
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        loadAds();
 
         /**************************/
         /* This code together with the one in onDestroy()
@@ -317,11 +346,60 @@ public class Main2Activity extends AppCompatActivity
 
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(this,SettingsActivity.class));
+        } else if (id == R.id.nav_facebook) {
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+            String facebookUrl = getFacebookPageURL(this);
+            facebookIntent.setData(Uri.parse(facebookUrl));
+            startActivity(facebookIntent);
+        }else if (id == R.id.nav_insta) {
+            Uri uri = Uri.parse("http://instagram.com/_u/wolverine.9595");
+            Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+            likeIng.setPackage("com.instagram.android");
+
+            try {
+                startActivity(likeIng);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://instagram.com/wolverine.9595")));
+            }
+        } else if (id == R.id.nav_share) {
+            share();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private void share(){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody =FACEBOOK_URL;
+
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent,"Share via" ));
+    }
+
+    static String FACEBOOK_URL = "https://www.facebook.com/mohamed.mostafa.1144";
+    public static String FACEBOOK_PAGE_ID = "mohamed.mostafa.1144";
+
+    //method to get the right URL to use in the intent
+    public String getFacebookPageURL(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { //newer versions of fb app
+                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } else { //older versions of fb app
+                return "fb://page/" + FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return FACEBOOK_URL; //normal web url
+        }
     }
 
     ViewPagerAdapter adapter;

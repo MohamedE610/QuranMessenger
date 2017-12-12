@@ -32,4 +32,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:10.2.6'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.nex3z:flow-layout:1.1.0'
+    compile 'com.google.android.gms:play-services-ads:10.2.6'
 }

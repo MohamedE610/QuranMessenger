@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 
 public class AzkarActivity extends AppCompatActivity {
 
-    private Object mActionMode;
+    /*private Object mActionMode;
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -57,8 +58,9 @@ public class AzkarActivity extends AppCompatActivity {
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
         }
-    };
+    };*/
 
+    /*
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
@@ -80,7 +82,7 @@ public class AzkarActivity extends AppCompatActivity {
         });
         popup.show();
     }
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +96,8 @@ public class AzkarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                showPopup(view);
+                openContextMenu(view);
+                //showPopup(view);
                 /*if (mActionMode != null) {
                     return ;
                 }
@@ -111,7 +114,8 @@ public class AzkarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                showPopup(view);
+                openContextMenu(view);
+                //showPopup(view);
                 /*if (mActionMode != null) {
                     return ;
                 }
@@ -121,6 +125,35 @@ public class AzkarActivity extends AppCompatActivity {
                 view.setSelected(true);*/
             }
         });
+
+        registerForContextMenu(fab);
+        registerForContextMenu(fab1);
+
     }
 
+    ContextMenu contextMenu;
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu,menu);
+        menu.setHeaderTitle("الاذكار");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.id1:
+                // your first action code
+                Toast.makeText(AzkarActivity.this,"hi 1",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.id2:
+                // your second action code
+                Toast.makeText(AzkarActivity.this,"hi 2",Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 }
+
