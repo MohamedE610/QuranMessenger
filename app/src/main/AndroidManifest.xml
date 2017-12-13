@@ -67,6 +67,10 @@
         <activity
             android:name=".AzkarActivity"
             android:label="@string/title_activity_azkar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AzkarDetailedActivity"
+            android:label="@string/title_activity_azkar_detailed"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

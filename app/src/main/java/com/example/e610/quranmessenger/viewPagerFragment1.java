@@ -54,6 +54,8 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     @Override
     public void onResume() {
         shekhName=MySharedPreferences.getUserSetting("shekhName");
+        if(shekhName.equals(""))
+            shekhName="hosary";
         playSounds(Integer.valueOf(pageNumber), shekhName);
         super.onResume();
     }
@@ -75,6 +77,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         runMediaPLayer(url);
     }
 
+    Boolean isError=false;
     MediaPlayer mediaPlayer;
     private void runMediaPLayer(String url ){
         try {
@@ -94,10 +97,31 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
+                    isError=true;
+                    if(progressDialog.isShowing())
+                            progressDialog.dismiss();
                     Toast.makeText(getActivity(),"ملف الصوت غير متاح حاليا",Toast.LENGTH_LONG).show();
                     return false;
                 }
             });
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if(!isError) {
+                        int pn = Integer.valueOf(pageNumber);
+                        pn++;
+                        pageNumber = pn + "";
+                        playSounds(pn, shekhName);
+                        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                            progressDialog = ProgressDialog.show(getActivity(), "", progressMsg, false, false);
+                            mediaPlayer.prepareAsync();
+                        }
+                        Toast.makeText(getContext(), "hi man", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
             //mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
         }catch (Exception e){}
     }
