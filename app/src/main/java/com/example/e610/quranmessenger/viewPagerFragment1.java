@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Models.PageOfQuran.Edition;
+import com.example.e610.quranmessenger.Services.MediaPlayerService;
 import com.example.e610.quranmessenger.Utils.FetchData;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
@@ -64,7 +65,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     final String basicUrl="http://www.quranmessenger.life/sound/";
     final String extentionMP3=".mp3";
     final String slash="/";
-    private void playSounds(int page ,String name ){
+    private String playSounds(int page ,String name ){
 
         String url=basicUrl+shekhName+slash;
         if(page<10){
@@ -75,6 +76,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             url+=page+extentionMP3;
         }
         runMediaPLayer(url);
+        return url;
     }
 
     Boolean isError=false;
@@ -137,6 +139,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             mediaPlayer.release();
             mediaPlayer=null;
         }
+        /*getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));*/
         super.onStop();
     }
 
@@ -216,6 +219,8 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                 return false;
             }
         });
+
+
         isplaying=false;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,6 +254,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(), MediaPlayerService.class));
                 Intent intent=new Intent(getActivity(),TafserActivity.class);
                 Bundle b=new Bundle();
                 b.putString("pageNumber",pageNumber);

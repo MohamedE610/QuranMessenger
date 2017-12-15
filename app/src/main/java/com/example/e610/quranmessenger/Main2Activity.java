@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
+import com.example.e610.quranmessenger.Services.MediaPlayerService;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -134,11 +135,12 @@ public class Main2Activity extends AppCompatActivity
     }*/
 
     /**************************/
-   /* @Override
+    @Override
     public void onDestroy() {
-        this.mWakeLock.release();
+        //this.mWakeLock.release();
+        //stopService(new Intent(this,MediaPlayerService.class));
         super.onDestroy();
-    }*/
+    }
 
 
     private void loadAds(){
