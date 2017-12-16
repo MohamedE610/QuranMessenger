@@ -256,12 +256,12 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         return START_STICKY;
     }
 
-    public void sendBroadCast(String data , int num){
+    public void sendBroadCast(String action , int num){
         Intent intent = new Intent();
         Bundle b=new Bundle();
         b.putInt("num",num);
         intent.putExtra("b",b);
-        intent.setAction("media");
+        intent.setAction(action);
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
         manager.sendBroadcast(intent);
     }
@@ -357,14 +357,14 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
                     simpleExoPlayer.getCurrentPosition(), 1f);
             Toast.makeText(this,"ExoPlayer.STATE_READY) && playWhenReady",Toast.LENGTH_SHORT).show();
-                    sendBroadCast("",pageNum);
+                    sendBroadCast("cancelDialog",pageNum);
         } else if((playbackState == ExoPlayer.STATE_READY)){
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     simpleExoPlayer.getCurrentPosition(), 1f);
             Toast.makeText(this,"ExoPlayer.STATE_READY",Toast.LENGTH_SHORT).show();
         } else if((playbackState ==  ExoPlayer.STATE_ENDED)){
                   //sendBroadCast();
-            //sendBroadCast("");
+            sendBroadCast("playNextOne",pageNum);
             Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();
         }
 

@@ -48,7 +48,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     boolean isSajda;
 
 
-    boolean isplaying;
+    boolean isplaying=false;
     String shekhName="";
     private ProgressDialog progressDialog;
 
@@ -348,6 +348,13 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     @Override
     public void playNextOne() {
-
+        Intent intent=new Intent(getActivity(),MediaPlayerService.class);
+        intent.setAction("play");
+        Bundle b=new Bundle();
+        b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
+        b.putInt("num",Integer.valueOf(pageNumber));
+        intent.putExtra("pn",b);
+        getActivity().startService(intent);
+        isplaying=true;
     }
 }

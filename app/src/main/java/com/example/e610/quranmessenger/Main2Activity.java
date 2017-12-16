@@ -175,7 +175,7 @@ public class Main2Activity extends AppCompatActivity
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if("media".equals(action)) {
+            if("cancelDialog".equals(action)) {
                 Bundle bundle=intent.getBundleExtra("b");
                 if(bundle!=null){
                     int page_num=bundle.getInt("num");
@@ -187,6 +187,23 @@ public class Main2Activity extends AppCompatActivity
         }
     };
 
+    private final BroadcastReceiver broadcastReceiver1 = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+             if("playNextOne".equals(action)) {
+                Bundle bundle1 = intent.getBundleExtra("b");
+                if (bundle1 != null) {
+                    int page_num = bundle1.getInt("num");
+                    page_num++;
+                    viewPager.setCurrentItem(604 - page_num);
+                    passData = (PassData) adapter.getItem(604 - page_num);
+                    passData.playNextOne();
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -299,10 +316,13 @@ public class Main2Activity extends AppCompatActivity
     protected void onResume() {
         MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
         /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
-        IntentFilter intentFilter = new IntentFilter("media");
+
+        IntentFilter intentFilter = new IntentFilter("cancelDialog");
+        IntentFilter intentFilter1 = new IntentFilter("playNextOne");
 
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         manager.registerReceiver(broadcastReceiver, intentFilter);
+        manager.registerReceiver(broadcastReceiver1, intentFilter1);
 
         super.onResume();
     }
@@ -320,6 +340,7 @@ public class Main2Activity extends AppCompatActivity
 
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         manager.unregisterReceiver(broadcastReceiver);
+        manager.unregisterReceiver(broadcastReceiver1);
 
         super.onPause();
     }
