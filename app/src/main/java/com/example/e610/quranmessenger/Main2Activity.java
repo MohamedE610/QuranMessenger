@@ -1,8 +1,10 @@
 package com.example.e610.quranmessenger;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -15,8 +17,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -46,7 +50,9 @@ public class Main2Activity extends AppCompatActivity
 
 
   public  interface PassData{
-        void passData();
+        void cancelDialog();
+        void stopMediaService();
+      void playNextOne();
     }
 
     /**************************/
@@ -62,16 +68,16 @@ public class Main2Activity extends AppCompatActivity
         @Override
         public void onPageSelected(int position) {
              passData=(PassData)adapter.getItem(position);
-             passData.passData();
+             passData.stopMediaService();
 
             if(position<adapter.getCount()-1) {
                 passData = (PassData) adapter.getItem(position+1);
-                passData.passData();
+                passData.stopMediaService();
             }
 
             if(position>1){
                 passData = (PassData) adapter.getItem(position-1);
-                passData.passData();
+                passData.stopMediaService();
             }
         }
 
@@ -139,6 +145,7 @@ public class Main2Activity extends AppCompatActivity
     public void onDestroy() {
         //this.mWakeLock.release();
         //stopService(new Intent(this,MediaPlayerService.class));
+        //Log.d("asdasd","asdasd");
         super.onDestroy();
     }
 
@@ -163,6 +170,22 @@ public class Main2Activity extends AppCompatActivity
         mAdView.loadAd(adRequest);
 
     }
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if("media".equals(action)) {
+                Bundle bundle=intent.getBundleExtra("b");
+                if(bundle!=null){
+                    int page_num=bundle.getInt("num");
+                    passData=(PassData)adapter.getItem(604-page_num);
+                    passData.cancelDialog();
+                }
+                // Do your work
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,6 +299,11 @@ public class Main2Activity extends AppCompatActivity
     protected void onResume() {
         MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
         /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
+        IntentFilter intentFilter = new IntentFilter("media");
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.registerReceiver(broadcastReceiver, intentFilter);
+
         super.onResume();
     }
 
@@ -288,8 +316,12 @@ public class Main2Activity extends AppCompatActivity
                 mediaPlayer.stop();
                 mediaPlayer.release();
             }*/
-            super.onPause();
         }
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.unregisterReceiver(broadcastReceiver);
+
+        super.onPause();
     }
 
     @Override

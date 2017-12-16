@@ -13,10 +13,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -44,11 +46,12 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-/**
- * Foreground service. Creates a head view.
- * The pending intent allows to go back to the settings activity.
- */
+
+/**************** ExoPlayer ******************/
 public class MediaPlayerService extends Service implements ExoPlayer.EventListener{
+
+/*public class MediaPlayerService extends Service {*/
+
 
 
     private SimpleExoPlayer simpleExoPlayer;
@@ -72,12 +75,15 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     private PendingIntent createOnDismissedIntent(Context context, int notificationId) {
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
         intent.putExtra("com.example.e610.quranmessenger."+notificationId+"", notificationId);
-
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context.getApplicationContext(),
                         notificationId, intent, 0);
         return pendingIntent;
     }
+
+
+
+    /**************** ExoPlayer ******************/
 
     /**
      * Initializes the Media Session to be enabled with media buttons, transport controls, callbacks
@@ -116,11 +122,11 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     }
 
 
-    /**
+    /*
      * Shows Media Style notification, with actions that depend on the current MediaSession
      * PlaybackState.
-     * @param state The PlaybackState of the MediaSession.
-     */
+     * @param state The PlaybackState of the MediaSession.*/
+
     private void showNotification(PlaybackStateCompat state) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
@@ -166,10 +172,10 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     }
 
 
-    /**
+    /*
      * Initialize ExoPlayer.
-     * @param mediaUri The URI of the sample to play.
-     */
+     * @param mediaUri The URI of the sample to play.*/
+
     private void initializePlayer(Uri mediaUri) {
         if (simpleExoPlayer == null) {
             // Create an instance of the ExoPlayer.
@@ -191,15 +197,22 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     }
 
 
-    /**
-     * Release ExoPlayer.
-     */
+    /*
+     * Release ExoPlayer.*/
+
     private void releasePlayer() {
-        mNotificationManager.cancelAll();
-        simpleExoPlayer.stop();
-        simpleExoPlayer.release();
-        simpleExoPlayer = null;
+        if(mNotificationManager!=null && simpleExoPlayer!=null) {
+            mNotificationManager.cancelAll();
+            simpleExoPlayer.stop();
+            simpleExoPlayer.release();
+            simpleExoPlayer = null;
+        }else{
+            mNotificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(99);
+        }
+
     }
+    /**************** ExoPlayer ******************/
 
 
     @Override
@@ -218,31 +231,54 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         return null;
     }
     ;
+    int pageNum;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Bundle bundle=intent.getBundleExtra("bundle");
-        String url =bundle.getString("url");
-        // Initialize the Media Session.
-        initializeMediaSession();
-        // Initialize the player.
-        initializePlayer(Uri.parse(url));
+        if(intent!=null&& intent.getAction()!=null && intent.getAction().equals("play")) {
+            Bundle bundle = intent.getBundleExtra("pn");
+            String url="";
+            if(bundle!=null) {
+                url = bundle.getString("pn");
+                pageNum=bundle.getInt("num");
+            }
+            /************* ExoPlayer ***********/
+            // Initialize the Media Session.
+            initializeMediaSession();
+            // Initialize the player.
+            initializePlayer(Uri.parse(url));
+        }
+
+
         //Notification notification = createNotification(pendingIntent);
         //startForeground(FOREGROUND_ID, notification);
 
         return START_STICKY;
     }
 
+    public void sendBroadCast(String data , int num){
+        Intent intent = new Intent();
+        Bundle b=new Bundle();
+        b.putInt("num",num);
+        intent.putExtra("b",b);
+        intent.setAction("media");
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+        manager.sendBroadcast(intent);
+    }
+
     @Override
     public void onDestroy() {
         destroyHeadLayer();
         stopForeground(true);
-
-        releasePlayer();
-        mediaSessionCompat.setActive(false);
-
         logServiceEnded();
+        Log.d("asdasd","asdasd");
+        /**************** ExoPlayer ******************/
+        releasePlayer();
+        if(mediaSessionCompat!=null)
+          mediaSessionCompat.setActive(false);
+
     }
+
 
     private void initHeadLayer() {
         mHeadLayer = new HeadLayer(this);
@@ -271,9 +307,14 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                 .build();
     }
 
-
-
-
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Toast.makeText(this,"onTaskRemoved called",Toast.LENGTH_SHORT).show();
+        super.onTaskRemoved(rootIntent);
+        //do something you want
+        //stop service
+        this.stopSelf();
+    }
 
     private void logServiceStarted() {
         Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
@@ -284,6 +325,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     }
 
 
+    /**************** ExoPlayer ******************/
     // ExoPlayer Event Listeners
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
@@ -310,13 +352,22 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
+
         if((playbackState == ExoPlayer.STATE_READY) && playWhenReady){
             mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
                     simpleExoPlayer.getCurrentPosition(), 1f);
+            Toast.makeText(this,"ExoPlayer.STATE_READY) && playWhenReady",Toast.LENGTH_SHORT).show();
+                    sendBroadCast("",pageNum);
         } else if((playbackState == ExoPlayer.STATE_READY)){
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     simpleExoPlayer.getCurrentPosition(), 1f);
+            Toast.makeText(this,"ExoPlayer.STATE_READY",Toast.LENGTH_SHORT).show();
+        } else if((playbackState ==  ExoPlayer.STATE_ENDED)){
+                  //sendBroadCast();
+            //sendBroadCast("");
+            Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();
         }
+
         mediaSessionCompat.setPlaybackState(mStateBuilder.build());
         showNotification(mStateBuilder.build());
 
@@ -367,5 +418,6 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             MediaButtonReceiver.handleIntent(mediaSessionCompat, intent);
         }
     }
+    /**************** ExoPlayer ******************/
 
 }

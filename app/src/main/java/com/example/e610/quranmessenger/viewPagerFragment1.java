@@ -75,7 +75,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         }else {
             url+=page+extentionMP3;
         }
-        runMediaPLayer(url);
+        //runMediaPLayer(url);
         return url;
     }
 
@@ -225,19 +225,31 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isplaying=!isplaying;
-                if(mediaPlayer!=null && !mediaPlayer.isPlaying()) {
+                /*if(mediaPlayer!=null && !mediaPlayer.isPlaying()) {*/
+                if(!isplaying) {
                         try {
                            // progressBar.setVisibility(View.VISIBLE);
                             progressDialog=ProgressDialog.show(getActivity(),"",progressMsg,false,false);
-                            mediaPlayer.prepareAsync();
+                            //mediaPlayer.prepareAsync();
+                            Intent intent=new Intent(getActivity(),MediaPlayerService.class);
+                            intent.setAction("play");
+                            Bundle b=new Bundle();
+                            b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
+                            b.putInt("num",Integer.valueOf(pageNumber));
+                            intent.putExtra("pn",b);
+                            getActivity().startService(intent);
+                            isplaying=!isplaying;
                         }
                         catch (Exception e){}
-                }else if(mediaPlayer!=null && mediaPlayer.isPlaying()) {
-                        mediaPlayer.stop();
+                /*}else if(mediaPlayer!=null && mediaPlayer.isPlaying()) {*/
+                }else if(isplaying) {
+                        //mediaPlayer.stop();
                    // progressBar.setVisibility(View.INVISIBLE);
-                    if(progressDialog.isShowing())
+                    if(progressDialog!=null && progressDialog.isShowing())
                         progressDialog.dismiss();
+
+                    getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
+                    isplaying=!isplaying;
                 }
             }
         });
@@ -309,9 +321,33 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         return textView;
     }
 
-    @Override
+    /*@Override
     public void passData() {
         if(mediaPlayer!=null&&mediaPlayer.isPlaying())
             mediaPlayer.stop();
+
+        if(isAdded()&&getActivity()!=null && progressDialog!=null && !progressDialog.isShowing())
+            getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
+
+
+        if(progressDialog!=null && progressDialog.isShowing())
+            progressDialog.dismiss();
+    }*/
+
+    @Override
+    public void cancelDialog() {
+        if(progressDialog!=null && progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
+
+    @Override
+    public void stopMediaService() {
+        if(isAdded()&&getActivity()!=null)
+            getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
+    }
+
+    @Override
+    public void playNextOne() {
+
     }
 }
