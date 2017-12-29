@@ -410,7 +410,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void canselAlarms() {
-        MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+        MySharedPreferences.setUpMySharedPreferences(getActivity(), ctx.getString(R.string.shared_pref_file_name));
         String alarmNumbers=MySharedPreferences.getData();
         int alarmNum=Integer.valueOf(alarmNumbers);
         if(pendingIntentList!=null&&pendingIntentList.size()==alarmNum){

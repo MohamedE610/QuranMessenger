@@ -49,7 +49,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
 
     boolean isplaying=false;
-    String shekhName="";
+    public static String shekhName="";
     private ProgressDialog progressDialog;
 
     @Override
@@ -62,12 +62,12 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     }
 
     //String[]shekhNameArray={"","","","","",""};
-    final String basicUrl="http://www.quranmessenger.life/sound/";
-    final String extentionMP3=".mp3";
-    final String slash="/";
-    private String playSounds(int page ,String name ){
+    public  final static String basicUrl="http://www.quranmessenger.life/sound/";
+    public  final static String extentionMP3=".mp3";
+    public final static String slash="/";
+    public static String playSounds(int page ,String name ){
 
-        String url=basicUrl+shekhName+slash;
+        String url=basicUrl+name+slash;
         if(page<10){
             url+="00"+page+extentionMP3;
         }else if(page<100){
@@ -236,6 +236,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                             Bundle b=new Bundle();
                             b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
                             b.putInt("num",Integer.valueOf(pageNumber));
+                            b.putString("sh_name",shekhName);
                             intent.putExtra("pn",b);
                             getActivity().startService(intent);
                             isplaying=!isplaying;
@@ -348,13 +349,16 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     @Override
     public void playNextOne() {
-        Intent intent=new Intent(getActivity(),MediaPlayerService.class);
-        intent.setAction("play");
-        Bundle b=new Bundle();
-        b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
-        b.putInt("num",Integer.valueOf(pageNumber));
-        intent.putExtra("pn",b);
-        getActivity().startService(intent);
-        isplaying=true;
+        if(getActivity()!=null) {
+            Intent intent = new Intent(getActivity(), MediaPlayerService.class);
+            intent.setAction("play");
+            Bundle b = new Bundle();
+            b.putString("pn", playSounds(Integer.valueOf(pageNumber), shekhName));
+            b.putInt("num", Integer.valueOf(pageNumber));
+            b.putString("sh_name",shekhName);
+            intent.putExtra("pn", b);
+            getActivity().startService(intent);
+            isplaying = true;
+        }
     }
 }

@@ -146,6 +146,7 @@ public class Main2Activity extends AppCompatActivity
         //this.mWakeLock.release();
         //stopService(new Intent(this,MediaPlayerService.class));
         //Log.d("asdasd","asdasd");
+
         super.onDestroy();
     }
 
@@ -204,6 +205,8 @@ public class Main2Activity extends AppCompatActivity
             }
         }
     };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -316,7 +319,7 @@ public class Main2Activity extends AppCompatActivity
     protected void onResume() {
         MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
         /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
-
+        MySharedPreferences.setUserSetting("isBackground","0");
         IntentFilter intentFilter = new IntentFilter("cancelDialog");
         IntentFilter intentFilter1 = new IntentFilter("playNextOne");
 
@@ -329,6 +332,7 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        MySharedPreferences.setUserSetting("isBackground","1");
         if(viewPager!=null) {
             MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
             MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");

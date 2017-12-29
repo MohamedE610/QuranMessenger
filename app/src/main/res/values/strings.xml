@@ -38,4 +38,5 @@
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="title_activity_azkar_detailed">AzkarDetailedActivity</string>
+    <string name="shared_pref_file_name">extraSetting</string>
 </resources>

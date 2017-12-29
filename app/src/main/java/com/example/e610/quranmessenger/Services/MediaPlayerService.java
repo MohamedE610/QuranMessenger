@@ -25,9 +25,13 @@ import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Main2Activity;
 import com.example.e610.quranmessenger.NotificationDismissedReceiver;
+import com.example.e610.quranmessenger.Utils.Constants;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.SettingsActivity;
+import com.example.e610.quranmessenger.Utils.MySharedPreferences;
+import com.example.e610.quranmessenger.viewPagerFragment;
+import com.example.e610.quranmessenger.viewPagerFragment1;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -232,6 +236,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     }
     ;
     int pageNum;
+    String sh_name;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -241,6 +246,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             if(bundle!=null) {
                 url = bundle.getString("pn");
                 pageNum=bundle.getInt("num");
+                sh_name=bundle.getString("sh_name");
             }
             /************* ExoPlayer ***********/
             // Initialize the Media Session.
@@ -364,8 +370,33 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             Toast.makeText(this,"ExoPlayer.STATE_READY",Toast.LENGTH_SHORT).show();
         } else if((playbackState ==  ExoPlayer.STATE_ENDED)){
                   //sendBroadCast();
-            sendBroadCast("playNextOne",pageNum);
-            Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();
+            /*sendBroadCast("playNextOne",pageNum);
+            Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();*/
+
+            MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
+            String isBackground=MySharedPreferences.getUserSetting("isBackground");
+            if(isBackground.equals("0")){
+                sendBroadCast("playNextOne",pageNum);
+                Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();
+            }else{
+               /* Intent intent=new Intent(this,MediaPlayerService.class);
+                intent.setAction("play");
+                Bundle b=new Bundle();
+                b.putString("pn", viewPagerFragment1.playSounds(pageNum,sh_name));
+                b.putInt("num",pageNum);
+                b.putString("sh_name",sh_name);
+                intent.putExtra("pn",b);
+                startService(intent);*/
+                /************* ExoPlayer ***********/
+                // Prepare the MediaSource.
+                String url=viewPagerFragment1.playSounds(++pageNum,sh_name);
+
+                String userAgent = Util.getUserAgent(this, "ClassicalMusicQuiz");
+                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(url), new DefaultDataSourceFactory(
+                        this, userAgent), new DefaultExtractorsFactory(), null, null);
+                simpleExoPlayer.prepare(mediaSource);
+                simpleExoPlayer.setPlayWhenReady(true);
+            }
         }
 
         mediaSessionCompat.setPlaybackState(mStateBuilder.build());
@@ -373,7 +404,23 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
 
     }
 
-
+   // MySharedPreferences.setUpMySharedPreferences(MediaPlayerService.this,this.getString(R.string.shared_pref_file_name));
+    //String isBackground= MySharedPreferences.getUserSetting("isBackground");
+    /*if(isBackground!=null&&isBackground.equals("0")) {
+        //stopSelf();
+        sendBroadCast("playNextOne", pageNum);
+    }else if(isBackground!=null&&isBackground.equals("1")){
+        Intent intent=new Intent(MediaPlayerService.this,MediaPlayerService.class);
+        intent.setAction("play");
+        Bundle b=new Bundle();
+        pageNum++;
+        b.putString("pn", viewPagerFragment1.playSounds(pageNum,sh_name));
+        b.putInt("num",pageNum);
+        b.putString("sh_name",sh_name);
+        intent.putExtra("pn",b);
+        stopSelf();
+        startService(intent);
+    }*/
     @Override
     public void onPlayerError(ExoPlaybackException error) {
 
