@@ -411,16 +411,14 @@ public class Main2Activity extends AppCompatActivity
             facebookIntent.setData(Uri.parse(facebookUrl));
             startActivity(facebookIntent);
         }else if (id == R.id.nav_insta) {
-            Uri uri = Uri.parse("http://instagram.com/_u/wolverine.9595");
+            Uri uri = Uri.parse("https://www.instagram.com/quranmessengerofficial/");
             Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
-
             likeIng.setPackage("com.instagram.android");
-
             try {
                 startActivity(likeIng);
             } catch (ActivityNotFoundException e) {
                 startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://instagram.com/wolverine.9595")));
+                        Uri.parse("https://www.instagram.com/quranmessengerofficial/")));
             }
         } else if (id == R.id.nav_share) {
             share();
@@ -443,8 +441,8 @@ public class Main2Activity extends AppCompatActivity
         startActivity(Intent.createChooser(sharingIntent,"Share via" ));
     }
 
-    static String FACEBOOK_URL = "https://www.facebook.com/mohamed.mostafa.1144";
-    public static String FACEBOOK_PAGE_ID = "mohamed.mostafa.1144";
+    static String FACEBOOK_URL = "https://www.facebook.com/quranmessenger";
+    public static String FACEBOOK_PAGE_ID = "178298802574861";
 
     //method to get the right URL to use in the intent
     public String getFacebookPageURL(Context context) {

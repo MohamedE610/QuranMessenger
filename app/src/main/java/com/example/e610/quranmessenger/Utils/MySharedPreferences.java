@@ -6,9 +6,6 @@ import android.util.Log;
 
 public class MySharedPreferences {
 
-
-
-
     static Context context;
     static String FileName;
     static SharedPreferences sharedPref;
@@ -59,6 +56,17 @@ public class MySharedPreferences {
     public void Clear(){
         editor.clear();
         editor.commit();
+    }
+
+
+    public static void setMediaPlayerState(String data){
+        editor.putString("MediaPlayerState",data);
+        editor.commit();
+    }
+
+    public static String getMediaPlayerState(){
+        String data = sharedPref.getString("MediaPlayerState","-1");
+        return data ;
     }
 
 }

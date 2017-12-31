@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import com.example.e610.quranmessenger.NotificationDismissedReceiver;
 import com.example.e610.quranmessenger.PrayerTimesActivity;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.SettingsActivity;
@@ -31,6 +32,14 @@ public class AzanService extends Service {
     public void onCreate() {
         super.onCreate();
         mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(5476);
+            }
+        });
 
     }
 
@@ -56,12 +65,13 @@ public class AzanService extends Service {
 
             Intent closeIntent = new Intent(this, AzanService.class);
             closeIntent.setAction("cancel");
-            PendingIntent closePendingIntent = PendingIntent.getService(this, 0, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent closePendingIntent = PendingIntent.getService(this, 11, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_stat_clear, "ايقاف", closePendingIntent);
+
             Intent okIntent = new Intent(this, PrayerTimesActivity.class);
             closeIntent.setAction("ok");
-            PendingIntent okPendingIntent = PendingIntent.getActivity(this, 0, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_check, "الاعدادات", okPendingIntent);
+            PendingIntent okPendingIntent = PendingIntent.getActivity(this, 22, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_settings, "الاعدادات", okPendingIntent);
 
             logServiceStarted();
             PendingIntent pendingIntent = createPendingIntent();
@@ -71,6 +81,7 @@ public class AzanService extends Service {
                             .setContentTitle("ألأذان")
                             .setContentText("و الان موعد الصلاه")
                             .setContentIntent(pendingIntent)
+                            .setDeleteIntent(createOnDismissedIntent(this,5476))
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setPriority(Notification.PRIORITY_HIGH)
                             .addAction(okAction)
@@ -78,6 +89,7 @@ public class AzanService extends Service {
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(5476, mBuilder.build());
+
 
         /*Notification notification = createNotification(pendingIntent);
         startForeground(FOREGROUND_ID, notification);*/
@@ -90,6 +102,17 @@ public class AzanService extends Service {
 
         return START_STICKY;
     }
+
+    private PendingIntent createOnDismissedIntent(Context context, int notificationId) {
+        Intent intent = new Intent(context, NotificationDismissedReceiver.class);
+        intent.putExtra("com.example.e610.quranmessenger."+notificationId+"", notificationId);
+        intent.setAction("notification_cancelled");
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(context.getApplicationContext(),
+                        notificationId, intent, 0);
+        return pendingIntent;
+    }
+
 
     @Override
     public void onDestroy() {

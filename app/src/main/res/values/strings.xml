@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuranMessenger</string>
+    <string name="app_name">الفرقان</string>
 
     <!-- Preferences -->
     <string name="serviceEnabledKey">serviceEnabledKey</string>

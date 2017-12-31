@@ -25,9 +25,11 @@ import android.widget.Toast;
 import com.example.e610.quranmessenger.Models.PageOfQuran.Edition;
 import com.example.e610.quranmessenger.Services.MediaPlayerService;
 import com.example.e610.quranmessenger.Utils.FetchData;
+import com.example.e610.quranmessenger.Utils.MediaPLayerUtils;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
 import com.example.e610.quranmessenger.Utils.NetworkState;
+import com.example.e610.quranmessenger.Utils.ServiceUtils;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -57,7 +59,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         shekhName=MySharedPreferences.getUserSetting("shekhName");
         if(shekhName.equals(""))
             shekhName="hosary";
-        playSounds(Integer.valueOf(pageNumber), shekhName);
+        //playSounds(Integer.valueOf(pageNumber), shekhName);
         super.onResume();
     }
 
@@ -231,14 +233,16 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                            // progressBar.setVisibility(View.VISIBLE);
                             progressDialog=ProgressDialog.show(getActivity(),"",progressMsg,false,false);
                             //mediaPlayer.prepareAsync();
-                            Intent intent=new Intent(getActivity(),MediaPlayerService.class);
+                           /* Intent intent=new Intent(getActivity(),MediaPlayerService.class);
                             intent.setAction("play");
                             Bundle b=new Bundle();
-                            b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
+                            //b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
+                            b.putString("pn", MediaPLayerUtils.createUrl(Integer.valueOf(pageNumber),shekhName));
                             b.putInt("num",Integer.valueOf(pageNumber));
                             b.putString("sh_name",shekhName);
                             intent.putExtra("pn",b);
-                            getActivity().startService(intent);
+                            getActivity().startService(intent);*/
+                            ServiceUtils.startMediaService(getActivity(),pageNumber,shekhName);
                             isplaying=!isplaying;
                         }
                         catch (Exception e){}
@@ -267,7 +271,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startService(new Intent(getActivity(), MediaPlayerService.class));
+               // getActivity().startService(new Intent(getActivity(), MediaPlayerService.class));
                 Intent intent=new Intent(getActivity(),TafserActivity.class);
                 Bundle b=new Bundle();
                 b.putString("pageNumber",pageNumber);
@@ -350,15 +354,17 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     @Override
     public void playNextOne() {
         if(getActivity()!=null) {
-            Intent intent = new Intent(getActivity(), MediaPlayerService.class);
+          /*  Intent intent = new Intent(getActivity(), MediaPlayerService.class);
             intent.setAction("play");
             Bundle b = new Bundle();
-            b.putString("pn", playSounds(Integer.valueOf(pageNumber), shekhName));
+            b.putString("pn", MediaPLayerUtils.createUrl(Integer.valueOf(pageNumber), shekhName));
             b.putInt("num", Integer.valueOf(pageNumber));
             b.putString("sh_name",shekhName);
             intent.putExtra("pn", b);
-            getActivity().startService(intent);
+            getActivity().startService(intent);*/
+            ServiceUtils.startMediaService(this.getActivity(),pageNumber,shekhName);
             isplaying = true;
         }
     }
 }
+

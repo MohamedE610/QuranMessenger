@@ -54,15 +54,15 @@ public class HeadService extends Service {
             PendingIntent pendingIntent = createPendingIntent();
             Intent closeIntent = new Intent(this, HeadService.class);
             closeIntent.setAction("cancel");
-            PendingIntent closePendingIntent = PendingIntent.getService(this,0, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent closePendingIntent = PendingIntent.getService(this,11, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_stat_clear, "ليس الان", closePendingIntent);
             Intent okIntent = new Intent(this, Main2Activity.class);
             closeIntent.setAction("ok");
-            PendingIntent okPendingIntent = PendingIntent.getActivity(this,0, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent okPendingIntent = PendingIntent.getActivity(this,22, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_check, "متابعه الورد", okPendingIntent);
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.wrdk)
+                            .setSmallIcon(R.drawable.logo)
                             .setContentTitle("وردك اليومى الان")
                             .setContentIntent(pendingIntent)
                             .setDefaults(Notification.DEFAULT_ALL)
