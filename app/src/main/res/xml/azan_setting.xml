@@ -10,7 +10,14 @@
             android:title="ألأذان"
             android:summary="تشغيل اشعارت  ألأذان" />
 
-
+        <ListPreference
+            android:defaultValue="3"
+            android:dialogTitle="قم باختيار صوت الاذان"
+            android:entries="@array/azan_voice"
+            android:entryValues="@array/azan_voice_values"
+            android:key="azan_voice"
+            android:summary=""
+            android:title="اختر صوت الاذان" />
 
     </PreferenceCategory>
 </PreferenceScreen>

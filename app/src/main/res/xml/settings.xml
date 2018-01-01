@@ -3,13 +3,6 @@
 
     <PreferenceCategory android:title="Settings" >
 
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="azan"
-            android:title="ألأذان"
-            android:summary="تشغيل اشعارت  ألأذان" />
-
         <!--<SwitchPreference
             android:defaultValue="false"
             android:key="@string/serviceEnabledKey"
@@ -53,7 +46,6 @@
             android:dependency="@string/serviceEnabledKey"
             />-->
         <!---->
-
 
     </PreferenceCategory>
 </PreferenceScreen>

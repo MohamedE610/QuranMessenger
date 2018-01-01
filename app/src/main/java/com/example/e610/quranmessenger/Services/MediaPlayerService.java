@@ -73,8 +73,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
 
     private WindowManager mWindowManager;
     private View mFloatingView;
-
-
+    private String my_url="http://www.quranmessenger.life/sound/hosary/001.mp3";
 
 
     /**************** ExoPlayer ******************/
@@ -258,10 +257,10 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     ;
     int pageNum;
     String sh_name;
+    String action="";
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        String action="";
         if(intent!=null&& intent.getAction()!=null)
              action=intent.getAction();
 
@@ -285,6 +284,12 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             //stopForeground(true);
             notificationManager.cancel(5476);
             stopSelf();
+        }else if(action.equals("azkar")){
+            /************* ExoPlayer ***********/
+            // Initialize the Media Session.
+            initializeMediaSession();
+            // Initialize the player.
+            initializePlayer(Uri.parse(my_url));
         }
 
 
@@ -400,17 +405,17 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     simpleExoPlayer.getCurrentPosition(), 1f);
             Toast.makeText(this,"ExoPlayer.STATE_READY",Toast.LENGTH_SHORT).show();
-        } else if((playbackState ==  ExoPlayer.STATE_ENDED )){
-                  //sendBroadCast();
+        } else if((playbackState ==  ExoPlayer.STATE_ENDED )) {
+            //sendBroadCast();
             /*sendBroadCast("playNextOne",pageNum);
             Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();*/
-
-            MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
-            String isBackground=MySharedPreferences.getUserSetting("isBackground");
-            if(isBackground.equals("0")){
-                sendBroadCast("playNextOne",pageNum);
-                Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();
-            }else{
+            if (!action.equals("azkar")){
+                MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
+            String isBackground = MySharedPreferences.getUserSetting("isBackground");
+            if (isBackground.equals("0")) {
+                sendBroadCast("playNextOne", pageNum);
+                Toast.makeText(this, "ExoPlayer.STATE_ENDED", Toast.LENGTH_SHORT).show();
+            } else {
                /* Intent intent=new Intent(this,MediaPlayerService.class);
                 intent.setAction("play");
                 Bundle b=new Bundle();
@@ -422,7 +427,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                 /************* ExoPlayer ***********/
                 // Prepare the MediaSource.
                 /*String url=viewPagerFragment1.playSounds(++pageNum,sh_name);*/
-                String url= MediaPLayerUtils.createUrl(++pageNum,sh_name);
+                String url = MediaPLayerUtils.createUrl(++pageNum, sh_name);
 
                 String userAgent = Util.getUserAgent(this, "ClassicalMusicQuiz");
                 MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(url), new DefaultDataSourceFactory(
@@ -430,8 +435,9 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                 simpleExoPlayer.prepare(mediaSource);
                 simpleExoPlayer.setPlayWhenReady(true);
             }
-
         }
+
+    }
 
         mediaSessionCompat.setPlaybackState(mStateBuilder.build());
         showNotification(mStateBuilder.build());

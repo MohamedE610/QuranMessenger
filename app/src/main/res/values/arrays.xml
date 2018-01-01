@@ -19,4 +19,15 @@
         <item>afasi</item>
     </string-array>
 
+
+    <string-array name="azan_voice">
+        <item>الصوت الاول</item>
+        <item>الصوت الثانى</item>
+    </string-array>
+
+    <string-array name="azan_voice_values">
+        <item>azan0</item>
+        <item>azan1</item>
+    </string-array>
+
 </resources>

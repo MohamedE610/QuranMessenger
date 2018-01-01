@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.e610.quranmessenger.AzkarDetailedActivity;
 import com.example.e610.quranmessenger.Main2Activity;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
@@ -24,7 +25,7 @@ import com.example.e610.quranmessenger.SettingsActivity;
  * Foreground service. Creates a head view.
  * The pending intent allows to go back to the settings activity.
  */
-public class HeadService extends Service {
+public class AzkarService extends Service {
 
     private final static int FOREGROUND_ID = 999;
 
@@ -48,7 +49,22 @@ public class HeadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         String action=intent.getAction();
-        if( action==null || (!action.equals("cancel") && !action.equals("ok"))){
+        if( action.equals("azkar")){
+
+            int azkar_type=intent.getIntExtra("azkar_type",-1);
+            String title="";
+            String azkarStr="";
+            if(azkar_type==0) {
+                title = "اذكار الصباح";
+                azkarStr="am";
+            }else if(azkar_type==1) {
+                title = "اذكار المساء";
+                azkarStr="pm";
+            }else {
+                title = "الاذكار";
+                azkarStr="pm";
+            }
+
             logServiceStarted();
             //initHeadLayer();
             PendingIntent pendingIntent = createPendingIntent();
@@ -58,19 +74,30 @@ public class HeadService extends Service {
             PendingIntent closePendingIntent = PendingIntent.getService(this,11, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_stat_clear, "ليس الان", closePendingIntent);
 
-            Intent okIntent = new Intent(this, Main2Activity.class);
+            Intent okIntent = new Intent(this, AzkarDetailedActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putString("azkar",azkarStr);
+            bundle.putString("method","1");
+            okIntent.putExtra("bundle",bundle);
             okIntent.setAction("ok");
             PendingIntent okPendingIntent = PendingIntent.getActivity(this,22, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_check, "متابعه الورد", okPendingIntent);
+            NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_check, "قرأه", okPendingIntent);
+
+            Intent okIntent1 = new Intent(this, MediaPlayerService.class);
+            okIntent1.setAction("azkar");
+            PendingIntent okPendingIntent1 = PendingIntent.getService(this,33, okIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Action okAction1 = new NotificationCompat.Action(R.drawable.ic_stat_check, "استماع", okPendingIntent1);
+
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.logo)
-                            .setContentTitle("وردك اليومى الان")
+                            .setContentTitle(title)
                             .setContentIntent(pendingIntent)
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setPriority(Notification.PRIORITY_HIGH)
                             .addAction(okAction)
+                            .addAction(okAction1)
                             .addAction(cancelAction);
 
             NotificationManager notificationManager =
@@ -90,7 +117,6 @@ public class HeadService extends Service {
 
         return START_STICKY;
     }
-
     @Override
     public void onDestroy() {
         destroyHeadLayer();

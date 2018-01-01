@@ -374,7 +374,9 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            Intent intent= new Intent(this,SettingsActivity.class);
+            intent.setAction("main_settings");
+            startActivity(intent);
             return true;
         }else if(id == R.id.action_fahrs){
             startActivity(new Intent(this,FahrsActivity.class));
@@ -404,7 +406,9 @@ public class Main2Activity extends AppCompatActivity
             startActivity(new Intent(this,AzkarActivity.class));
 
         } else if (id == R.id.nav_setting) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            Intent intent= new Intent(this,SettingsActivity.class);
+            intent.setAction("main_settings");
+            startActivity(intent);
         } else if (id == R.id.nav_facebook) {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
             String facebookUrl = getFacebookPageURL(this);

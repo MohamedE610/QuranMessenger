@@ -26,6 +26,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".Services.HeadService" />
+        <service android:name=".Services.AzkarService" />
         <service android:name=".Services.AzanService" />
         <service android:name=".Services.MediaPlayerService"
             android:stopWithTask="false"
