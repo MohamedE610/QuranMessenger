@@ -46,6 +46,11 @@
             </intent-filter>
         </receiver>
 
+        <!--<receiver android:name=".Services.WidgetHelper">
+            <intent-filter>
+            </intent-filter>
+        </receiver>-->
+
         <activity
             android:name=".FahrsActivity"
             android:launchMode="singleTop">
@@ -75,6 +80,9 @@
         <receiver android:name=".Widget.QuranMessangerWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="widget_play"/>
+                <action android:name="widget_pause"/>
+                <action android:name="widget_restart"/>
             </intent-filter>
 
             <meta-data

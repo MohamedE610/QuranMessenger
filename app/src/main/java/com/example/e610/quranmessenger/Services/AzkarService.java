@@ -47,9 +47,11 @@ public class AzkarService extends Service {
     ;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String action="";
+        if(intent!=null)
+            action=intent.getAction();
 
-        String action=intent.getAction();
-        if( action.equals("azkar")){
+        if( action!=null && action.equals("azkar")){
 
             int azkar_type=intent.getIntExtra("azkar_type",-1);
             String title="";

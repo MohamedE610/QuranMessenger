@@ -1,21 +1,69 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#09C"
-    android:padding="@dimen/widget_margin">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/black"
+    android:padding="20dp"
+    >
 
     <TextView
         android:id="@+id/appwidget_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:background="#09C"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
+        android:text=" الفرقان"
+        android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:textSize="35sp"
+        android:textStyle="bold|italic"
+        android:layout_alignParentTop="true"
+        />
 
+    <!--<TextView
+        android:id="@+id/appwidget_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/appwidget_text"
+        android:text="الاستماع الى القرأن الكريم"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:textSize="35sp"
+        android:textStyle="bold|italic"
+        android:layout_below="@+id/appwidget_text"
+        />-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/appwidget_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        >
+
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/img_widget"
+        android:src="@drawable/widget_play"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/img_widget_restart"
+            android:src="@drawable/restart_widget"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+    </LinearLayout>
 </RelativeLayout>

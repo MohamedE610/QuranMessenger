@@ -213,7 +213,8 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                     this, userAgent), new DefaultExtractorsFactory(), null, null);
             simpleExoPlayer.prepare(mediaSource);
             simpleExoPlayer.setPlayWhenReady(true);
-        }
+        }else
+            simpleExoPlayer.setPlayWhenReady(true);
     }
 
 
@@ -264,7 +265,6 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         if(intent!=null&& intent.getAction()!=null)
              action=intent.getAction();
 
-
         if(action.equals("play")) {
             Bundle bundle = intent.getBundleExtra("pn");
             String url="";
@@ -273,11 +273,12 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                 pageNum=bundle.getInt("num");
                 sh_name=bundle.getString("sh_name");
             }
-            /************* ExoPlayer ***********/
-            // Initialize the Media Session.
-            initializeMediaSession();
-            // Initialize the player.
-            initializePlayer(Uri.parse(url));
+                /************* ExoPlayer ***********/
+                // Initialize the Media Session.
+                initializeMediaSession();
+                // Initialize the player.
+                initializePlayer(Uri.parse(url));
+
         }else if(action.equals("cancel")){
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -290,7 +291,14 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             initializeMediaSession();
             // Initialize the player.
             initializePlayer(Uri.parse(my_url));
+        }else if(action.equals("pause")){
+            if(simpleExoPlayer!=null)
+               simpleExoPlayer.setPlayWhenReady(false);
+        }else if(action.equals("playWidget")){
+            if(simpleExoPlayer!=null)
+               simpleExoPlayer.setPlayWhenReady(true);
         }
+
 
 
         //Notification notification = createNotification(pendingIntent);
