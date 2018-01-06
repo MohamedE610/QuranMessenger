@@ -6,24 +6,16 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
-import com.example.e610.quranmessenger.Services.AzanService;
 import com.example.e610.quranmessenger.Services.AzkarService;
 import com.example.e610.quranmessenger.Services.HeadService;
-import com.example.e610.quranmessenger.Utils.FetchAzanData;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
-import com.example.e610.quranmessenger.Utils.NetworkResponse;
-import com.example.e610.quranmessenger.Utils.NetworkState;
 import com.example.e610.quranmessenger.Utils.PermissionChecker;
-import com.example.e610.quranmessenger.Utils.TimePreference;
-import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -43,16 +35,15 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         addPreferencesFromResource(R.xml.azkar_setting);
-        enableHeadServiceCheckbox(false);
+        //enableHeadServiceCheckbox(false);
         mPermissionChecker = new PermissionChecker(getActivity());
         if (!mPermissionChecker.isRequiredPermissionGranted()) {
-            enableHeadServiceCheckbox(false);
+            //enableHeadServiceCheckbox(false);
             Intent intent = mPermissionChecker.createRequiredPermissionIntent();
             startActivityForResult(intent, PermissionChecker.REQUIRED_PERMISSION_REQUEST_CODE);
         } else {
-            enableHeadServiceCheckbox(true);
+           //enableHeadServiceCheckbox(true);
         }
 
         MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
@@ -97,27 +88,28 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
 
         MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getString(R.string.shared_pref_file_name));
 
-        boolean enabled = sharedPreferences.getBoolean("azkar_alarm", false);
+        boolean enabledAM = sharedPreferences.getBoolean("azkar_alarm_am", false);
+        boolean enabledPM = sharedPreferences.getBoolean("azkar_alarm_pm", false);
 
-        if ("azkar_alarm".equals(key)) {
-            if (enabled) {
+        if ("azkar_alarm_am".equals(key)) {
+            if (enabledAM) {
                 String azkar_am=sharedPreferences.getString("azkar_am","0:0");
-                String azkar_pm=sharedPreferences.getString("azkar_pm","0:0");
                 String[] strs = azkar_am.split(":");
                 int h = Integer.valueOf(strs[0]);
                 int m = Integer.valueOf(strs[1]);
                 startHeadService(h, m, 9911,0);
 
+                 /*String azkar_pm=sharedPreferences.getString("azkar_pm","0:0");
                  strs = azkar_pm.split(":");
                  h = Integer.valueOf(strs[0]);
                  m = Integer.valueOf(strs[1]);
-                 startHeadService(h, m, 1199,1);
+                 startHeadService(h, m, 1199,1);*/
 
             } else {
                 stopHeadService();
             }
         } else if (key.equals("azkar_am")) {
-            if (enabled) {
+            if (enabledAM) {
 
                 String azkar_am=sharedPreferences.getString("azkar_am","");
                 MySharedPreferences.setUserSetting("azkar_am",azkar_am);
@@ -131,9 +123,19 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
             } else {
                 stopHeadService();
             }
-        } else if (key.equals("azkar_pm")) {
-            if (enabled) {
+        }else if ("azkar_alarm_pm".equals(key)) {
+            if (enabledPM) {
+                String azkar_pm = sharedPreferences.getString("azkar_pm", "0:0");
+                String[] strs = azkar_pm.split(":");
+                int h = Integer.valueOf(strs[0]);
+                int m = Integer.valueOf(strs[1]);
+                startHeadService(h, m, 1199, 1);
 
+            } else {
+                stopHeadService();
+            }
+        } else if (key.equals("azkar_pm")) {
+            if (enabledPM) {
                 String azkar_pm=sharedPreferences.getString("azkar_pm","");
                 MySharedPreferences.setUserSetting("azkar_pm",azkar_pm);
                 Preference preference=findPreference("azkar_pm");
@@ -153,7 +155,8 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
 
 
     private void enableHeadServiceCheckbox(boolean enabled) {
-        getPreferenceScreen().findPreference("azkar_alarm").setEnabled(enabled);
+        getPreferenceScreen().findPreference("azkar_alarm_am").setEnabled(enabled);
+        getPreferenceScreen().findPreference("azkar_alarm_pm").setEnabled(enabled);
     }
 
 // 0 -> am

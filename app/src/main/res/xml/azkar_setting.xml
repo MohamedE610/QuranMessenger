@@ -5,24 +5,29 @@
 
             <SwitchPreference
                 android:defaultValue="false"
-                android:key="azkar_alarm"
-                android:title="الاذكار"
-                android:summary="اشعارات الاذكار" />
+                android:key="azkar_alarm_am"
+                android:title="اذكار الصباح"
+                android:summary="اشعارات اذكار الصباح" />
 
              <com.example.e610.quranmessenger.Utils.TimePreference
                  android:key="azkar_am"
                  android:title="اذكار الصباح"
-                 android:defaultValue="12:00"
+                 android:defaultValue="9:00"
                  android:summary=""
-                 android:dependency="azkar_alarm"
+                 android:dependency="azkar_alarm_am"
                  />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="azkar_alarm_pm"
+                android:title="اذكار المساء"
+                android:summary="اشعارات اذكار المساء" />
 
              <com.example.e610.quranmessenger.Utils.TimePreference
                  android:key="azkar_pm"
                  android:title="اذكار المساء"
-                 android:defaultValue="12:00"
+                 android:defaultValue="21:00"
                  android:summary=""
-                 android:dependency="azkar_alarm"
+                 android:dependency="azkar_alarm_pm"
                  />
             <!---->
 

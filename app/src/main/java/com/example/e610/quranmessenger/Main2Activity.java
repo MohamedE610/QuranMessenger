@@ -378,14 +378,7 @@ public class Main2Activity extends AppCompatActivity
             intent.setAction("main_settings");
             startActivity(intent);
             return true;
-        }else if(id == R.id.action_fahrs){
-            startActivity(new Intent(this,FahrsActivity.class));
-            finish();
-        }else if(id == R.id.action_prayer_times){
-            startActivity(new Intent(this,PrayerTimesActivity.class));
         }
-
-
 
         return super.onOptionsItemSelected(item);
     }

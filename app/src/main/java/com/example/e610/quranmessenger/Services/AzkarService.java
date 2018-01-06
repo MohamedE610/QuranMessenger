@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.e610.quranmessenger.AzkarActivity;
 import com.example.e610.quranmessenger.AzkarDetailedActivity;
 import com.example.e610.quranmessenger.Main2Activity;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
@@ -140,7 +141,7 @@ public class AzkarService extends Service {
     }
 
     private PendingIntent createPendingIntent() {
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, AzkarActivity.class);
         return PendingIntent.getActivity(this,8976, intent, 0);
     }
 

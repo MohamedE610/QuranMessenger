@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.view.ActionMode;
 import android.support.v7.widget.Toolbar;
@@ -93,14 +94,58 @@ public class AzkarActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        CardView cardAm=(CardView) findViewById(R.id.card_am);
+        CardView cardPm=(CardView) findViewById(R.id.card_pm);
+        cardAm.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                azkarStr="am";
+                openContextMenu(v);
+                //showPopup(view);
+                /*if (mActionMode != null) {
+                    return ;
+                }
+
+                // Start the CAB using the ActionMode.Callback defined above
+                mActionMode = startActionMode(mActionModeCallback);
+                view.setSelected(true);*/
+
+                return false;
+            }
+        });
+
+        cardPm.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                azkarStr="pm";
+                openContextMenu(v);
+                //showPopup(view);
+                /*if (mActionMode != null) {
+                    return ;
+                }
+
+                // Start the CAB using the ActionMode.Callback defined above
+                mActionMode = startActionMode(mActionModeCallback);
+                view.setSelected(true);*/
+                return false;
+            }
+        });
+
+
+
+
+        FloatingActionButton fabRead = (FloatingActionButton) findViewById(R.id.fab_read);
+        fabRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 azkarStr="am";
-                openContextMenu(view);
+                azkarMethod(azkarStr,"1");
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                /*azkarStr="am";
+                openContextMenu(view);*/
                 //showPopup(view);
                 /*if (mActionMode != null) {
                     return ;
@@ -112,16 +157,18 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab1.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabSound = (FloatingActionButton) findViewById(R.id.fab_sound);
+        fabSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                azkarStr="am";
+                azkarMethod(azkarStr,"0");
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 azkarStr="pm";
-                openContextMenu(view);
+                openContextMenu(view);*/
                 //showPopup(view);
-                /*if (mActionMode != null) {
+               /* if (mActionMode != null) {
                     return ;
                 }
 
@@ -131,8 +178,50 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        registerForContextMenu(fab);
-        registerForContextMenu(fab1);
+        FloatingActionButton fabRead1 = (FloatingActionButton) findViewById(R.id.fab_read1);
+        fabRead1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                azkarStr="pm";
+                azkarMethod(azkarStr,"1");
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                /*azkarStr="am";
+                openContextMenu(view);*/
+                //showPopup(view);
+                /*if (mActionMode != null) {
+                    return ;
+                }
+
+                //Start the CAB using the ActionMode.Callback defined above
+                mActionMode = startActionMode(mActionModeCallback);
+                view.setSelected(true);*/
+            }
+        });
+
+        FloatingActionButton fabSound1 = (FloatingActionButton) findViewById(R.id.fab_sound1);
+        fabSound1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                azkarStr="pm";
+                azkarMethod(azkarStr,"0");
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                azkarStr="pm";
+                openContextMenu(view);*/
+                //showPopup(view);
+               /* if (mActionMode != null) {
+                    return ;
+                }
+                // Start the CAB using the ActionMode.Callback defined above
+                mActionMode = startActionMode(mActionModeCallback);
+                view.setSelected(true);*/
+            }
+        });
+
+        registerForContextMenu(cardAm);
+        registerForContextMenu(cardPm);
 
     }
 
@@ -147,24 +236,26 @@ public class AzkarActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Intent intent=new Intent(this,AzkarDetailedActivity.class);
-        Bundle bundle=new Bundle();
+        /*Intent intent=new Intent(this,AzkarDetailedActivity.class);
+        Bundle bundle=new Bundle();*/
         switch (item.getItemId()) {
             case R.id.id1:
                 // your first action code
-                bundle.putString("azkar",azkarStr);
+                azkarMethod(azkarStr,"0");
+               /* bundle.putString("azkar",azkarStr);
                 bundle.putString("method","0");
                 intent.putExtra("bundle",bundle);
                 startActivity(intent);
-                Toast.makeText(AzkarActivity.this,"AM",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AzkarActivity.this,"AM",Toast.LENGTH_SHORT).show();*/
                 return true;
             case R.id.id2:
                 // your second action code
-                bundle.putString("azkar",azkarStr);
+                azkarMethod(azkarStr,"1");
+               /* bundle.putString("azkar",azkarStr);
                 bundle.putString("method","1");
                 intent.putExtra("bundle",bundle);
                 startActivity(intent);
-                Toast.makeText(AzkarActivity.this,"PM",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AzkarActivity.this,"PM",Toast.LENGTH_SHORT).show();*/
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -195,6 +286,16 @@ public class AzkarActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void azkarMethod(String azkarStr ,String method){
+        Intent intent=new Intent(this,AzkarDetailedActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString("azkar",azkarStr);
+        bundle.putString("method",method);
+        intent.putExtra("bundle",bundle);
+        startActivity(intent);
     }
 
 }
