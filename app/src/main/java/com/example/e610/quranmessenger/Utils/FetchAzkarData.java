@@ -17,12 +17,13 @@ import java.net.URL;
 
 public class FetchAzkarData extends AsyncTask<Void,Void,String> {
 
-    private final static String BasicUrl = "http://www.quranmessenger.life/tafsir/";
-    private final static String extention=".txt";
-    String pageNumber;
+    final String azkar_sabah_txt="http://www.quranmessenger.life/azkar/azkar_sabah/1.txt";
+    final String azkar_masaa_txt ="http://www.quranmessenger.life/azkar/azkar_masaa/1.txt";
 
-    public FetchAzkarData(String pageNumber) {
-        this.pageNumber=pageNumber;
+    String azkarType;
+
+    public FetchAzkarData(String azkarType) {
+        this.azkarType=azkarType;
     }
 
     NetworkResponse networkResponse;
@@ -49,7 +50,11 @@ public class FetchAzkarData extends AsyncTask<Void,Void,String> {
                 return null;
             }
             //reader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
-            reader = new BufferedReader(new InputStreamReader(inputStream,"cp1256"));
+            //reader = new BufferedReader(new InputStreamReader(inputStream,"cp1256"));
+            String sss="unicode";
+             reader = new BufferedReader(new InputStreamReader(inputStream,sss));
+            //
+
             String line;
             while ((line = reader.readLine()) != null) {
                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
@@ -89,7 +94,11 @@ public class FetchAzkarData extends AsyncTask<Void,Void,String> {
     protected String doInBackground(Void... voids) {
         String JsonData = "";
         try {
-            JsonData = Fetching_Data(BasicUrl+pageNumber+extention);
+            if(azkarType.equals("am")) {
+                JsonData = Fetching_Data(azkar_sabah_txt);
+            }else
+                JsonData = Fetching_Data(azkar_masaa_txt);
+
             if(JsonData==null||JsonData.equals("")) {
                 networkResponse.OnFailure(true);
             }

@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.e610.quranmessenger.viewPagerFragment"
-    android:layoutDirection="rtl"
-    >
+    android:layoutDirection="rtl">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,17 +36,19 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/icon_play"
+        app:backgroundTint="@android:color/transparent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/book"
+        app:backgroundTint="@android:color/transparent"/>
 </FrameLayout>

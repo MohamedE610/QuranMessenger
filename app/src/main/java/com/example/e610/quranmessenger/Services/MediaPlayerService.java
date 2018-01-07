@@ -73,8 +73,8 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
 
     private WindowManager mWindowManager;
     private View mFloatingView;
-    private String my_url="http://www.quranmessenger.life/sound/hosary/001.mp3";
-
+    final String azkar_sabah_sound="http://www.quranmessenger.life/azkar/azkar_sabah/1.mp3";
+    final String azkar_masaa_sound ="http://www.quranmessenger.life/azkar/azkar_masaa/1.mp3";
 
     /**************** ExoPlayer ******************/
 
@@ -286,11 +286,20 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             notificationManager.cancel(5476);
             stopSelf();
         }else if(action.equals("azkar")){
+            Bundle b=new Bundle();
+            b=intent.getBundleExtra("bundle");
+            String azkarType=b.getString("azkar");
+            String my_url="";
+            if(azkarType.equals("am"))
+                my_url=azkar_sabah_sound;
+            else
+                my_url=azkar_masaa_sound;
             /************* ExoPlayer ***********/
             // Initialize the Media Session.
             initializeMediaSession();
             // Initialize the player.
             initializePlayer(Uri.parse(my_url));
+
         }else if(action.equals("pause")){
             if(simpleExoPlayer!=null)
                simpleExoPlayer.setPlayWhenReady(false);

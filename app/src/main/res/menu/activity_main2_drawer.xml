@@ -4,19 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_alfahrs"
-            android:icon="@drawable/ic_menu_camera"
             android:title="الفهرس" />
         <item
             android:id="@+id/nav_alazan"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="ألاذأن" />
+            android:title="الاذان" />
         <item
             android:id="@+id/nav_alazkar"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="ألاذكار" />
+            android:title="اذكار الصباح والمساء" />
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_menu_manage"
             android:title="الاعدادات"
             />
 
@@ -26,7 +22,6 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
                 android:id="@+id/nav_facebook"
@@ -71,5 +66,84 @@
     </item>
 -->
 
+    <!--old one -->
+    <!--
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_alfahrs"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="الفهرس" />
+        <item
+            android:id="@+id/nav_alazan"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="ألاذأن" />
+        <item
+            android:id="@+id/nav_alazkar"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="ألاذكار" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="الاعدادات"
+            />
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_facebook"
+                android:title="Facebook" />
+            <item
+                android:id="@+id/nav_insta"
+                android:title="Instagram" />
+        </menu>
+    </item>
+
+    &lt;!&ndash;
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Import" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Slideshow" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Tools" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+&ndash;&gt;
+
+
+</menu>
+-->
+<!--nageh updates-->
 
 </menu>

@@ -27,7 +27,8 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
     private ProgressBar progressBar;
     MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
-    String basicUrl="http://www.quranmessenger.life/sound/hosary/001.mp3";
+    private String azkarTypeStr;
+    /*String basicUrl="http://www.quranmessenger.life/sound/hosary/001.mp3";
     private void runMediaPLayer(String url ){
         try {
             mediaPlayer = new MediaPlayer();
@@ -54,7 +55,7 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
             });
             //mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
         }catch (Exception e){}
-    }
+    }*/
 
 
     @Override
@@ -64,7 +65,7 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        runMediaPLayer(basicUrl);
+        //runMediaPLayer(basicUrl);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +92,7 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
         if(intent!=null) {
             Bundle bundle = intent.getBundleExtra("bundle");
             if(bundle!=null){
-                String azkarTypeStr=bundle.getString("azkar");
+                 azkarTypeStr=bundle.getString("azkar");
                 methodStr=bundle.getString("method");
                 if(azkarTypeStr!=null&& azkarTypeStr.equals("am"))
                     azkarNameText.setText("اذكار الصباح");
@@ -101,12 +102,12 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
         }
 
         if(methodStr!=null&&methodStr.equals("0")) {
-            if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            /*if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
                 progressDialog = ProgressDialog.show(this, "", "جارى تشغيل ملف الصوت", false, false);
                 mediaPlayer.prepareAsync();
-            }
+            }*/
         }
-        fetchAzkarData=new FetchAzkarData("1");
+        fetchAzkarData=new FetchAzkarData(azkarTypeStr);
         fetchAzkarData.setNetworkResponse(this);
         fetchAzkarData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 

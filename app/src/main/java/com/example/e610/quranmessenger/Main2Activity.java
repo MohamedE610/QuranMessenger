@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -207,6 +208,8 @@ public class Main2Activity extends AppCompatActivity
     };
 
 
+    public static AppBarLayout appBarLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,6 +220,9 @@ public class Main2Activity extends AppCompatActivity
         //Android disable screen timeout while app is running
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         loadAds();
+
+        appBarLayout=(AppBarLayout)findViewById(R.id.app_bar);
+        //appBarLayout.setVisibility(View.VISIBLE);
 
         /**************************/
         /* This code together with the one in onDestroy()

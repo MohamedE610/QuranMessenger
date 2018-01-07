@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:background="#FFE0B2">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,6 +19,7 @@
         android:textAlignment="center"
         android:layout_centerHorizontal="true"
         android:text="@string/fahrs"
+        android:textStyle="bold"
         android:layoutDirection="rtl"
         android:textDirection="rtl"
         />

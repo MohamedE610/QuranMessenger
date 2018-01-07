@@ -6,20 +6,10 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.e610.quranmessenger.PrayerTimesActivity"
-    tools:showIn="@layout/activity_prayer_times" >
+    tools:showIn="@layout/activity_prayer_times"
+    android:background="@drawable/p1"
+    >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/azan_fragment_container"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="10dp">
-
-    </RelativeLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/azan_fragment_container">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,27 +18,37 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
+
             >
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="الفجر"
-                android:textSize="55sp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text="الفجر"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"/>
+
+                <TextView
                     android:id="@+id/fagr"
-                    android:layout_alignParentStart="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:textSize="55sp"
-                    />
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -56,7 +56,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -65,17 +67,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="الظهر"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/duhr"
                     android:layout_alignParentStart="true"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
                     android:layout_alignParentLeft="true"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="10dp"
+
                     />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -84,7 +93,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -93,9 +104,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="العصر"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,7 +117,11 @@
                     android:id="@+id/asr"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="10dp"
+
                     />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -112,7 +130,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -121,9 +141,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="المغرب"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +154,11 @@
                     android:id="@+id/maghrp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="10dp"
+
                     />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -140,7 +167,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="20dp"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
             >
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -149,21 +178,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="العشاء"
-                    android:textSize="55sp"
+                    android:textSize="42sp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
                     />
                 <TextView
-                    android:textSize="55sp"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/isha"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="10dp"
+
                     />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-
     </LinearLayout>
-    </ScrollView>
 </RelativeLayout>

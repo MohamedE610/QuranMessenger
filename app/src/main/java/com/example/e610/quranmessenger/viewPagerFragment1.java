@@ -161,6 +161,8 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
+
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_view_pager1, container, false);
         imageView=(ImageView)view.findViewById(R.id.img);
@@ -179,10 +181,12 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                 flag=!flag;
                 if(flag){
                    //communicatio.appeare();
+                    Main2Activity.appBarLayout.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.VISIBLE);
                     fab2.setVisibility(View.VISIBLE);
                 }else {
                    //communicatio.disappeare();
+                    Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
                     fab.setVisibility(View.INVISIBLE);
                     fab2.setVisibility(View.INVISIBLE);
                 }
@@ -244,6 +248,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                             getActivity().startService(intent);*/
                             ServiceUtils.startMediaService(getActivity(),pageNumber,shekhName);
                             isplaying=!isplaying;
+                            fab.setImageResource(R.drawable.icon_pause);
                         }
                         catch (Exception e){}
                 /*}else if(mediaPlayer!=null && mediaPlayer.isPlaying()) {*/
@@ -255,6 +260,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
                     getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
                     isplaying=!isplaying;
+                    fab.setImageResource(R.drawable.icon_play);
                 }
             }
         });
@@ -347,6 +353,16 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     @Override
     public void stopMediaService() {
+
+        if(fab!=null)
+            fab.setVisibility(View.INVISIBLE);
+
+        if(fab2!=null)
+            fab2.setVisibility(View.INVISIBLE);
+
+        if(Main2Activity.appBarLayout!=null)
+            Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
+
         if(isAdded()&&getActivity()!=null)
             getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
     }

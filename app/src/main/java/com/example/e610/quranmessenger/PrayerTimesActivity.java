@@ -13,11 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
 import com.example.e610.quranmessenger.Utils.FetchAzanData;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
+import com.example.e610.quranmessenger.Utils.NetworkState;
 import com.google.gson.Gson;
 
 
@@ -34,9 +36,12 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        FetchAzanData fetchAzanData=new FetchAzanData();
-        fetchAzanData.setNetworkResponse(this);
-        fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if(NetworkState.ConnectionAvailable(this)) {
+            FetchAzanData fetchAzanData = new FetchAzanData();
+            fetchAzanData.setNetworkResponse(this);
+            fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

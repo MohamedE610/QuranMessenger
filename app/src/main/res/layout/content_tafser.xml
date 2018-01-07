@@ -17,12 +17,14 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:id="@+id/name_txt"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:background="#FFE0B2"/>
     </android.support.v7.widget.CardView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/card">
+        android:layout_below="@+id/card"
+        android:background="#FFF3E0">
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -33,6 +35,9 @@
         android:paddingTop="10dp"
         android:textSize="20sp"
         android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:background="#FFF3E0"
         />
         </android.support.v7.widget.CardView>
     </ScrollView>

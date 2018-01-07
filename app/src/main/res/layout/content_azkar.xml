@@ -20,13 +20,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.CardView
             android:id="@+id/card_am"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:cardElevation="7dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/curvy_border"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
             >
 
             <RelativeLayout
@@ -42,7 +43,7 @@
                     android:layout_gravity="center"
                     android:text="اذكار الصباح"
                     android:padding="5dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="35sp" />
 
                 <LinearLayout
@@ -57,24 +58,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/fab_margin"
-                        android:src="@drawable/book" />
+                        android:src="@drawable/book"
+                        xmlns:fab_view="http://schemas.android.com/apk/res-auto"
+                        fab_view:backgroundTint="@android:color/transparent"
+                        />
+
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab_sound"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/fab_margin"
-                        android:src="@drawable/icon_play" />
+                        android:src="@drawable/icon_play"
+                        xmlns:fab_view="http://schemas.android.com/apk/res-auto"
+                        fab_view:backgroundTint="@android:color/transparent"
+                        />
+
                 </LinearLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.CardView
             android:id="@+id/card_pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:cardElevation="7dp"
-            android:background="@drawable/curvy_border"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardBackgroundColor="@android:color/transparent"
             >
 
             <RelativeLayout
@@ -89,7 +99,7 @@
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:text="اذكار المساء"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="35sp" />
 
                 <LinearLayout
@@ -104,14 +114,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/fab_margin"
-                        android:src="@drawable/book" />
+                        android:src="@drawable/book"
+                        xmlns:fab_view="http://schemas.android.com/apk/res-auto"
+                        fab_view:backgroundTint="@android:color/transparent"
+                        />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab_sound1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/fab_margin"
-                        android:src="@drawable/icon_play" />
+                        android:src="@drawable/icon_play"
+                        xmlns:fab_view="http://schemas.android.com/apk/res-auto"
+                        fab_view:backgroundTint="@android:color/transparent"
+                        />
+
                 </LinearLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>

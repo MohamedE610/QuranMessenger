@@ -3,18 +3,16 @@ package com.example.e610.quranmessenger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
-import android.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
+import com.example.e610.quranmessenger.Services.MediaPlayerService;
 
 public class AzkarActivity extends AppCompatActivity {
 
@@ -86,6 +84,10 @@ public class AzkarActivity extends AppCompatActivity {
     }
 */
 
+
+
+    boolean isplaying=false;
+    boolean isplaying1=false;
     String azkarStr="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,12 +159,30 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabSound = (FloatingActionButton) findViewById(R.id.fab_sound);
+        final FloatingActionButton fabSound = (FloatingActionButton) findViewById(R.id.fab_sound);
         fabSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                azkarStr="am";
-                azkarMethod(azkarStr,"0");
+                //azkarStr="am";
+                if(!isplaying) {
+                    isplaying=!isplaying;
+                    azkarStr = "am";
+                    Intent okIntent1 = new Intent(AzkarActivity.this, MediaPlayerService.class);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("azkar", azkarStr);
+                    bundle1.putString("method", "0");
+                    okIntent1.putExtra("bundle", bundle1);
+                    okIntent1.setAction("azkar");
+                    startService(okIntent1);
+                    fabSound.setImageResource(R.drawable.icon_pause);
+                }else{
+                    isplaying=!isplaying;
+                    Intent  intent = new Intent(AzkarActivity.this, MediaPlayerService.class);
+                    intent.setAction("cancel");
+                    startService(intent);
+                    fabSound.setImageResource(R.drawable.icon_play);
+                }
+                //azkarMethod(azkarStr,"0");
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 azkarStr="pm";
@@ -200,12 +220,30 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabSound1 = (FloatingActionButton) findViewById(R.id.fab_sound1);
+        final FloatingActionButton fabSound1 = (FloatingActionButton) findViewById(R.id.fab_sound1);
         fabSound1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                azkarStr="pm";
-                azkarMethod(azkarStr,"0");
+                if (!isplaying1) {
+                    isplaying1=!isplaying1;
+                    azkarStr = "pm";
+                    Intent okIntent1 = new Intent(AzkarActivity.this, MediaPlayerService.class);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("azkar", azkarStr);
+                    bundle1.putString("method", "0");
+                    okIntent1.putExtra("bundle", bundle1);
+                    okIntent1.setAction("azkar");
+                    startService(okIntent1);
+                    fabSound1.setImageResource(R.drawable.icon_pause);
+                } else {
+                    isplaying1=!isplaying1;
+                    Intent intent = new Intent(AzkarActivity.this, MediaPlayerService.class);
+                    intent.setAction("cancel");
+                    startService(intent);
+                    fabSound1.setImageResource(R.drawable.icon_play);
+                }
+                //azkarStr="pm";
+                //azkarMethod(azkarStr,"0");
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 azkarStr="pm";

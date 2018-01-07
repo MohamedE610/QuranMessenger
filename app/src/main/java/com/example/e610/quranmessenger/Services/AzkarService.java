@@ -87,6 +87,10 @@ public class AzkarService extends Service {
             NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_check, "قرأه", okPendingIntent);
 
             Intent okIntent1 = new Intent(this, MediaPlayerService.class);
+            Bundle bundle1=new Bundle();
+            bundle1.putString("azkar",azkarStr);
+            bundle1.putString("method","0");
+            okIntent1.putExtra("bundle",bundle1);
             okIntent1.setAction("azkar");
             PendingIntent okPendingIntent1 = PendingIntent.getService(this,33, okIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action okAction1 = new NotificationCompat.Action(R.drawable.ic_stat_check, "استماع", okPendingIntent1);
