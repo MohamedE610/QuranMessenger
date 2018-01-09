@@ -1,11 +1,8 @@
 package com.example.e610.quranmessenger;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,10 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Models.PageOfQuran.Edition;
 import com.example.e610.quranmessenger.Services.MediaPlayerService;
 import com.example.e610.quranmessenger.Utils.FetchData;
-import com.example.e610.quranmessenger.Utils.MediaPLayerUtils;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
 import com.example.e610.quranmessenger.Utils.NetworkState;
@@ -34,9 +29,9 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 
-public class viewPagerFragment1 extends Fragment implements NetworkResponse , Main2Activity.PassData{
+public class viewPagerFragment1 extends Fragment implements NetworkResponse, Main2Activity.PassData {
 
-    private ProgressBar  progressBar;
+    private ProgressBar progressBar;
 
     FloatingActionButton fab;
     FloatingActionButton fab2;
@@ -50,40 +45,43 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
     boolean isSajda;
 
 
-    boolean isplaying=false;
-    public static String shekhName="";
+    boolean isplaying = false;
+    public static String shekhName = "";
     private ProgressDialog progressDialog;
+    private int surahPlayedNum;
 
     @Override
     public void onResume() {
-        shekhName=MySharedPreferences.getUserSetting("shekhName");
-        if(shekhName.equals(""))
-            shekhName="hosary";
+        shekhName = MySharedPreferences.getUserSetting("shekhName");
+        if (shekhName.equals(""))
+            shekhName = "hosary";
         //playSounds(Integer.valueOf(pageNumber), shekhName);
         super.onResume();
     }
 
     //String[]shekhNameArray={"","","","","",""};
-    public  final static String basicUrl="http://www.quranmessenger.life/sound/";
-    public  final static String extentionMP3=".mp3";
-    public final static String slash="/";
-    public static String playSounds(int page ,String name ){
+    public final static String basicUrl = "http://www.quranmessenger.life/sound/";
+    public final static String extentionMP3 = ".mp3";
+    public final static String slash = "/";
 
-        String url=basicUrl+name+slash;
-        if(page<10){
-            url+="00"+page+extentionMP3;
-        }else if(page<100){
-            url+="0"+page+extentionMP3;
-        }else {
-            url+=page+extentionMP3;
+    public static String playSounds(int page, String name) {
+
+        String url = basicUrl + name + slash;
+        if (page < 10) {
+            url += "00" + page + extentionMP3;
+        } else if (page < 100) {
+            url += "0" + page + extentionMP3;
+        } else {
+            url += page + extentionMP3;
         }
         //runMediaPLayer(url);
         return url;
     }
 
-    Boolean isError=false;
+    Boolean isError = false;
     MediaPlayer mediaPlayer;
-    private void runMediaPLayer(String url ){
+
+    private void runMediaPLayer(String url) {
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -92,7 +90,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     //progressBar.setVisibility(View.INVISIBLE);
-                    if(progressDialog.isShowing())
+                    if (progressDialog.isShowing())
                         progressDialog.dismiss();
                     mp.start();
                     //fab.setEnabled(true);
@@ -101,10 +99,10 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
-                    isError=true;
-                    if(progressDialog.isShowing())
-                            progressDialog.dismiss();
-                    Toast.makeText(getActivity(),"ملف الصوت غير متاح حاليا",Toast.LENGTH_LONG).show();
+                    isError = true;
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Toast.makeText(getActivity(), "ملف الصوت غير متاح حاليا", Toast.LENGTH_LONG).show();
                     return false;
                 }
             });
@@ -112,7 +110,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    if(!isError) {
+                    if (!isError) {
                         int pn = Integer.valueOf(pageNumber);
                         pn++;
                         pageNumber = pn + "";
@@ -127,19 +125,22 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             });
 
             //mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
+
     public viewPagerFragment1() {
         // Required empty public constructor
     }
-    String urlStr="http://www.quranmessenger.life/pages/quran_pages/";
-    String extention=".jpg";
+
+    String urlStr = "http://www.quranmessenger.life/pages/quran_pages/";
+    String extention = ".jpg";
 
     @Override
     public void onStop() {
-        if(mediaPlayer!=null){
+        if (mediaPlayer != null) {
             mediaPlayer.release();
-            mediaPlayer=null;
+            mediaPlayer = null;
         }
         /*getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));*/
         super.onStop();
@@ -156,7 +157,8 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         super.onPause();
     }
 
-    String progressMsg="جاري تشغيل الملف الصوتي...";
+    String progressMsg = "جاري تشغيل الملف الصوتي...";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -164,53 +166,76 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
 
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_view_pager1, container, false);
-        imageView=(ImageView)view.findViewById(R.id.img);
+        view = inflater.inflate(R.layout.fragment_view_pager1, container, false);
+        imageView = (ImageView) view.findViewById(R.id.img);
         //progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
-         //progressDialog=new ProgressDialog(getActivity());
-         //progressDialog.setMessage("جاري تشغيل الملف الصوتي...");
+        //progressDialog=new ProgressDialog(getActivity());
+        //progressDialog.setMessage("جاري تشغيل الملف الصوتي...");
 
 
 
 
         /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
-        flag=false;
+        flag = false;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flag=!flag;
-                if(flag){
-                   //communicatio.appeare();
+                flag = !flag;
+                if (flag) {
+                    //communicatio.appeare();
                     Main2Activity.appBarLayout.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.VISIBLE);
                     fab2.setVisibility(View.VISIBLE);
-                }else {
-                   //communicatio.disappeare();
+
+                    try {
+                        surahPlayedNum = Integer.valueOf(MySharedPreferences.getUserSetting("LAST_SURAH"));
+                    } catch (Exception e) {
+                        surahPlayedNum = 0;
+                    }
+
+                    if (pageNumber.equals(++surahPlayedNum+"")) {
+                        fab.setImageResource(R.drawable.icon_pause);
+                    } else {
+                        fab.setImageResource(R.drawable.icon_play);
+                    }
+
+                    String state=MySharedPreferences.getMediaPlayerState();
+                    if(state.equals("1")){
+                        fab.setImageResource(R.drawable.icon_pause);
+                        isplaying=true;
+                    }else {
+                          fab.setImageResource(R.drawable.icon_play);
+                          isplaying=false;
+                    }
+
+
+                } else {
+                    //communicatio.disappeare();
                     Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
                     fab.setVisibility(View.INVISIBLE);
                     fab2.setVisibility(View.INVISIBLE);
                 }
             }
         });
-        Bundle bundle=getArguments();
-        pageNumber=bundle.get("pageNumber").toString();
+        Bundle bundle = getArguments();
+        pageNumber = bundle.get("pageNumber").toString();
 
        /* Picasso.with(getContext()).load(urlStr+pageNumber+extention)
                 .placeholder(R.drawable.ts_loading_circle)
                 .error(R.drawable.cloud_error_120)
                 .into(imageView);*/
-        Picasso.with(getContext()).load(urlStr+pageNumber+extention)
+        Picasso.with(getContext()).load(urlStr + pageNumber + extention)
                 .placeholder(R.drawable.loadicon)
                 .error(R.drawable.loadicon)
-                .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(imageView);
 
-        if(NetworkState.ConnectionAvailable(getContext())) {
+        if (NetworkState.ConnectionAvailable(getContext())) {
             fetchData = new FetchData(pageNumber);
             fetchData.setNetworkResponse(this);
             fetchData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }else {
-            Toast.makeText(getContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
 
 
@@ -227,16 +252,16 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         });
 
 
-        isplaying=false;
+        isplaying = false;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*if(mediaPlayer!=null && !mediaPlayer.isPlaying()) {*/
-                if(!isplaying) {
-                        try {
-                           // progressBar.setVisibility(View.VISIBLE);
-                            progressDialog=ProgressDialog.show(getActivity(),"",progressMsg,false,false);
-                            //mediaPlayer.prepareAsync();
+                if (!isplaying) {
+                    try {
+                        // progressBar.setVisibility(View.VISIBLE);
+                        progressDialog = ProgressDialog.show(getActivity(), "", progressMsg, false, false);
+                        //mediaPlayer.prepareAsync();
                            /* Intent intent=new Intent(getActivity(),MediaPlayerService.class);
                             intent.setAction("play");
                             Bundle b=new Bundle();
@@ -246,20 +271,19 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
                             b.putString("sh_name",shekhName);
                             intent.putExtra("pn",b);
                             getActivity().startService(intent);*/
-                            ServiceUtils.startMediaService(getActivity(),pageNumber,shekhName);
-                            isplaying=!isplaying;
-                            fab.setImageResource(R.drawable.icon_pause);
-                        }
-                        catch (Exception e){}
+                        ServiceUtils.startMediaService(getActivity(), pageNumber, shekhName);
+                        isplaying = !isplaying;
+                        fab.setImageResource(R.drawable.icon_pause);
+                    } catch (Exception e) {
+                    }
                 /*}else if(mediaPlayer!=null && mediaPlayer.isPlaying()) {*/
-                }else if(isplaying) {
-                        //mediaPlayer.stop();
-                   // progressBar.setVisibility(View.INVISIBLE);
-                    if(progressDialog!=null && progressDialog.isShowing())
+                } else if (isplaying) {
+                    //mediaPlayer.stop();
+                    // progressBar.setVisibility(View.INVISIBLE);
+                    if (progressDialog != null && progressDialog.isShowing())
                         progressDialog.dismiss();
-
-                    getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
-                    isplaying=!isplaying;
+                    getActivity().stopService(new Intent(getActivity(), MediaPlayerService.class));
+                    isplaying = !isplaying;
                     fab.setImageResource(R.drawable.icon_play);
                 }
             }
@@ -277,11 +301,11 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // getActivity().startService(new Intent(getActivity(), MediaPlayerService.class));
-                Intent intent=new Intent(getActivity(),TafserActivity.class);
-                Bundle b=new Bundle();
-                b.putString("pageNumber",pageNumber);
-                intent.putExtra("bundle",b);
+                // getActivity().startService(new Intent(getActivity(), MediaPlayerService.class));
+                Intent intent = new Intent(getActivity(), TafserActivity.class);
+                Bundle b = new Bundle();
+                b.putString("pageNumber", pageNumber);
+                intent.putExtra("bundle", b);
                 getActivity().startActivity(intent);
             }
         });
@@ -289,7 +313,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
         //playSounds(Integer.valueOf(pageNumber), shekhName);
 
-        return view ;
+        return view;
     }
 
     /*MediaPlayer mediaPlayer;
@@ -302,7 +326,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     @Override
     public void OnSuccess(String JsonData) {
-        if(isAdded() && getActivity()!=null) {
+        if (isAdded() && getActivity() != null) {
 
         }
 
@@ -313,17 +337,17 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     }
 
-    private TextView createTextView(int i){
-        TextView textView=new TextView(getContext());
+    private TextView createTextView(int i) {
+        TextView textView = new TextView(getContext());
         textView.setTextSize(25);
-        textView.setPadding(0,0,0,0);
+        textView.setPadding(0, 0, 0, 0);
 
-        if(i==0){
+        if (i == 0) {
             ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textView.setLayoutParams(lparams);
             textView.setGravity(Gravity.CENTER);
-        }else{
+        } else {
             ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textView.setLayoutParams(lparams);
@@ -347,29 +371,29 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
 
     @Override
     public void cancelDialog() {
-        if(progressDialog!=null && progressDialog.isShowing())
+        if (progressDialog != null && progressDialog.isShowing())
             progressDialog.dismiss();
     }
 
     @Override
     public void stopMediaService() {
 
-        if(fab!=null)
+        if (fab != null)
             fab.setVisibility(View.INVISIBLE);
 
-        if(fab2!=null)
+        if (fab2 != null)
             fab2.setVisibility(View.INVISIBLE);
 
-        if(Main2Activity.appBarLayout!=null)
+        if (Main2Activity.appBarLayout != null)
             Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
 
-        if(isAdded()&&getActivity()!=null)
-            getActivity().stopService(new Intent(getActivity(),MediaPlayerService.class));
+        if (isAdded() && getActivity() != null)
+            getActivity().stopService(new Intent(getActivity(), MediaPlayerService.class));
     }
 
     @Override
     public void playNextOne() {
-        if(getActivity()!=null) {
+        if (getActivity() != null) {
           /*  Intent intent = new Intent(getActivity(), MediaPlayerService.class);
             intent.setAction("play");
             Bundle b = new Bundle();
@@ -378,7 +402,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse , Ma
             b.putString("sh_name",shekhName);
             intent.putExtra("pn", b);
             getActivity().startService(intent);*/
-            ServiceUtils.startMediaService(this.getActivity(),pageNumber,shekhName);
+            ServiceUtils.startMediaService(this.getActivity(), pageNumber, shekhName);
             isplaying = true;
         }
     }

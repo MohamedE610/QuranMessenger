@@ -333,6 +333,11 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         logServiceEnded();
         Log.d("asdasd","asdasd");
         /**************** ExoPlayer ******************/
+        //MySharedPreferences.setUserSetting("LAST_SURAH","-1");
+        String state=MySharedPreferences.getMediaPlayerState();
+        if(state.equals("0"))
+            MySharedPreferences.setUserSetting("LAST_SURAH","-1");
+
         releasePlayer();
         if(mediaSessionCompat!=null)
           mediaSessionCompat.setActive(false);
@@ -412,17 +417,20 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
+        MySharedPreferences.setUpMySharedPreferences(MediaPlayerService.this,getString(R.string.shared_pref_file_name));
 
         if((playbackState == ExoPlayer.STATE_READY) && playWhenReady){
             mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
                     simpleExoPlayer.getCurrentPosition(), 1f);
             Toast.makeText(this,"ExoPlayer.STATE_READY) && playWhenReady",Toast.LENGTH_SHORT).show();
                     sendBroadCast("cancelDialog",pageNum);
+            MySharedPreferences.setMediaPlayerState("1");
         } else if((playbackState == ExoPlayer.STATE_READY)){
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     simpleExoPlayer.getCurrentPosition(), 1f);
             Toast.makeText(this,"ExoPlayer.STATE_READY",Toast.LENGTH_SHORT).show();
         } else if((playbackState ==  ExoPlayer.STATE_ENDED )) {
+            MySharedPreferences.setMediaPlayerState("0");
             //sendBroadCast();
             /*sendBroadCast("playNextOne",pageNum);
             Toast.makeText(this,"ExoPlayer.STATE_ENDED",Toast.LENGTH_SHORT).show();*/

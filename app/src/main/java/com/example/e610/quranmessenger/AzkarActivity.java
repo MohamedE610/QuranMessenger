@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.e610.quranmessenger.Services.MediaPlayerService;
+import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 
 public class AzkarActivity extends AppCompatActivity {
 
@@ -89,12 +90,26 @@ public class AzkarActivity extends AppCompatActivity {
     boolean isplaying=false;
     boolean isplaying1=false;
     String azkarStr="";
+    private FloatingActionButton fabSound;
+    private FloatingActionButton fabSound1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_azkar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        /*String state= MySharedPreferences.getMediaPlayerState();
+        if(state.equals("1")){
+            fabSound.setImageResource(R.drawable.icon_pause);
+            fabSound.setImageResource(R.drawable.icon_pause);
+            isplaying=true;
+        }else {
+            fabSound.setImageResource(R.drawable.icon_play);
+            fabSound.setImageResource(R.drawable.icon_play);
+            isplaying=false;
+        }*/
 
 
         CardView cardAm=(CardView) findViewById(R.id.card_am);
@@ -159,7 +174,7 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        final FloatingActionButton fabSound = (FloatingActionButton) findViewById(R.id.fab_sound);
+        fabSound = (FloatingActionButton) findViewById(R.id.fab_sound);
         fabSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -220,7 +235,7 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        final FloatingActionButton fabSound1 = (FloatingActionButton) findViewById(R.id.fab_sound1);
+         fabSound1 = (FloatingActionButton) findViewById(R.id.fab_sound1);
         fabSound1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
