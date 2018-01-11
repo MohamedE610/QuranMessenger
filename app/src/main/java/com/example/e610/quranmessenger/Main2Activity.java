@@ -21,7 +21,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -50,7 +52,9 @@ public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
 
-  public  interface PassData{
+    private Toolbar toolbar;
+
+    public  interface PassData{
         void cancelDialog();
         void stopMediaService();
       void playNextOne();
@@ -214,7 +218,7 @@ public class Main2Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Android disable screen timeout while app is running
@@ -341,7 +345,7 @@ public class Main2Activity extends AppCompatActivity
         MySharedPreferences.setUserSetting("isBackground","1");
         if(viewPager!=null) {
             MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
-            MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");
+            //MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");
            /* if(mediaPlayer!=null) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
@@ -379,11 +383,14 @@ public class Main2Activity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
+        //item.setIcon(R.drawable.icon_pause);
         if (id == R.id.action_settings) {
             Intent intent= new Intent(this,SettingsActivity.class);
             intent.setAction("main_settings");
             startActivity(intent);
             return true;
+        }else if (id == R.id.action_save) {
+            showPopup(toolbar);
         }
 
         return super.onOptionsItemSelected(item);
@@ -433,6 +440,36 @@ public class Main2Activity extends AppCompatActivity
         return true;
     }
 
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.bookmark_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.id1:
+                        Toast.makeText(Main2Activity.this,"تم الحفظ",Toast.LENGTH_SHORT).show();
+                        MySharedPreferences.setUserSetting("pageNumber",viewPager.getCurrentItem()+"");
+                        return true;
+                    case R.id.id2:
+                        //Toast.makeText(AzkarActivity.this,"hi 2",Toast.LENGTH_SHORT).show();
+                        String s=MySharedPreferences.getUserSetting("pageNumber");
+                        try{
+                            int index=Integer.valueOf(s);
+                            viewPager.setCurrentItem(index);
+                        }catch (Exception e){
+
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popup.show();
+    }
 
     private void share(){
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

@@ -9,4 +9,11 @@
         android:title="@string/settings_ar"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="100"
+        android:title="Bookmark"
+        android:icon="@drawable/bookmark"
+        app:showAsAction="always" />
+
 </menu>

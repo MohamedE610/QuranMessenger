@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:menuCategory="container">
+        <item
+            android:id="@+id/id1"
+            android:title="حفظ" />
+        <item
+            android:id="@+id/id2"
+            android:title="انتقال الى " />
+    </group>
+
+</menu>
