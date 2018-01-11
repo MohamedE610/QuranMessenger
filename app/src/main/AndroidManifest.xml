@@ -53,14 +53,15 @@
 
         <activity
             android:name=".FahrsActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:label="الفهرس">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main2Activity" />
         </activity>
         <activity
             android:name=".PrayerTimesActivity"
-            android:label="@string/title_activity_prayer_times"
+            android:label="الاذان"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -74,7 +75,7 @@
         </activity>
         <activity
             android:name=".TafserActivity"
-            android:label="@string/title_activity_tafser"
+            android:label="التفسير"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".Widget.QuranMessangerWidget">
@@ -92,11 +93,11 @@
 
         <activity
             android:name=".AzkarActivity"
-            android:label="@string/title_activity_azkar"
+            android:label="اذكار الصباح و المساء"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AzkarDetailedActivity"
-            android:label="@string/title_activity_azkar_detailed"
+            android:label="الاذكار"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

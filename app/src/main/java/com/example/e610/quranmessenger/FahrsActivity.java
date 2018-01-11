@@ -50,6 +50,8 @@ public class FahrsActivity extends AppCompatActivity implements NetworkResponse 
             fetchSurahData=new FetchSurahData();
             fetchSurahData.setNetworkResponse(this);
             fetchSurahData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -70,6 +72,7 @@ public class FahrsActivity extends AppCompatActivity implements NetworkResponse 
         //noinspection SimplifiableIfStatement
         if (id ==android.R.id.home) {
             startActivity(new Intent(this, Main2Activity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -119,6 +122,7 @@ public class FahrsActivity extends AppCompatActivity implements NetworkResponse 
     @Override
     public void onBackPressed() {
             startActivity(new Intent(this,Main2Activity.class));
+            finish();
             super.onBackPressed();
     }
 

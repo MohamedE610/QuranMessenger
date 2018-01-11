@@ -10,9 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Utils.FetchTafserData;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
+import com.example.e610.quranmessenger.Utils.NetworkState;
 
 public class TafserActivity extends AppCompatActivity implements NetworkResponse{
 
@@ -21,6 +23,8 @@ public class TafserActivity extends AppCompatActivity implements NetworkResponse
     TextView tafserText;
     ProgressBar progressBar;
     FetchTafserData fetchTafserData;
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +32,13 @@ public class TafserActivity extends AppCompatActivity implements NetworkResponse
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                share(titleStr,contentStr);
             }
         });
 
@@ -46,16 +51,31 @@ public class TafserActivity extends AppCompatActivity implements NetworkResponse
         progressBar=(ProgressBar) findViewById(R.id.progressBarTafser);
         progressBar.setVisibility(View.VISIBLE);
 
-        try {
-            fetchTafserData = new FetchTafserData(pageNumber);
-            fetchTafserData.setNetworkResponse(this);
-            fetchTafserData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }catch (Exception e){
-            pageNumText.setText(pageNumber);
-            tafserText.setText("حدث خطأ اثناء التحميل ");
+        if(NetworkState.ConnectionAvailable(this)) {
+            try {
+                fetchTafserData = new FetchTafserData(pageNumber);
+                fetchTafserData.setNetworkResponse(this);
+                fetchTafserData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } catch (Exception e) {
+                pageNumText.setText(pageNumber);
+                tafserText.setText("حدث خطأ اثناء التحميل ");
+            }
+        }else{
+            Toast.makeText(this,"No Internet Connection",Toast.LENGTH_LONG).show();
         }
 
     }
+
+    private void share(String title,String content){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody =content;
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent,"Share via" ));
+    }
+    String contentStr="";
+    String titleStr="";
 
     @Override
     public void OnSuccess(String JsonData) {
@@ -63,6 +83,8 @@ public class TafserActivity extends AppCompatActivity implements NetworkResponse
             progressBar.setVisibility(View.INVISIBLE);
             pageNumText.setText(pageNumber);
             tafserText.setText(JsonData);
+            contentStr=JsonData;
+            fab.setVisibility(View.VISIBLE);
         }
         else {
             pageNumText.setText(pageNumber);

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Utils.FetchAzkarData;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
+import com.example.e610.quranmessenger.Utils.NetworkState;
 
 public class AzkarDetailedActivity extends AppCompatActivity implements NetworkResponse{
 
@@ -28,6 +29,7 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
     MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
     private String azkarTypeStr;
+    private FloatingActionButton fab;
     /*String basicUrl="http://www.quranmessenger.life/sound/hosary/001.mp3";
     private void runMediaPLayer(String url ){
         try {
@@ -67,17 +69,17 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
 
         //runMediaPLayer(basicUrl);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                if(mediaPlayer!=null && mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
 
-                if(progressDialog.isShowing())
-                    progressDialog.dismiss();
+                titleStr=azkarNameText.getText().toString();
+                String s=titleStr+"\n"+contentStr;
+                contentStr=s;
+                share(titleStr,contentStr);
             }
         });
 
@@ -107,18 +109,34 @@ public class AzkarDetailedActivity extends AppCompatActivity implements NetworkR
                 mediaPlayer.prepareAsync();
             }*/
         }
-        fetchAzkarData=new FetchAzkarData(azkarTypeStr);
-        fetchAzkarData.setNetworkResponse(this);
-        fetchAzkarData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        if(NetworkState.ConnectionAvailable(this)) {
+            fetchAzkarData = new FetchAzkarData(azkarTypeStr);
+            fetchAzkarData.setNetworkResponse(this);
+            fetchAzkarData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else
+            Toast.makeText(AzkarDetailedActivity.this,"No Internet Connection",Toast.LENGTH_LONG).show();
 
     }
 
+    private void share(String title,String content){
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody =content;
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent,"Share via" ));
+    }
+    String contentStr;
+    String titleStr;
     @Override
     public void OnSuccess(String JsonData) {
 
         if(JsonData!=null && !JsonData.equals("")) {
             progressBar.setVisibility(View.INVISIBLE);
             azkarText.setText(JsonData);
+            contentStr=JsonData;
+            fab.setVisibility(View.VISIBLE);
         }
         else {
             progressBar.setVisibility(View.INVISIBLE);
