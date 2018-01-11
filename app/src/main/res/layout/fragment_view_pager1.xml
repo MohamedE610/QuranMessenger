@@ -1,26 +1,43 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.e610.quranmessenger.viewPagerFragment"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    tools:context="com.example.e610.quranmessenger.viewPagerFragment">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/img"
-            android:adjustViewBounds="false"
-            android:scaleType="fitXY"
-            android:src="@drawable/asd"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="false"
+                    android:scaleType="fitXY"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:src="@drawable/asd" />
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/bookmark55"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible"
+                    android:id="@+id/img_mark"
+                     />
+
+            </FrameLayout>
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -28,8 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>
 
@@ -41,7 +57,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/icon_play"
-        app:backgroundTint="@android:color/transparent"/>
+        app:backgroundTint="@android:color/transparent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
@@ -50,5 +66,5 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/book"
-        app:backgroundTint="@android:color/transparent"/>
+        app:backgroundTint="@android:color/transparent" />
 </FrameLayout>

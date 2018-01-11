@@ -49,6 +49,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
     public static String shekhName = "";
     private ProgressDialog progressDialog;
     private int surahPlayedNum;
+    private ImageView imageView1;
 
     @Override
     public void onResume() {
@@ -158,16 +159,21 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
     }
 
     String progressMsg = "جاري تشغيل الملف الصوتي...";
-
+    String pageN="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        MySharedPreferences.setUpMySharedPreferences(getActivity(),getString(R.string.shared_pref_file_name));
+        pageN =(604-Integer.valueOf(MySharedPreferences.getUserSetting("pageNumber")))+"";
 
         Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_view_pager1, container, false);
         imageView = (ImageView) view.findViewById(R.id.img);
+        imageView1 = (ImageView) view.findViewById(R.id.img_mark);
+
         //progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
         //progressDialog=new ProgressDialog(getActivity());
         //progressDialog.setMessage("جاري تشغيل الملف الصوتي...");
@@ -186,6 +192,9 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                     Main2Activity.appBarLayout.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.VISIBLE);
                     fab2.setVisibility(View.VISIBLE);
+
+                    if(pageN.equals(pageNumber))
+                       imageView1.setVisibility(View.VISIBLE);
 
                     try {
                         surahPlayedNum = Integer.valueOf(MySharedPreferences.getUserSetting("LAST_SURAH"));
@@ -216,11 +225,13 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                     Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
                     fab.setVisibility(View.INVISIBLE);
                     fab2.setVisibility(View.INVISIBLE);
+                    imageView1.setVisibility(View.INVISIBLE);
                 }
             }
         });
         Bundle bundle = getArguments();
         pageNumber = bundle.get("pageNumber").toString();
+
 
        /* Picasso.with(getContext()).load(urlStr+pageNumber+extention)
                 .placeholder(R.drawable.ts_loading_circle)
