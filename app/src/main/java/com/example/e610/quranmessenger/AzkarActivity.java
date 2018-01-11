@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.example.e610.quranmessenger.Services.MediaPlayerService;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
+import com.example.e610.quranmessenger.Utils.ServiceUtils;
 
 public class AzkarActivity extends AppCompatActivity {
 
@@ -118,7 +119,10 @@ public class AzkarActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 azkarStr="am";
-                openContextMenu(v);
+                /*******/
+                //openContextMenu(v);
+                /*******/
+
                 //showPopup(view);
                 /*if (mActionMode != null) {
                     return ;
@@ -136,7 +140,10 @@ public class AzkarActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 azkarStr="pm";
-                openContextMenu(v);
+                /*******/
+                //openContextMenu(v);
+                /*******/
+
                 //showPopup(view);
                 /*if (mActionMode != null) {
                     return ;
@@ -179,7 +186,8 @@ public class AzkarActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //azkarStr="am";
-                if(!isplaying) {
+               String state=MySharedPreferences.getMediaPlayerState();
+                if(!isplaying && state.equals("0") ) {
                     isplaying=!isplaying;
                     azkarStr = "am";
                     Intent okIntent1 = new Intent(AzkarActivity.this, MediaPlayerService.class);
@@ -190,7 +198,24 @@ public class AzkarActivity extends AppCompatActivity {
                     okIntent1.setAction("azkar");
                     startService(okIntent1);
                     fabSound.setImageResource(R.drawable.icon_pause);
-                }else{
+                }else  if(!isplaying && state.equals("1") ) {
+                    /*********/
+                    ServiceUtils.stopMediaService(AzkarActivity.this);
+                    fabSound1.setImageResource(R.drawable.icon_play);
+                    isplaying1=false;
+                    /*********/
+
+                    isplaying=!isplaying;
+                    azkarStr = "am";
+                    Intent okIntent1 = new Intent(AzkarActivity.this, MediaPlayerService.class);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("azkar", azkarStr);
+                    bundle1.putString("method", "0");
+                    okIntent1.putExtra("bundle", bundle1);
+                    okIntent1.setAction("azkar");
+                    startService(okIntent1);
+                    fabSound.setImageResource(R.drawable.icon_pause);
+                } else if(isplaying && state.equals("1")){
                     isplaying=!isplaying;
                     Intent  intent = new Intent(AzkarActivity.this, MediaPlayerService.class);
                     intent.setAction("cancel");
@@ -239,7 +264,8 @@ public class AzkarActivity extends AppCompatActivity {
         fabSound1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isplaying1) {
+                String state=MySharedPreferences.getMediaPlayerState();
+                if (!isplaying1&&state.equals("0")) {
                     isplaying1=!isplaying1;
                     azkarStr = "pm";
                     Intent okIntent1 = new Intent(AzkarActivity.this, MediaPlayerService.class);
@@ -250,7 +276,24 @@ public class AzkarActivity extends AppCompatActivity {
                     okIntent1.setAction("azkar");
                     startService(okIntent1);
                     fabSound1.setImageResource(R.drawable.icon_pause);
-                } else {
+                }else if (!isplaying1&&state.equals("1")) {
+                    /*********/
+                    ServiceUtils.stopMediaService(AzkarActivity.this);
+                    fabSound.setImageResource(R.drawable.icon_play);
+                    isplaying=false;
+                    /*********/
+
+                    isplaying1=!isplaying1;
+                    azkarStr = "pm";
+                    Intent okIntent1 = new Intent(AzkarActivity.this, MediaPlayerService.class);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("azkar", azkarStr);
+                    bundle1.putString("method", "0");
+                    okIntent1.putExtra("bundle", bundle1);
+                    okIntent1.setAction("azkar");
+                    startService(okIntent1);
+                    fabSound1.setImageResource(R.drawable.icon_pause);
+                }else if(isplaying1&&state.equals("1")) {
                     isplaying1=!isplaying1;
                     Intent intent = new Intent(AzkarActivity.this, MediaPlayerService.class);
                     intent.setAction("cancel");
@@ -273,8 +316,8 @@ public class AzkarActivity extends AppCompatActivity {
             }
         });
 
-        registerForContextMenu(cardAm);
-        registerForContextMenu(cardPm);
+        /*registerForContextMenu(cardAm);
+        registerForContextMenu(cardPm);*/
 
     }
 

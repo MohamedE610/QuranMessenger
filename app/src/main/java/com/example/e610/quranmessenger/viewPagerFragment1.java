@@ -195,8 +195,10 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
 
                     if (pageNumber.equals(++surahPlayedNum+"")) {
                         fab.setImageResource(R.drawable.icon_pause);
+                        isplaying=true;
                     } else {
                         fab.setImageResource(R.drawable.icon_play);
+                        isplaying=false;
                     }
 
                     String state=MySharedPreferences.getMediaPlayerState();

@@ -334,8 +334,10 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         Log.d("asdasd","asdasd");
         /**************** ExoPlayer ******************/
         //MySharedPreferences.setUserSetting("LAST_SURAH","-1");
-        String state=MySharedPreferences.getMediaPlayerState();
-        if(state.equals("0"))
+
+        /*String state=MySharedPreferences.getMediaPlayerState();
+        if(state.equals("0"))*/
+            MySharedPreferences.setMediaPlayerState("0");
             MySharedPreferences.setUserSetting("LAST_SURAH","-1");
 
         releasePlayer();
@@ -429,7 +431,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     simpleExoPlayer.getCurrentPosition(), 1f);
             Toast.makeText(this,"ExoPlayer.STATE_READY",Toast.LENGTH_SHORT).show();
-        } else if((playbackState ==  ExoPlayer.STATE_ENDED )) {
+        } else if((playbackState ==  ExoPlayer.STATE_ENDED)) {
             MySharedPreferences.setMediaPlayerState("0");
             //sendBroadCast();
             /*sendBroadCast("playNextOne",pageNum);
@@ -488,14 +490,15 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
     }*/
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-
+        //String e=error.getMessage();
+        sendBroadCast("cancelDialog",pageNum);
+        Toast.makeText(MediaPlayerService.this,"حدث خطاء اثناء تحميل الملف الصوتى \n الرجاء التاكد من الشبكه",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onPositionDiscontinuity() {
 
     }
-
 
     /**
      * Media Session Callbacks, where all external clients control the player.
@@ -504,6 +507,7 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         @Override
         public void onPlay() {
             //MediaPlayerService.this.startForeground(99,builder.build());
+            MySharedPreferences.setMediaPlayerState("1");
             simpleExoPlayer.setPlayWhenReady(true);
         }
 
@@ -512,6 +516,8 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         public void onPause() {
            // ServiceCompat.stopForeground(MediaPlayerService.this,ServiceCompat.STOP_FOREGROUND_DETACH);
             simpleExoPlayer.setPlayWhenReady(false);
+            MySharedPreferences.setMediaPlayerState("0");
+            MySharedPreferences.setUserSetting("LAST_SURAH","-1");
         }
 
         @Override
