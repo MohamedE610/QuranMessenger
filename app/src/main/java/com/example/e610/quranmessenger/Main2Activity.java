@@ -369,10 +369,24 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
+    /*public static Menu mainMenu;*/
+    public static boolean isBookmarked=false;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.main2, menu);
+        //mainMenu=menu;
+        //MenuItem menuItem=menu.getItem(1);
+        /*String s=MySharedPreferences.getUserSetting("pageNumber");
+        try{
+            if(s.equals(viewPager.getCurrentItem()+"")){
+                menuItem.setIcon(R.drawable.bookmark);
+            }else{
+                menuItem.setIcon(R.drawable.unbookmark);
+            }
+        }catch (Exception e){}*/
+
         return true;
     }
 
@@ -390,7 +404,8 @@ public class Main2Activity extends AppCompatActivity
             startActivity(intent);
             return true;
         }else if (id == R.id.action_save) {
-            showPopup(toolbar);
+            //showPopup(toolbar);
+            showPopup(appBarLayout);
         }
 
         return super.onOptionsItemSelected(item);
@@ -451,6 +466,7 @@ public class Main2Activity extends AppCompatActivity
                 switch (item.getItemId()) {
                     case R.id.id1:
                         Toast.makeText(Main2Activity.this,"تم الحفظ",Toast.LENGTH_SHORT).show();
+
                         MySharedPreferences.setUserSetting("pageNumber",viewPager.getCurrentItem()+"");
                         return true;
                     case R.id.id2:
@@ -460,7 +476,7 @@ public class Main2Activity extends AppCompatActivity
                             int index=Integer.valueOf(s);
                             viewPager.setCurrentItem(index);
                         }catch (Exception e){
-
+                            viewPager.setCurrentItem(0);
                         }
                         return true;
                     default:

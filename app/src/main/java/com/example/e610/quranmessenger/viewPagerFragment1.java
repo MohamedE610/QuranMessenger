@@ -11,6 +11,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +52,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
     public static String shekhName = "";
     private ProgressDialog progressDialog;
     private int surahPlayedNum;
-    private ImageView imageView1;
+    ImageView imageView1;
 
     @Override
     public void onResume() {
@@ -57,6 +60,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
         if (shekhName.equals(""))
             shekhName = "hosary";
         //playSounds(Integer.valueOf(pageNumber), shekhName);
+
         super.onResume();
     }
 
@@ -116,6 +120,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                         pn++;
                         pageNumber = pn + "";
                         playSounds(pn, shekhName);
+
                         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
                             progressDialog = ProgressDialog.show(getActivity(), "", progressMsg, false, false);
                             mediaPlayer.prepareAsync();
@@ -165,7 +170,8 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                              Bundle savedInstanceState) {
 
         MySharedPreferences.setUpMySharedPreferences(getActivity(),getString(R.string.shared_pref_file_name));
-        pageN =(604-Integer.valueOf(MySharedPreferences.getUserSetting("pageNumber")))+"";
+
+
 
         Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
 
@@ -186,6 +192,13 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try {
+                    pageN =(604-Integer.valueOf(MySharedPreferences.getUserSetting("pageNumber")))+"";
+                }catch (Exception e){
+                    pageN="";
+                }
+
                 flag = !flag;
                 if (flag) {
                     //communicatio.appeare();
@@ -402,6 +415,29 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
 
         if (isAdded() && getActivity() != null)
             getActivity().stopService(new Intent(getActivity(), MediaPlayerService.class));
+
+
+        try {
+            pageN =(604-Integer.valueOf(MySharedPreferences.getUserSetting("pageNumber")))+"";
+        }catch (Exception e){
+            pageN="";
+        }
+
+        /*Menu menu = Main2Activity.mainMenu;
+        if(menu!=null && !Main2Activity.isBookmarked) {
+            MenuItem menuItem = menu.getItem(1);
+            String s = MySharedPreferences.getUserSetting("pageNumber");
+            try {
+                if (pageN.equals(pageNumber + "")) {
+                    menuItem.setIcon(R.drawable.bookmark);
+                    Main2Activity.isBookmarked=true;
+                } else {
+                    menuItem.setIcon(R.drawable.unbookmark);
+                }
+            } catch (Exception e) {
+            }
+        }*/
+
     }
 
     @Override

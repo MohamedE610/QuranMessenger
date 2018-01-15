@@ -25,7 +25,7 @@ public class MySharedPreferences {
 
     public static String getUserSetting(String key){
 
-        String UserSetting=sharedPref.getString(key,"hosary");
+        String UserSetting=sharedPref.getString(key,"");
 
         return UserSetting;
     }
