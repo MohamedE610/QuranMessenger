@@ -28,7 +28,6 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
 
     HashMap<Integer, PendingIntent> pendingIntentList = new HashMap<>();
     AlarmManager alarmManager;
-    HashMap<Integer, PendingIntent> pendingIntentAzanList = new HashMap<>();
     private PermissionChecker mPermissionChecker;
 
     @Override

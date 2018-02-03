@@ -32,7 +32,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     Context ctx;
     HashMap<Integer, PendingIntent> pendingIntentList = new HashMap<>();
     AlarmManager alarmManager;
-    HashMap<Integer, PendingIntent> pendingIntentAzanList = new HashMap<>();
     private PermissionChecker mPermissionChecker;
 
     @Override
