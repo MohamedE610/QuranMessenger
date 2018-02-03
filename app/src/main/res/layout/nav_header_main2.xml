@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:background="#795548"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    >
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
 <!--android:background="@drawable/side_nav_bar"-->
     <!--<ImageView
         android:id="@+id/imageView"
@@ -18,23 +15,26 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@android:drawable/sym_def_app_icon" />-->
 
-    <!--<ImageView-->
-    <!--android:id="@+id/imageView"-->
-    <!--android:layout_width="80dp"-->
-    <!--android:layout_height="80dp"-->
-    <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
-    <!--android:src="@drawable/logo"-->
-    <!--/>-->
+    <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:paddingTop="@dimen/nav_header_vertical_spacing"
+    android:src="@drawable/logo"
+    android:layout_gravity="center_horizontal"
+    />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="الفرقان"
-        android:layout_marginTop="30dp"
-        android:textStyle="bold"
-        android:textAlignment="textEnd"
-        android:textSize="25dp"
-        android:gravity="end" />
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold|italic"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25sp"
+        android:gravity="center_horizontal" />
 
 
 

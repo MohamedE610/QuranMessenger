@@ -17,6 +17,7 @@ import com.example.e610.quranmessenger.NotificationDismissedReceiver;
 import com.example.e610.quranmessenger.PrayerTimesActivity;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.SettingsActivity;
+import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 
 /**
  * Foreground service. Creates a head view.
@@ -31,7 +32,16 @@ public class AzanService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
+        MySharedPreferences.setUpMySharedPreferences(this,getString(R.string.shared_pref_file_name));
+        String name = MySharedPreferences.getUserSetting("azan_voice");
+        String s = "";
+        if (name.equals("azan0"))
+            mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
+        else if (name.equals("azan1"))
+            mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan2);
+        else
+            mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
+
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {

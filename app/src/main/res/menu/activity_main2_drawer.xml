@@ -8,10 +8,12 @@
             android:title="الفهرس" />
         <item
             android:id="@+id/nav_alazan"
-            android:title="الاذان" />
+            android:title="الاذان"
+            android:icon="@drawable/azan_nav"/>
         <item
             android:id="@+id/nav_alazkar"
-            android:title="اذكار الصباح والمساء" />
+            android:title="اذكار الصباح والمساء"
+            android:icon="@drawable/azkar_nav"/>
         <item
             android:id="@+id/nav_setting"
             android:title="الاعدادات"

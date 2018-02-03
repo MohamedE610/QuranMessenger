@@ -91,6 +91,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
     Boolean isError = false;
     MediaPlayer mediaPlayer;
 
+
     private void runMediaPLayer(String url) {
         try {
             mediaPlayer = new MediaPlayer();
@@ -172,9 +173,9 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
         if (!isplaying) {
             try {
                 // progressBar.setVisibility(View.VISIBLE);
-                progressDialog = ProgressDialog.show(getActivity(), "", progressMsg, false, false);
+                progressDialog = ProgressDialog.show(getActivity(), "", progressMsg, false, true);
                 //mediaPlayer.prepareAsync();
-                           /* Intent intent=new Intent(getActivity(),MediaPlayerService.class);
+                           /*Intent intent=new Intent(getActivity(),MediaPlayerService.class);
                             intent.setAction("play");
                             Bundle b=new Bundle();
                             //b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
