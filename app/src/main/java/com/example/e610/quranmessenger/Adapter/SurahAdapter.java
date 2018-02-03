@@ -14,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.FahrsActivity;
+import com.example.e610.quranmessenger.FahrsFragment;
+import com.example.e610.quranmessenger.JuzFragment;
 import com.example.e610.quranmessenger.Models.SurahOfQuran.SurahOfQuran;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.TafserActivity;
@@ -37,6 +38,11 @@ public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.MyViewHolder
     public SurahAdapter(SurahOfQuran surahOfQuran, Context context) {
         this.surahOfQuran = new SurahOfQuran();
         this.surahOfQuran = surahOfQuran;
+        if(surahOfQuran.data.size()==30)
+            aBoolean=false;
+        else
+        aBoolean=true;
+
         rowViews=new MyViewHolder[surahOfQuran.data.size()];
         this.context = context;
     }
@@ -54,6 +60,7 @@ public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.MyViewHolder
     String state;
     String sh_name;
     int surahPlayedNum ;
+    boolean aBoolean;
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
@@ -81,9 +88,16 @@ public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.MyViewHolder
             public void onClick(View v) {
                 state=MySharedPreferences.getMediaPlayerState();
                 sh_name=MySharedPreferences.getUserSetting("shekhName");
+
                 int i = 0;
-                if(position<FahrsActivity.surahPageNumbers.length){
-                    i=FahrsActivity.surahPageNumbers[position];
+                if (aBoolean) {
+                    if (position < FahrsFragment.surahPageNumbers.length) {
+                        i = FahrsFragment.surahPageNumbers[position];
+                    }
+                }else {
+                    if (position < JuzFragment.arr.length) {
+                        i = JuzFragment.arr[position];
+                    }
                 }
 
                 if(state.equals("0")&&!holder.isPlaying) {
@@ -119,9 +133,16 @@ public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.MyViewHolder
             public void onClick(View v) {
                 Intent intent=new Intent(context,TafserActivity.class);
                 Bundle b=new Bundle();
+
                 int i = 0;
-                if(position<FahrsActivity.surahPageNumbers.length){
-                    i=FahrsActivity.surahPageNumbers[position]-1;
+                if (aBoolean) {
+                    if (position < FahrsFragment.surahPageNumbers.length) {
+                        i = FahrsFragment.surahPageNumbers[position] - 1;
+                    }
+                }else {
+                    if (position < JuzFragment.arr.length) {
+                        i = JuzFragment.arr[position] - 1;
+                    }
                 }
                 b.putString("pageNumber",i+"");
                 intent.putExtra("bundle",b);

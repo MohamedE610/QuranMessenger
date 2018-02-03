@@ -12,6 +12,7 @@ import com.example.e610.quranmessenger.Services.MediaPlayerService;
 public class ServiceUtils {
 
     public static void startMediaService(Context context, String pageNum, String shekhName){
+        stopMediaService(context);
         Intent intent = new Intent(context, MediaPlayerService.class);
         intent.setAction("play");
         Bundle b = new Bundle();

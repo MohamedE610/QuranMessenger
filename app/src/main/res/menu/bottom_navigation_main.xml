@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_sound_nav"
+        android:enabled="true"
+        android:icon="@drawable/nav_play"
+        android:title="استماع"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/action_read_nav"
+        android:enabled="true"
+        android:icon="@drawable/nav_book_open_variant"
+        android:title="التفسير"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/action_bookmark_nav"
+        android:enabled="true"
+        android:icon="@drawable/nav_bookmark_outline"
+        android:title="حفظ الصفحه"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/action_list_nav"
+        android:enabled="true"
+        android:icon="@drawable/nav_list"
+        android:title="الفهرس"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/action_setting_nav"
+        android:enabled="true"
+        android:icon="@drawable/nav_settings"
+        android:title="الاعدادات"
+        app:showAsAction="always|withText" />
+
+</menu>

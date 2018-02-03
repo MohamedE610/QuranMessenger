@@ -6,9 +6,12 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Services.MediaPlayerService;
+import com.example.e610.quranmessenger.Utils.BottomNavigationViewHelper;
 import com.example.e610.quranmessenger.Utils.FetchData;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.NetworkResponse;
@@ -53,6 +57,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
     private ProgressDialog progressDialog;
     private int surahPlayedNum;
     ImageView imageView1;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     public void onResume() {
@@ -163,6 +168,61 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
         super.onPause();
     }
 
+    private void soundNavMethod(){
+        if (!isplaying) {
+            try {
+                // progressBar.setVisibility(View.VISIBLE);
+                progressDialog = ProgressDialog.show(getActivity(), "", progressMsg, false, false);
+                //mediaPlayer.prepareAsync();
+                           /* Intent intent=new Intent(getActivity(),MediaPlayerService.class);
+                            intent.setAction("play");
+                            Bundle b=new Bundle();
+                            //b.putString("pn",playSounds(Integer.valueOf(pageNumber),shekhName));
+                            b.putString("pn", MediaPLayerUtils.createUrl(Integer.valueOf(pageNumber),shekhName));
+                            b.putInt("num",Integer.valueOf(pageNumber));
+                            b.putString("sh_name",shekhName);
+                            intent.putExtra("pn",b);
+                            getActivity().startService(intent);*/
+                ServiceUtils.startMediaService(getActivity(), pageNumber, shekhName);
+                isplaying = !isplaying;
+                fab.setImageResource(R.drawable.icon_pause);
+                bottomNavigationView.getMenu().getItem(0).setIcon(R.drawable.nav_pause);
+            } catch (Exception e) {
+            }
+                /*}else if(mediaPlayer!=null && mediaPlayer.isPlaying()) {*/
+        } else if (isplaying) {
+            //mediaPlayer.stop();
+            // progressBar.setVisibility(View.INVISIBLE);
+            if (progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
+            getActivity().stopService(new Intent(getActivity(), MediaPlayerService.class));
+            isplaying = !isplaying;
+            fab.setImageResource(R.drawable.icon_play);
+            bottomNavigationView.getMenu().getItem(0).setIcon(R.drawable.nav_play);
+        }
+    }
+
+    private void readNavMethod(){
+        Intent intent = new Intent(getActivity(), TafserActivity.class);
+        Bundle b = new Bundle();
+        b.putString("pageNumber", pageNumber);
+        intent.putExtra("bundle", b);
+        getActivity().startActivity(intent);
+    }
+
+    private void bookmarkNavMethod(){}
+
+    private void listNavMethod(){
+        getActivity().startActivity(new Intent(getActivity(),FahrsActivity.class));
+        getActivity().finish();
+    }
+
+    private void settingNavMethod(){
+        Intent intent = new Intent(getActivity(), SettingsActivity.class);
+        intent.setAction("main_settings");
+        getActivity().startActivity(intent);
+    }
+
     String progressMsg = "جاري تشغيل الملف الصوتي...";
     String pageN="";
     @Override
@@ -171,14 +231,44 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
 
         MySharedPreferences.setUpMySharedPreferences(getActivity(),getString(R.string.shared_pref_file_name));
 
-
-
         Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_view_pager1, container, false);
         imageView = (ImageView) view.findViewById(R.id.img);
         imageView1 = (ImageView) view.findViewById(R.id.img_mark);
+
+        bottomNavigationView = (BottomNavigationView)
+                view.findViewById(R.id.bottom_navigation);
+        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
+        bottomNavigationView.setVisibility(View.INVISIBLE);
+        //bottomNavigationView.setItemIconTintList(null);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_sound_nav:
+                                soundNavMethod();
+                                return true;
+                            case R.id.action_read_nav:
+                                readNavMethod();
+                                return true;
+                            case R.id.action_bookmark_nav:
+                                showPopup(bottomNavigationView);
+                                return true;
+                            case R.id.action_list_nav:
+                                listNavMethod();
+                                return true;
+                            case R.id.action_setting_nav:
+                                settingNavMethod();
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+
 
         //progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
         //progressDialog=new ProgressDialog(getActivity());
@@ -203,11 +293,17 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                 if (flag) {
                     //communicatio.appeare();
                     Main2Activity.appBarLayout.setVisibility(View.VISIBLE);
-                    fab.setVisibility(View.VISIBLE);
-                    fab2.setVisibility(View.VISIBLE);
+                    /*fab.setVisibility(View.VISIBLE);
+                    fab2.setVisibility(View.VISIBLE);*/
+                    bottomNavigationView.setVisibility(View.VISIBLE);
 
-                    if(pageN.equals(pageNumber))
-                       imageView1.setVisibility(View.VISIBLE);
+                    if(pageN.equals(pageNumber)) {
+                        imageView1.setVisibility(View.VISIBLE);
+                        bottomNavigationView.getMenu().getItem(2).setIcon(R.drawable.nav_bookmark);
+                    }else {
+                        imageView1.setVisibility(View.INVISIBLE);
+                        bottomNavigationView.getMenu().getItem(2).setIcon(R.drawable.nav_bookmark_outline);
+                    }
 
                     try {
                         surahPlayedNum = Integer.valueOf(MySharedPreferences.getUserSetting("LAST_SURAH"));
@@ -215,20 +311,23 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                         surahPlayedNum = 0;
                     }
 
-                    if (pageNumber.equals(++surahPlayedNum+"")) {
+                   /* if (pageNumber.equals(++surahPlayedNum+"")) {
                         fab.setImageResource(R.drawable.icon_pause);
                         isplaying=true;
                     } else {
                         fab.setImageResource(R.drawable.icon_play);
                         isplaying=false;
-                    }
+                    }*/
 
                     String state=MySharedPreferences.getMediaPlayerState();
                     if(state.equals("1")){
                         fab.setImageResource(R.drawable.icon_pause);
+
+                        bottomNavigationView.getMenu().getItem(0).setIcon(R.drawable.nav_pause);
                         isplaying=true;
                     }else {
                           fab.setImageResource(R.drawable.icon_play);
+                          bottomNavigationView.getMenu().getItem(0).setIcon(R.drawable.nav_play);
                           isplaying=false;
                     }
 
@@ -236,8 +335,9 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                 } else {
                     //communicatio.disappeare();
                     Main2Activity.appBarLayout.setVisibility(View.INVISIBLE);
-                    fab.setVisibility(View.INVISIBLE);
-                    fab2.setVisibility(View.INVISIBLE);
+                    /*fab.setVisibility(View.INVISIBLE);
+                    fab2.setVisibility(View.INVISIBLE);*/
+                    bottomNavigationView.setVisibility(View.INVISIBLE);
                     imageView1.setVisibility(View.INVISIBLE);
                 }
             }
@@ -404,6 +504,9 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
     @Override
     public void stopMediaService() {
 
+        if(bottomNavigationView!=null)
+            bottomNavigationView.setVisibility(View.INVISIBLE);
+
         if (fab != null)
             fab.setVisibility(View.INVISIBLE);
 
@@ -455,5 +558,38 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
             isplaying = true;
         }
     }
+
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(getActivity() , v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.bookmark_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.id1:
+                        Toast.makeText(getActivity(),"تم الحفظ",Toast.LENGTH_SHORT).show();
+                        MySharedPreferences.setUserSetting("pageNumber",Main2Activity.viewPager.getCurrentItem()+"");
+                        bottomNavigationView.getMenu().getItem(2).setIcon(R.drawable.nav_bookmark);
+                        return true;
+                    case R.id.id2:
+                        //Toast.makeText(AzkarActivity.this,"hi 2",Toast.LENGTH_SHORT).show();
+                        String s=MySharedPreferences.getUserSetting("pageNumber");
+                        try{
+                            int index=Integer.valueOf(s);
+                            Main2Activity.viewPager.setCurrentItem(index);
+                        }catch (Exception e){
+                            Main2Activity.viewPager.setCurrentItem(0);
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popup.show();
+    }
+
 }
 

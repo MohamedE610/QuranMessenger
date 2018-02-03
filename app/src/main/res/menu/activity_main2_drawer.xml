@@ -28,7 +28,8 @@
                 android:title="Facebook" />
             <item
                 android:id="@+id/nav_insta"
-                android:title="Instagram" />
+                android:title="Instagram"
+                android:icon="@drawable/logo"/>
         </menu>
     </item>
 

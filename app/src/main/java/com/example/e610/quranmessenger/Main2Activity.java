@@ -1,3 +1,4 @@
+
 package com.example.e610.quranmessenger;
 
 import android.content.ActivityNotFoundException;
@@ -62,7 +63,7 @@ public class Main2Activity extends AppCompatActivity
 
     /**************************/
     /*protected PowerManager.WakeLock mWakeLock;*/
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     PassData passData;
     OnPageChangeListener  onPageChangeListener= new OnPageChangeListener() {
         @Override
@@ -286,6 +287,7 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager=setupViewPager(viewPager);
@@ -403,10 +405,10 @@ public class Main2Activity extends AppCompatActivity
             intent.setAction("main_settings");
             startActivity(intent);
             return true;
-        }else if (id == R.id.action_save) {
+        }/*else if (id == R.id.action_save) {
             //showPopup(toolbar);
-            showPopup(appBarLayout);
-        }
+            //showPopup(appBarLayout);
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

@@ -60,6 +60,7 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
          textView2 = (TextView) findViewById(R.id.asr);
          textView3 = (TextView) findViewById(R.id.maghrp);
          textView4 = (TextView) findViewById(R.id.isha);
+         textView5 = (TextView) findViewById(R.id.shrouq);
 
     }
     TextView textView;
@@ -67,6 +68,7 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
     TextView textView2;
     TextView textView3;
     TextView textView4;
+    TextView textView5;
 
 
     @Override
@@ -100,12 +102,13 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
         Gson gson = new Gson();
         PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
 
-        String[] times = new String[5];
+        String[] times = new String[6];
         times[0] = prayerTimes.getData().getTimings().Fajr;
         times[1] = prayerTimes.getData().getTimings().Dhuhr;
         times[2] = prayerTimes.getData().getTimings().Asr;
         times[3] = prayerTimes.getData().getTimings().Maghrib;
         times[4] = prayerTimes.getData().getTimings().Isha;
+        times[5] = prayerTimes.getData().getTimings().Sunrise;
 
         if( times.length>0) {
             textView.setText(times[0]);
@@ -113,6 +116,8 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
             textView2.setText(times[2]);
             textView3.setText(times[3]);
             textView4.setText(times[4]);
+            textView5.setText(times[5]);
+
         }
     }
 
