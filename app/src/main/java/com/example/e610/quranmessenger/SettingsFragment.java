@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 import com.example.e610.quranmessenger.Services.HeadService;
@@ -58,7 +59,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
             TimePreference timePreference = new TimePreference(getActivity(), null);
             timePreference.setKey(alarm);
-            timePreference.setTitle(getString(R.string.alarm_time) + " " + i);
+            timePreference.setTitle(getString(R.string.alarm_time) + " " + (i+1));
             String strValue=MySharedPreferences.getUserSetting(alarm);
             timePreference.setDefaultValue("12:44");
             timePreference.setSummary(strValue);
@@ -66,6 +67,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             timePreference.setDependency(SERVICE_ENABLED_KEY);
         }
 
+        eggsMethod();
 
         Preference preference = findPreference("shekh");
         String shekhName=MySharedPreferences.getUserSetting("shekhName");
@@ -75,6 +77,61 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         Preference Pref = findPreference("alarm_numbers");
         Pref.setSummary(aNum);
 
+    }
+// -_- >_<
+    private void eggsMethod(){
+        try {
+            getPreferenceScreen().removePreference(findPreference("other"));
+        }catch (Exception e){}
+
+        PreferenceCategory preferenceCategory=new PreferenceCategory(getActivity());
+        preferenceCategory.setTitle("الاعدادات الاخرى");
+        preferenceCategory.setKey("other");
+        Preference preferenceAdvanced=new Preference(getActivity());
+        preferenceAdvanced.setTitle("الاعدادات المتقدمه");
+        preferenceAdvanced.setKey("advanced_setting");
+
+        Preference preferenceAzan=new Preference(getActivity());
+        preferenceAzan.setTitle("اعدادات الاذان");
+        preferenceAzan.setKey("azan_setting");
+
+        Preference preferenceAzkar=new Preference(getActivity());
+        preferenceAzkar.setTitle("اعدادات الاذكار");
+        preferenceAzkar.setKey("azkar_setting");
+        getPreferenceScreen().addPreference(preferenceCategory);
+        preferenceCategory.addPreference(preferenceAzan);
+        preferenceCategory.addPreference(preferenceAzkar);
+        preferenceCategory.addPreference(preferenceAdvanced);
+
+        preferenceAdvanced.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent=new Intent(getActivity(),OtherSettingsActivity.class);
+                intent.setAction("advanced");
+                getActivity().startActivity(intent);
+                return false;
+            }
+        });
+
+        preferenceAzan.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent=new Intent(getActivity(),OtherSettingsActivity.class);
+                intent.setAction("azan");
+                getActivity().startActivity(intent);
+                return false;
+            }
+        });
+
+        preferenceAzkar.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent=new Intent(getActivity(),OtherSettingsActivity.class);
+                intent.setAction("azkar");
+                getActivity().startActivity(intent);
+                return false;
+            }
+        });
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -178,12 +235,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
                 TimePreference timePreference = new TimePreference(getActivity(), null);
                 timePreference.setKey(alarm);
-                timePreference.setTitle(getString(R.string.alarm_time) + " " + i + "");
+                timePreference.setTitle(getString(R.string.alarm_time) + " " + (i+1) + "");
                 timePreference.setDefaultValue("12:44");
                 timePreference.setSummary(getString(R.string.alarm_time_summary));
                 getPreferenceScreen().addPreference(timePreference);
                 timePreference.setDependency(SERVICE_ENABLED_KEY);
             }
+
+            eggsMethod();
 
         } else if (key.startsWith("alarm")) {
             if (enabled) {

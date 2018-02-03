@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Settings" >
+    <PreferenceCategory android:title="اعدادات الوردى اليومى ">
 
         <!--<SwitchPreference
             android:defaultValue="false"
@@ -28,7 +28,8 @@
             android:key="alarm_numbers"
             android:title="عدد مرات التنبيه"
             android:summary="ادخل عدد مرات التنبيه "
-            android:dependency="@string/serviceEnabledKey"/>
+            android:dependency="@string/serviceEnabledKey"
+            android:inputType="number"/>
 
        <!-- <com.example.e610.quranmessenger.Utils.TimePreference
             android:key="alarm_time"
@@ -48,4 +49,37 @@
         <!---->
 
     </PreferenceCategory>
+
+        <!--<PreferenceCategory android:title="اعدادات اخرى "
+            android:key="other">
+            <Preference
+                android:key="advanced_setting"
+                android:title="الاعدادات المتقدمه"
+                >
+                <intent
+                    android:targetPackage="package com.example.e610.quranmessenger"
+                    android:targetClass="package com.example.e610.quranmessenger.PrayerTimesActivity" />
+            </Preference>
+            <Preference
+                android:key="azan_setting"
+                android:title="اعدادات الاذان"
+                >
+                <intent
+                    android:targetPackage="package com.example.e610.quranmessenger"
+                    android:targetClass="package com.example.e610.quranmessenger.FahrsAcrivity" />
+            </Preference>
+
+            <Preference
+                android:key="azkar_setting"
+                android:title="اعدادات الاذكار"
+                >
+                <intent
+                    android:targetPackage="package com.example.e610.quranmessenger"
+                    android:targetClass="package com.example.e610.quranmessenger.FahrsAcrivity" />
+            </Preference>
+
+
+        </PreferenceCategory>-->
+
+
 </PreferenceScreen>

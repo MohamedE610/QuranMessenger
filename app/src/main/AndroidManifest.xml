@@ -28,37 +28,37 @@
         <service android:name=".Services.HeadService" />
         <service android:name=".Services.AzkarService" />
         <service android:name=".Services.AzanService" />
-        <service android:name=".Services.MediaPlayerService"
-            android:stopWithTask="false"
-            />
+        <service
+            android:name=".Services.MediaPlayerService"
+            android:stopWithTask="false" />
 
         <receiver android:name=".Services.MediaPlayerService$MediaReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".NotificationDismissedReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
-                <action android:name="notification_cancelled"/>
+                <action android:name="notification_cancelled" />
             </intent-filter>
         </receiver>
 
-        <!--<receiver android:name=".Services.WidgetHelper">
+        <!--
+        <receiver android:name=".Services.WidgetHelper">
             <intent-filter>
             </intent-filter>
-        </receiver>-->
+        </receiver>
+        -->
 
         <activity
             android:name=".FahrsActivity"
-            android:launchMode="singleTop"
-            android:label="الفهرس">
+            android:label="الفهرس"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main2Activity" />
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -66,13 +66,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".PrayerTimesActivity"
             android:label="الاذان"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -90,9 +89,9 @@
         <receiver android:name=".Widget.QuranMessangerWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="widget_play"/>
-                <action android:name="widget_pause"/>
-                <action android:name="widget_restart"/>
+                <action android:name="widget_play" />
+                <action android:name="widget_pause" />
+                <action android:name="widget_restart" />
             </intent-filter>
 
             <meta-data
@@ -107,7 +106,8 @@
         <activity
             android:name=".AzkarDetailedActivity"
             android:label="الاذكار"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".OtherSettingsActivity"></activity>
     </application>
 
 </manifest>
