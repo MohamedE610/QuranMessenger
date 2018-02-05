@@ -196,6 +196,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (SERVICE_ENABLED_KEY.equals(key)) {
             if (enabled) {
                 String alarmNum = sharedPreferences.getString("alarm_numbers", "0");
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAlarmState("1");
                 int NumOfAlarm = Integer.valueOf(alarmNum);
                 for (int i = 0; i < NumOfAlarm; i++) {
                     String s = sharedPreferences.getString(alarmName + i + "", "0:0");
@@ -204,9 +206,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         int h = Integer.valueOf(strs[0]);
                         int m = Integer.valueOf(strs[1]);
                         startHeadService(h, m, i);
+                        MySharedPreferences.setUserSetting(alarmName+i,s);
                     }
                 }
             } else {
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAlarmState("-1");
                 stopHeadService();
             }
         } else if (key.equals("alarm_numbers")) {

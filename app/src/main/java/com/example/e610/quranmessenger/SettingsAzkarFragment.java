@@ -98,6 +98,9 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
                 int m = Integer.valueOf(strs[1]);
                 startHeadService(h, m, 9911,0);
 
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAzkarAmState("1");
+                MySharedPreferences.setUserSetting("am_alarm",azkar_am);
                  /*String azkar_pm=sharedPreferences.getString("azkar_pm","0:0");
                  strs = azkar_pm.split(":");
                  h = Integer.valueOf(strs[0]);
@@ -105,13 +108,17 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
                  startHeadService(h, m, 1199,1);*/
 
             } else {
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAzkarAmState("-1");
                 stopHeadService();
+
             }
         } else if (key.equals("azkar_am")) {
             if (enabledAM) {
 
                 String azkar_am=sharedPreferences.getString("azkar_am","");
                 MySharedPreferences.setUserSetting("azkar_am",azkar_am);
+                MySharedPreferences.setUserSetting("am_alarm",azkar_am);
                 Preference preference=findPreference("azkar_am");
                 preference.setSummary(azkar_am);
                 String[] strs = azkar_am.split(":");
@@ -130,13 +137,20 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
                 int m = Integer.valueOf(strs[1]);
                 startHeadService(h, m, 1199, 1);
 
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAzkarPmState("1");
+                MySharedPreferences.setUserSetting("pm_alarm",azkar_pm);
+
             } else {
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAzkarPmState("-1");
                 stopHeadService();
             }
         } else if (key.equals("azkar_pm")) {
             if (enabledPM) {
                 String azkar_pm=sharedPreferences.getString("azkar_pm","");
                 MySharedPreferences.setUserSetting("azkar_pm",azkar_pm);
+                MySharedPreferences.setUserSetting("pm_alarm",azkar_pm);
                 Preference preference=findPreference("azkar_pm");
                 preference.setSummary(azkar_pm);
 

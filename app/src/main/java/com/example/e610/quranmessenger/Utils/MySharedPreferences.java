@@ -69,4 +69,45 @@ public class MySharedPreferences {
         return data ;
     }
 
+
+    public static void setAzanState(String data){
+        editor.putString("AzanState",data);
+        editor.commit();
+    }
+
+    public static String getAzanState(){
+        String data = sharedPref.getString("AzanState","-1");
+        return data ;
+    }
+
+    public static void setAzkarAmState(String data){
+        editor.putString("AzkarAmState",data);
+        editor.commit();
+    }
+
+    public static String getAzkarAmState(){
+        String data = sharedPref.getString("AzkarAmState","-1");
+        return data ;
+    }
+
+    public static void setAzkarPmState(String data){
+        editor.putString("AzkarPmState",data);
+        editor.commit();
+    }
+
+    public static String getAzkarPmState(){
+        String data = sharedPref.getString("AzkarPmState","-1");
+        return data ;
+    }
+
+
+    public static void setAlarmState(String data){
+        editor.putString("AlarmState",data);
+        editor.commit();
+    }
+
+    public static String getAlarmState(){
+        String data = sharedPref.getString("AlarmState","-1");
+        return data ;
+    }
 }

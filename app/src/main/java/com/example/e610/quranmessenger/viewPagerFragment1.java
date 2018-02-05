@@ -351,10 +351,15 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                 .placeholder(R.drawable.ts_loading_circle)
                 .error(R.drawable.cloud_error_120)
                 .into(imageView);*/
-        Picasso.with(getContext()).load(urlStr + pageNumber + extention)
-                .placeholder(R.drawable.loadicon)
-                .error(R.drawable.loadicon)
+        /*Picasso.with(getContext()).load(urlStr + pageNumber + extention)
+                .placeholder(R.drawable.progress_animation)
+                .error(R.drawable.progress_animation)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(imageView);*/
+
+        Picasso.with(getContext()).load(urlStr + pageNumber + extention)
+                .placeholder(R.drawable.progress_animation)
+                .error(R.drawable.progress_animation)
                 .into(imageView);
 
         if (NetworkState.ConnectionAvailable(getContext())) {

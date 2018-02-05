@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.example.e610.quranmessenger.NotificationDismissedReceiver;
+import com.example.e610.quranmessenger.OtherSettingsActivity;
 import com.example.e610.quranmessenger.PrayerTimesActivity;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.SettingsActivity;
@@ -78,10 +79,10 @@ public class AzanService extends Service {
             PendingIntent closePendingIntent = PendingIntent.getService(this, 11, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action cancelAction = new NotificationCompat.Action(R.drawable.ic_stat_clear, "ايقاف", closePendingIntent);
 
-            Intent okIntent = new Intent(this, PrayerTimesActivity.class);
-            closeIntent.setAction("ok");
-            PendingIntent okPendingIntent = PendingIntent.getActivity(this, 22, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_settings, "الاعدادات", okPendingIntent);
+            Intent settingsIntent = new Intent(this, OtherSettingsActivity.class);
+            settingsIntent.setAction("azan");
+            PendingIntent settingsPendingIntent = PendingIntent.getActivity(this, 22, settingsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Action okAction = new NotificationCompat.Action(R.drawable.ic_stat_settings, "الاعدادات", settingsPendingIntent);
 
             logServiceStarted();
             PendingIntent pendingIntent = createPendingIntent();
@@ -108,6 +109,12 @@ public class AzanService extends Service {
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(5476);
             stopSelf();
+        }else if(action.equals("pause")){
+            if(mPlayer!=null)
+                mPlayer.pause();
+        }else if(action.equals("resume")){
+            if(mPlayer!=null)
+                mPlayer.start();
         }
 
         return START_STICKY;

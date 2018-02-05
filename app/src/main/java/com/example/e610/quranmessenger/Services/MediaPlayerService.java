@@ -161,20 +161,22 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                 MediaButtonReceiver.buildMediaButtonPendingIntent
                         (this, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS));
 
+        Intent settingsIntent=new Intent(this, SettingsActivity.class);
+        settingsIntent.setAction("main_settings");
         PendingIntent settingPendingIntent = PendingIntent.getActivity
-                (this, 0, new Intent(this, SettingsActivity.class), 0);
+                (this, 0,settingsIntent, 0);
 
         android.support.v4.app.NotificationCompat.Action settingAction = new android.support.v4.app.NotificationCompat.Action(R.drawable.ic_stat_settings, "", settingPendingIntent);
 
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (this, 0, new Intent(this, Main2Activity.class), 0);
 
-
         PendingIntent deleteIntent=createOnDismissedIntent(this,99);
+        String contentStr="صفحه رقم "+pageNum+"\n"+sh_name;
         builder.setContentIntent(contentPendingIntent)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Alforqan")
-                .setContentText("asd")
+                .setContentTitle("Al Furqan")
+                .setContentText(contentStr)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(deleteIntent)
                 .addAction(settingAction)
@@ -303,6 +305,9 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
         }else if(action.equals("pause")){
             if(simpleExoPlayer!=null)
                simpleExoPlayer.setPlayWhenReady(false);
+        }else if(action.equals("resume")){
+            if(simpleExoPlayer!=null)
+                simpleExoPlayer.setPlayWhenReady(true);
         }else if(action.equals("playWidget")){
             if(simpleExoPlayer!=null)
                simpleExoPlayer.setPlayWhenReady(true);

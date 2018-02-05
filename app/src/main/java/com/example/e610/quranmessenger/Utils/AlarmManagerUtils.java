@@ -28,7 +28,7 @@ public class AlarmManagerUtils {
     HashMap<Integer, PendingIntent> pendingIntentList = new HashMap<>();
     AlarmManager alarmManager;
 
-    private void startHeadService(int h, int m, int id) {
+    public void startHeadService(int h, int m, int id) {
         Intent intent = new Intent(context, HeadService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, id, intent, 0);
         if (pendingIntentList != null && !pendingIntentList.containsKey(id))
@@ -53,12 +53,12 @@ public class AlarmManagerUtils {
         context.startService(new Intent(context, HeadService.class));*/
     }
 
-    private void stopHeadService() {
+    public void stopHeadService() {
         context.stopService(new Intent(context, HeadService.class));
         canselAlarms();
     }
 
-    private void canselAlarms() {
+    public void canselAlarms() {
         MySharedPreferences.setUpMySharedPreferences(context, context.getString(R.string.shared_pref_file_name));
         String alarmNumbers=MySharedPreferences.getData();
         int alarmNum=Integer.valueOf(alarmNumbers);
@@ -93,7 +93,7 @@ public class AlarmManagerUtils {
 // 1 -> pm
 HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
     AlarmManager azkarAlarmManager;
-    private void startAzkarService(int h, int m, int id , int azkar_type) {
+    public void startAzkarService(int h, int m, int id , int azkar_type) {
         Intent intent = new Intent(context, AzkarService.class);
         intent.setAction("azkar");
         intent.putExtra("azkar_type",azkar_type);
@@ -120,12 +120,12 @@ HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
         context.startService(new Intent(context, HeadService.class));*/
     }
 
-    private void stopAzkarService() {
+    public void stopAzkarService() {
         context.stopService(new Intent(context, HeadService.class));
         canselAzkarAlarms();
     }
 
-    private void canselAzkarAlarms() {
+    public void canselAzkarAlarms() {
 
         if(pendingIntentAzkarList!=null&&pendingIntentAzkarList.size()==2){
             if (azkarAlarmManager != null) {
@@ -173,7 +173,7 @@ HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
     HashMap<Integer, PendingIntent> pendingIntentAzanList = new HashMap<>();
     AlarmManager azanAlarmManager;
 
-    private void startAzanService(int h, int m, int id) {
+    public void startAzanService(int h, int m, int id) {
         Intent intent = new Intent(context, AzanService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, id, intent, 0);
         if (pendingIntentAzanList != null && !pendingIntentAzanList.containsKey(id))
@@ -198,7 +198,7 @@ HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
         context.startService(new Intent(context, HeadService.class));*/
     }
 
-    private void canselAzanAlarms() {
+    public void canselAzanAlarms() {
         context.stopService(new Intent(context, AzanService.class));
         if (pendingIntentAzanList != null && pendingIntentAzanList.size() == 5) {
             if (azanAlarmManager != null) {

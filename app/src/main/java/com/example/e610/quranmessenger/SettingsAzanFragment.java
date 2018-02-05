@@ -164,6 +164,7 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                             //dataRecieved.onSuccess(times);
 
                             MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+                            MySharedPreferences.setAzanState("1");
                             MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().getTimings().Fajr);
                             MySharedPreferences.setUserSetting("Dhuhr", prayerTimes.getData().getTimings().Dhuhr);
                             MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().getTimings().Asr);
@@ -213,6 +214,8 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                 } else
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
             } else {
+                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setAzanState("-1");
                 Preference preference = findPreference("azan");
                 preference.setSummary("");
                 canselAzanAlarms();

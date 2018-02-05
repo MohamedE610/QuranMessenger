@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.e610.quranmessenger.Services.AzanService;
 import com.example.e610.quranmessenger.Services.MediaPlayerService;
 
 /**
@@ -25,6 +26,30 @@ public class ServiceUtils {
 
     public static void stopMediaService(Context context){
         context.stopService(new Intent(context,MediaPlayerService.class));
+    }
+
+    public static void pauseMediaService(Context context){
+        Intent intent=new Intent(context,MediaPlayerService.class);
+        intent.setAction("pause");
+        context.startService(intent);
+    }
+
+    public static void resumeMediaService(Context context){
+        Intent intent=new Intent(context,MediaPlayerService.class);
+        intent.setAction("resume");
+        context.startService(intent);
+    }
+
+    public static void pauseAzanService(Context context){
+        Intent intent=new Intent(context,AzanService.class);
+        intent.setAction("pause");
+        context.startService(intent);
+    }
+
+    public static void resumeAzanService(Context context){
+        Intent intent=new Intent(context,AzanService.class);
+        intent.setAction("resume");
+        context.startService(intent);
     }
 
     public static void stopAlarmManagerService(){
