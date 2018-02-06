@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.e610.quranmessenger.AzkarActivity;
 import com.example.e610.quranmessenger.AzkarDetailedActivity;
 import com.example.e610.quranmessenger.Main2Activity;
+import com.example.e610.quranmessenger.SettingsAzkarFragment;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.SettingsActivity;
@@ -54,7 +55,14 @@ public class AzkarService extends Service {
 
         if( action!=null && action.equals("azkar")){
 
+            int h,m,id;
+            h=intent.getIntExtra("h",0);
+            m=intent.getIntExtra("m",0);
+            id=intent.getIntExtra("id",0);
             int azkar_type=intent.getIntExtra("azkar_type",-1);
+
+            SettingsAzkarFragment.startHeadService(h,m,id,azkar_type);
+
             String title="";
             String azkarStr="";
             if(azkar_type==0) {

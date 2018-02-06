@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.e610.quranmessenger.Main2Activity;
 import com.example.e610.quranmessenger.NotificationDismissedReceiver;
+import com.example.e610.quranmessenger.SettingsFragment;
 import com.example.e610.quranmessenger.Utils.Constants;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
@@ -172,11 +173,12 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
                 (this, 0, new Intent(this, Main2Activity.class), 0);
 
         PendingIntent deleteIntent=createOnDismissedIntent(this,99);
-        String contentStr="صفحه رقم "+pageNum+"\n"+sh_name;
+        String contentStr="صفحه "+pageNum;
         builder.setContentIntent(contentPendingIntent)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle("Al Furqan")
                 .setContentText(contentStr)
+                .setContentInfo(SettingsFragment.getArabicShekhName(sh_name))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setDeleteIntent(deleteIntent)
                 .addAction(settingAction)

@@ -33,24 +33,6 @@ public class AzanService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        MySharedPreferences.setUpMySharedPreferences(this,getString(R.string.shared_pref_file_name));
-        String name = MySharedPreferences.getUserSetting("azan_voice");
-        String s = "";
-        if (name.equals("azan0"))
-            mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
-        else if (name.equals("azan1"))
-            mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan2);
-        else
-            mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
-
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancel(5476);
-            }
-        });
 
     }
 
@@ -59,12 +41,35 @@ public class AzanService extends Service {
         return null;
     }
 
+    boolean is=false;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         String action=intent.getAction();
-        if( action==null || (!action.equals("cancel") && !action.equals("ok"))){
+        if( action==null || (!action.equals("cancel") && !action.equals("ok")&&!action.equals("pause") && !action.equals("resume"))){
+
             Toast.makeText(AzanService.this, "ألأذان", Toast.LENGTH_LONG).show();
+            Toast.makeText(AzanService.this, action, Toast.LENGTH_LONG).show();
+
+            MySharedPreferences.setUpMySharedPreferences(this,getString(R.string.shared_pref_file_name));
+            String name = MySharedPreferences.getUserSetting("azan_voice");
+            String s = "";
+            if (name.equals("azan0"))
+                mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
+            else if (name.equals("azan1"))
+                mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan2);
+            else
+                mPlayer = MediaPlayer.create(AzanService.this, R.raw.azan1);
+
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.cancel(5476);
+                }
+            });
+
             mPlayer.start();
        /* mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -110,12 +115,22 @@ public class AzanService extends Service {
             notificationManager.cancel(5476);
             stopSelf();
         }else if(action.equals("pause")){
-            if(mPlayer!=null)
+            if(mPlayer!=null && mPlayer.isPlaying()) {
                 mPlayer.pause();
+                Toast.makeText(AzanService.this, "azan paused", Toast.LENGTH_LONG).show();
+                Toast.makeText(AzanService.this, action, Toast.LENGTH_LONG).show();
+            }
+
         }else if(action.equals("resume")){
-            if(mPlayer!=null)
+            if(mPlayer!=null){
                 mPlayer.start();
+                Toast.makeText(AzanService.this, "azan resumed", Toast.LENGTH_LONG).show();
+                Toast.makeText(AzanService.this, action, Toast.LENGTH_LONG).show();
+            }
+
         }
+
+        Toast.makeText(AzanService.this, action, Toast.LENGTH_LONG).show();
 
         return START_STICKY;
     }

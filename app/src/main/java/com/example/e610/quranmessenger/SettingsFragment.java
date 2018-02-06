@@ -284,7 +284,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     }
 
-    private String  getArabicShekhName(String englishName){
+    public static String  getArabicShekhName(String englishName){
         String arabicName="ماهر المعيقلي";
         String[] names={"ماهر المعيقلي","العجمي","فارس عباد","سعود الشريم","محمود الحصري","العفاسي"};
 

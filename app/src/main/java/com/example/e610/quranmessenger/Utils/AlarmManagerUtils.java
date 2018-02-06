@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.Services.AzanService;
@@ -17,7 +18,7 @@ import java.util.HashMap;
  * Created by E610 on 2/3/2018.
  */
 public class AlarmManagerUtils {
-    Context context;
+    static Context context;
     public AlarmManagerUtils(Context ctx){
         context=ctx;
     }
@@ -91,9 +92,9 @@ public class AlarmManagerUtils {
     /****************************** azkar *********************************/
 // 0 -> am
 // 1 -> pm
-HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
-    AlarmManager azkarAlarmManager;
-    public void startAzkarService(int h, int m, int id , int azkar_type) {
+ HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
+     AlarmManager azkarAlarmManager;
+    public  void startAzkarService(int h, int m, int id , int azkar_type) {
         Intent intent = new Intent(context, AzkarService.class);
         intent.setAction("azkar");
         intent.putExtra("azkar_type",azkar_type);
@@ -114,7 +115,12 @@ HashMap<Integer, PendingIntent> pendingIntentAzkarList = new HashMap<>();
 
         azkarAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-        azkarAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
+        //azkarAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            azkarAlarmManager.setExact(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
+        }else{
+            azkarAlarmManager.set(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
+        }
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);
         /*Context context = getActivity();
         context.startService(new Intent(context, HeadService.class));*/

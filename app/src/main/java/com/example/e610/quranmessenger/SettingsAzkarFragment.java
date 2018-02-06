@@ -26,14 +26,16 @@ import java.util.HashMap;
  */
 public class SettingsAzkarFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    HashMap<Integer, PendingIntent> pendingIntentList = new HashMap<>();
-    AlarmManager alarmManager;
+    static HashMap<Integer, PendingIntent> pendingIntentList = new HashMap<>();
+    static AlarmManager alarmManager;
+    static Context ctx;
     private PermissionChecker mPermissionChecker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ctx=getActivity();
         addPreferencesFromResource(R.xml.azkar_setting);
         //enableHeadServiceCheckbox(false);
         mPermissionChecker = new PermissionChecker(getActivity());
@@ -174,11 +176,14 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
 
 // 0 -> am
 // 1 -> pm
-    private void startHeadService(int h, int m, int id , int azkar_type) {
-        Intent intent = new Intent(getActivity(), AzkarService.class);
+    public static void startHeadService(int h, int m, int id , int azkar_type) {
+        Intent intent = new Intent(ctx, AzkarService.class);
         intent.setAction("azkar");
         intent.putExtra("azkar_type",azkar_type);
-        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), id, intent, 0);
+        intent.putExtra("h",h);
+        intent.putExtra("m",m);
+        intent.putExtra("id",id);
+        PendingIntent pendingIntent = PendingIntent.getService(ctx, id, intent, 0);
         if (pendingIntentList != null && !pendingIntentList.containsKey(id))
             pendingIntentList.put(id, pendingIntent);
         long _alarm = 0;
@@ -193,9 +198,15 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
         else
             _alarm = calendar.getTimeInMillis();
 
-        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, _alarm , pendingIntent);
+        }else{
+            alarmManager.set(AlarmManager.RTC_WAKEUP, _alarm , pendingIntent);
+        }
+
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);
         /*Context context = getActivity();
         context.startService(new Intent(context, HeadService.class));*/
