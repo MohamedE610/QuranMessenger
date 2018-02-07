@@ -7,41 +7,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.widget.PopupMenu;
-import android.util.Log;
-import android.view.MenuInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Models.PrayerTimes.PrayerTimes;
-import com.example.e610.quranmessenger.Services.MediaPlayerService;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -50,22 +38,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private Toolbar toolbar;
 
-    public  interface PassData{
+    public interface PassData {
         void cancelDialog();
+
         void stopMediaService();
-      void playNextOne();
+
+        void playNextOne();
     }
 
     /**************************/
     /*protected PowerManager.WakeLock mWakeLock;*/
     public static ViewPager viewPager;
     PassData passData;
-    OnPageChangeListener  onPageChangeListener= new OnPageChangeListener() {
+    OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -73,16 +63,16 @@ public class Main2Activity extends AppCompatActivity
 
         @Override
         public void onPageSelected(int position) {
-             passData=(PassData)adapter.getItem(position);
-             passData.stopMediaService();
+            passData = (PassData) adapter.getItem(position);
+            passData.stopMediaService();
 
-            if(position<adapter.getCount()-1) {
-                passData = (PassData) adapter.getItem(position+1);
+            if (position < adapter.getCount() - 1) {
+                passData = (PassData) adapter.getItem(position + 1);
                 passData.stopMediaService();
             }
 
-            if(position>1){
-                passData = (PassData) adapter.getItem(position-1);
+            if (position > 1) {
+                passData = (PassData) adapter.getItem(position - 1);
                 passData.stopMediaService();
             }
         }
@@ -100,7 +90,7 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     public void onAttachFragment(Fragment fragment) {
-       // passData=(PassData)fragment;
+        // passData=(PassData)fragment;
         super.onAttachFragment(fragment);
     }
 
@@ -157,7 +147,7 @@ public class Main2Activity extends AppCompatActivity
     }
 
 
-    private void loadAds(){
+    private void loadAds() {
 
         /*// Code to get device id
         String androidIdDevice = Settings.Secure.getString(getContentResolver(),
@@ -177,16 +167,17 @@ public class Main2Activity extends AppCompatActivity
         mAdView.loadAd(adRequest);
 
     }
+
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if("cancelDialog".equals(action)) {
-                Bundle bundle=intent.getBundleExtra("b");
-                if(bundle!=null){
-                    int page_num=bundle.getInt("num");
-                    passData=(PassData)adapter.getItem(604-page_num);
+            if ("cancelDialog".equals(action)) {
+                Bundle bundle = intent.getBundleExtra("b");
+                if (bundle != null) {
+                    int page_num = bundle.getInt("num");
+                    passData = (PassData) adapter.getItem(604 - page_num);
                     passData.cancelDialog();
                 }
                 // Do your work
@@ -199,7 +190,7 @@ public class Main2Activity extends AppCompatActivity
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-             if("playNextOne".equals(action)) {
+            if ("playNextOne".equals(action)) {
                 Bundle bundle1 = intent.getBundleExtra("b");
                 if (bundle1 != null) {
                     int page_num = bundle1.getInt("num");
@@ -217,16 +208,16 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_main2);
-         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Android disable screen timeout while app is running
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         loadAds();
 
-        appBarLayout=(AppBarLayout)findViewById(R.id.app_bar);
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         //appBarLayout.setVisibility(View.VISIBLE);
 
         /**************************/
@@ -290,17 +281,17 @@ public class Main2Activity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager1);
-        viewPager=setupViewPager(viewPager);
+        viewPager = setupViewPager(viewPager);
         viewPager.setPageTransformer(true, new DepthPageTransformer());
         viewPager.addOnPageChangeListener(onPageChangeListener);
-        MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
+        MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
 
         //shekhNameArray=(String [])getResources().getTextArray(R.array.shekhNamesValues);
        /* shekhName=MySharedPreferences.getUserSetting("shekhName");*/
 
-        intent=getIntent();
-        Bundle bundle=intent.getBundleExtra("fahrs");
-        if(bundle==null) {
+        intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("fahrs");
+        if (bundle == null) {
             if (MySharedPreferences.IsFirstTime()) {
                 MySharedPreferences.FirstTime();
                 viewPager.setCurrentItem(603);
@@ -311,12 +302,21 @@ public class Main2Activity extends AppCompatActivity
                 else
                     viewPager.setCurrentItem(603);
             }
-        }else{
-            String surahPageNum=bundle.getString("fahrs");
-            try {
-                viewPager.setCurrentItem(603-Integer.valueOf(surahPageNum));
-            }catch (Exception e){
-                viewPager.setCurrentItem(603);
+        } else {
+            String s = intent.getAction();
+            if (s == null || !s.equals("closeFahrs")) {
+                String surahPageNum = bundle.getString("fahrs");
+                try {
+                    viewPager.setCurrentItem(603 - Integer.valueOf(surahPageNum));
+                } catch (Exception e) {
+                    viewPager.setCurrentItem(603);
+                }
+            } else if (s.equals("closeFahrs")) {
+                String pageNumber = MySharedPreferences.getUserSetting("pageNumber");
+                if (!pageNumber.equals(""))
+                    viewPager.setCurrentItem(Integer.valueOf(pageNumber));
+                else
+                    viewPager.setCurrentItem(603);
             }
         }
 
@@ -329,9 +329,9 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        MySharedPreferences.setUpMySharedPreferences(this,"extraSetting");
+        MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
         /*shekhName=MySharedPreferences.getUserSetting("shekhName");*/
-        MySharedPreferences.setUserSetting("isBackground","0");
+        MySharedPreferences.setUserSetting("isBackground", "0");
         IntentFilter intentFilter = new IntentFilter("cancelDialog");
         IntentFilter intentFilter1 = new IntentFilter("playNextOne");
 
@@ -344,10 +344,10 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     protected void onPause() {
-        MySharedPreferences.setUserSetting("isBackground","1");
-        if(viewPager!=null) {
+        MySharedPreferences.setUserSetting("isBackground", "1");
+        if (viewPager != null) {
             MySharedPreferences.setUpMySharedPreferences(this, "extraSetting");
-            //MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");
+            MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");
            /* if(mediaPlayer!=null) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
@@ -372,11 +372,12 @@ public class Main2Activity extends AppCompatActivity
     }
 
     /*public static Menu mainMenu;*/
-    public static boolean isBookmarked=false;
+    public static boolean isBookmarked = false;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater menuInflater=getMenuInflater();
+        MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main2, menu);
         //mainMenu=menu;
         //MenuItem menuItem=menu.getItem(1);
@@ -401,7 +402,7 @@ public class Main2Activity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         //item.setIcon(R.drawable.icon_pause);
         if (id == R.id.action_settings) {
-            Intent intent= new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             intent.setAction("main_settings");
             startActivity(intent);
             return true;
@@ -421,15 +422,15 @@ public class Main2Activity extends AppCompatActivity
 
         if (id == R.id.nav_alfahrs) {
             // Handle the camera action
-            startActivity(new Intent(this,FahrsActivity.class));
+            startActivity(new Intent(this, FahrsActivity.class));
             finish();
         } else if (id == R.id.nav_alazan) {
-            startActivity(new Intent(this,PrayerTimesActivity.class));
+            startActivity(new Intent(this, PrayerTimesActivity.class));
         } else if (id == R.id.nav_alazkar) {
-            startActivity(new Intent(this,AzkarActivity.class));
+            startActivity(new Intent(this, AzkarActivity.class));
 
         } else if (id == R.id.nav_setting) {
-            Intent intent= new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             intent.setAction("main_settings");
             startActivity(intent);
         } else if (id == R.id.nav_facebook) {
@@ -437,7 +438,7 @@ public class Main2Activity extends AppCompatActivity
             String facebookUrl = getFacebookPageURL(this);
             facebookIntent.setData(Uri.parse(facebookUrl));
             startActivity(facebookIntent);
-        }else if (id == R.id.nav_insta) {
+        } else if (id == R.id.nav_insta) {
             Uri uri = Uri.parse("https://www.instagram.com/quranmessengerofficial/");
             Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
             likeIng.setPackage("com.instagram.android");
@@ -467,17 +468,17 @@ public class Main2Activity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.id1:
-                        Toast.makeText(Main2Activity.this,"تم الحفظ",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main2Activity.this, "تم الحفظ", Toast.LENGTH_SHORT).show();
 
-                        MySharedPreferences.setUserSetting("pageNumber",viewPager.getCurrentItem()+"");
+                        MySharedPreferences.setUserSetting("pageNumber", viewPager.getCurrentItem() + "");
                         return true;
                     case R.id.id2:
                         //Toast.makeText(AzkarActivity.this,"hi 2",Toast.LENGTH_SHORT).show();
-                        String s=MySharedPreferences.getUserSetting("pageNumber");
-                        try{
-                            int index=Integer.valueOf(s);
+                        String s = MySharedPreferences.getUserSetting("pageNumber");
+                        try {
+                            int index = Integer.valueOf(s);
                             viewPager.setCurrentItem(index);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             viewPager.setCurrentItem(0);
                         }
                         return true;
@@ -489,14 +490,14 @@ public class Main2Activity extends AppCompatActivity
         popup.show();
     }
 
-    private void share(){
+    private void share() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody =FACEBOOK_URL;
+        String shareBody = FACEBOOK_URL;
 
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent,"Share via" ));
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
     static String FACEBOOK_URL = "https://www.facebook.com/quranmessenger";
@@ -518,10 +519,11 @@ public class Main2Activity extends AppCompatActivity
     }
 
     ViewPagerAdapter adapter;
+
     private ViewPager setupViewPager(ViewPager viewPager) {
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        for (int i =604; i >=1 ; i--) {
+        for (int i = 604; i >= 1; i--) {
             viewPagerFragment1 fragment = new viewPagerFragment1();
             Bundle bundle = new Bundle();
             bundle.putInt("pageNumber", i);

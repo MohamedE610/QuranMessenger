@@ -285,7 +285,7 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
             public void onClick(View v) {
 
                 try {
-                    pageN =(604-Integer.valueOf(MySharedPreferences.getUserSetting("pageNumber")))+"";
+                    pageN =(604-Integer.valueOf(MySharedPreferences.getUserSetting("FavouritePageNumber")))+"";
                 }catch (Exception e){
                     pageN="";
                 }
@@ -576,12 +576,12 @@ public class viewPagerFragment1 extends Fragment implements NetworkResponse, Mai
                 switch (item.getItemId()) {
                     case R.id.id1:
                         Toast.makeText(getActivity(),"تم الحفظ",Toast.LENGTH_SHORT).show();
-                        MySharedPreferences.setUserSetting("pageNumber",Main2Activity.viewPager.getCurrentItem()+"");
+                        MySharedPreferences.setUserSetting("FavouritePageNumber",Main2Activity.viewPager.getCurrentItem()+"");
                         bottomNavigationView.getMenu().getItem(2).setIcon(R.drawable.nav_bookmark);
                         return true;
                     case R.id.id2:
                         //Toast.makeText(AzkarActivity.this,"hi 2",Toast.LENGTH_SHORT).show();
-                        String s=MySharedPreferences.getUserSetting("pageNumber");
+                        String s=MySharedPreferences.getUserSetting("FavouritePageNumber");
                         try{
                             int index=Integer.valueOf(s);
                             Main2Activity.viewPager.setCurrentItem(index);

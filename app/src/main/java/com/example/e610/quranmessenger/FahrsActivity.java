@@ -101,7 +101,9 @@ public class FahrsActivity extends AppCompatActivity implements JuzFragment.OnFr
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id ==android.R.id.home) {
-            startActivity(new Intent(this, Main2Activity.class));
+            Intent intent=new Intent(this,Main2Activity.class);
+            intent.setAction("closeFahrs");
+            startActivity(intent);
             finish();
             return true;
         } else if (id == R.id.action_search) {
@@ -157,7 +159,9 @@ public class FahrsActivity extends AppCompatActivity implements JuzFragment.OnFr
 
     @Override
     public void onBackPressed() {
-            startActivity(new Intent(this,Main2Activity.class));
+            Intent intent=new Intent(this,Main2Activity.class);
+            intent.setAction("closeFahrs");
+            startActivity(intent);
             finish();
             super.onBackPressed();
     }
