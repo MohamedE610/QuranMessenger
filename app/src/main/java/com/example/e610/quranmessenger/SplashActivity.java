@@ -1,6 +1,8 @@
 package com.example.e610.quranmessenger;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -24,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        checkRuntimePermitions();
+        //checkRuntimePermitions(this);
 
          /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
@@ -43,15 +45,41 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    private void checkRuntimePermitions(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.PROCESS_OUTGOING_CALLS) != PackageManager.PERMISSION_GRANTED) {
+    /*public static void checkRuntimePermitions(Activity activity){
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_PHONE_STATE) &&ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.READ_PHONE_STATE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        11);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.PROCESS_OUTGOING_CALLS) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.PROCESS_OUTGOING_CALLS)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
@@ -62,20 +90,195 @@ public class SplashActivity extends AppCompatActivity {
 
                 // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.PROCESS_OUTGOING_CALLS},
-                        MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-
-                /*ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
-                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*/
+                        22);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
 
                 // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
         }
-    }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.RECEIVE_BOOT_COMPLETED) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                        33);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.INTERNET)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.INTERNET},
+                        44);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.WAKE_LOCK)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.WAKE_LOCK},
+                        55);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW},
+                        66);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        77);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        88);
+
+                *//*ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
+                        MY_PERMISSIONS_REQUEST_PROCESS_OUTGOING_CALLS);*//*
+
+                // MY_PERMISSIONS_REQUEST_READ_PHONE_STATE is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

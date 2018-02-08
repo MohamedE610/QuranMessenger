@@ -44,9 +44,11 @@ public class AzanService extends Service {
     boolean is=false;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        String action=intent.getAction();
-        if( action==null || (!action.equals("cancel") && !action.equals("ok")&&!action.equals("pause") && !action.equals("resume"))){
+        String action="";
+        if(intent!=null)
+            action=intent.getAction();
+        if( action==null || (!action.equals("cancel") && !action.equals("ok")&&
+                !action.equals("pause") && !action.equals("resume")&& !action.equals(""))){
 
             Toast.makeText(AzanService.this, "ألأذان", Toast.LENGTH_LONG).show();
             Toast.makeText(AzanService.this, action, Toast.LENGTH_LONG).show();

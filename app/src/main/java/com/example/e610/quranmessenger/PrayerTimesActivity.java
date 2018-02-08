@@ -22,6 +22,8 @@ import com.example.e610.quranmessenger.Utils.NetworkResponse;
 import com.example.e610.quranmessenger.Utils.NetworkState;
 import com.google.gson.Gson;
 
+import java.util.Calendar;
+
 
 public class PrayerTimesActivity extends AppCompatActivity implements NetworkResponse{
 
@@ -37,7 +39,7 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if(NetworkState.ConnectionAvailable(this)) {
-            FetchAzanData fetchAzanData = new FetchAzanData();
+            FetchAzanData fetchAzanData = new FetchAzanData(this);
             fetchAzanData.setNetworkResponse(this);
             fetchAzanData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }else
@@ -99,25 +101,53 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
 
     @Override
     public void OnSuccess(String JsonData) {
-        Gson gson = new Gson();
-        PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
 
-        String[] times = new String[6];
-        times[0] = prayerTimes.getData().getTimings().Fajr;
-        times[1] = prayerTimes.getData().getTimings().Dhuhr;
-        times[2] = prayerTimes.getData().getTimings().Asr;
-        times[3] = prayerTimes.getData().getTimings().Maghrib;
-        times[4] = prayerTimes.getData().getTimings().Isha;
-        times[5] = prayerTimes.getData().getTimings().Sunrise;
+        try {
+            Calendar calendar = Calendar.getInstance();
+            int i = calendar.get(Calendar.DAY_OF_MONTH);
 
-        if( times.length>0) {
-            textView.setText(times[0]);
-            textView1.setText(times[1]);
-            textView2.setText(times[2]);
-            textView3.setText(times[3]);
-            textView4.setText(times[4]);
-            textView5.setText(times[5]);
 
+            Gson gson = new Gson();
+            PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+
+            String[] times = new String[6];
+            String[] ss = new String[2];
+
+            ss = prayerTimes.getData().get(i).getTimings().Fajr.split(" ");
+            // times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
+            times[0] = ss[0];
+
+            ss = prayerTimes.getData().get(i).getTimings().Dhuhr.split(" ");
+            //times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
+            times[1] = ss[0];
+
+            //times[2] = prayerTimes.getData().get(0).getTimings().Asr;
+            ss = prayerTimes.getData().get(i).getTimings().Asr.split(" ");
+            times[2] = ss[0];
+
+            //times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
+            ss = prayerTimes.getData().get(i).getTimings().Maghrib.split(" ");
+            times[3] = ss[0];
+
+            //times[4] = prayerTimes.getData().get(0).getTimings().Isha;
+            ss = prayerTimes.getData().get(i).getTimings().Isha.split(" ");
+            times[4] = ss[0];
+
+            //times[5] = prayerTimes.getData().get(0).getTimings().Sunrise;
+            ss = prayerTimes.getData().get(i).getTimings().Sunrise.split(" ");
+            times[5] = ss[0];
+
+            if (times.length > 0) {
+                textView.setText(times[0]);
+                textView1.setText(times[1]);
+                textView2.setText(times[2]);
+                textView3.setText(times[3]);
+                textView4.setText(times[4]);
+                textView5.setText(times[5]);
+
+            }
+        }catch (Exception e){
+            Toast.makeText(PrayerTimesActivity.this,"لقد حدث خطاء",Toast.LENGTH_SHORT).show();
         }
     }
 

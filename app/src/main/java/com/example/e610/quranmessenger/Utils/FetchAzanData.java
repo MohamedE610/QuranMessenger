@@ -1,8 +1,13 @@
 package com.example.e610.quranmessenger.Utils;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.e610.quranmessenger.Utils.GPSUtils.MyAlertDialog;
+import com.example.e610.quranmessenger.Utils.GPSUtils.MyGPSTracker;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,9 +22,19 @@ import java.net.URL;
 
 public class FetchAzanData extends AsyncTask<Void,Void,String> {
 
-    private final static String BasicUrl = "http://api.aladhan.com/timingsByCity?city=Cairo&country=Egypt&method=5";
+    //private final static String BasicUrl = "http://api.aladhan.com/timingsByCity?city=Cairo&country=Egypt&method=5";
+    //private String BasicUrl = "http://api.aladhan.com/calendar?latitude=29.9875777&longitude=30.9520906";
+    private String BasicUrl = "http://api.aladhan.com/calendar?";
+    private String latitude="latitude=";
+    private String longitude="&longitude=";
+    private String method="&method=5";
 
-    public FetchAzanData() {
+    String lati,longi;
+    String finalUrl=BasicUrl+latitude+lati+longitude+longi+method;
+    Context context;
+    public FetchAzanData(Context ctx) {
+        context=ctx;
+        lati=longi="0";
     }
 
     NetworkResponse networkResponse;
@@ -80,12 +95,40 @@ public class FetchAzanData extends AsyncTask<Void,Void,String> {
         return JsonData;
     }
 
+    MyGPSTracker myGPSTracker;
+    private void getLatLong(){
+         myGPSTracker = new MyGPSTracker(context);
+
+        // check if GPS location can get
+        if (myGPSTracker.canGetLocation()) {
+            lati=myGPSTracker.getLatitude()+"";
+            longi= myGPSTracker.getLongitude()+"";
+            finalUrl=BasicUrl+latitude+lati+longitude+longi+method;
+            Log.d("Your Location", "latitude:" + myGPSTracker.getLatitude() + ", longitude: " + myGPSTracker.getLongitude());
+        } else {
+            // Can't get user's current location
+            MyAlertDialog alert=new MyAlertDialog();
+            alert.showAlertDialog(context, "GPS Status",
+                    "Couldn't get location information. Please enable GPS",
+                    false);
+        }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        getLatLong();
+        super.onPreExecute();
+    }
 
     @Override
     protected String doInBackground(Void... voids) {
+
         String JsonData = "";
         try {
-            JsonData = Fetching_Data(BasicUrl);
+            lati=myGPSTracker.getLatitude()+"";
+            longi= myGPSTracker.getLongitude()+"";
+            finalUrl=BasicUrl+latitude+lati+longitude+longi+method;
+            JsonData = Fetching_Data(finalUrl);
             if(JsonData==null||JsonData.equals("")) {
                 networkResponse.OnFailure(true);
             }

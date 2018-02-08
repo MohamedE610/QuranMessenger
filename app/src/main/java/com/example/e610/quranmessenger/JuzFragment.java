@@ -45,6 +45,7 @@ public class JuzFragment extends Fragment implements SurahAdapter.RecyclerViewCl
         // Required empty public constructor
     }
 
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -72,12 +73,17 @@ public class JuzFragment extends Fragment implements SurahAdapter.RecyclerViewCl
         }
     }
 
+    String [] names={"الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع", "العاشر"
+            ,"الحادي عشر","الثاني عشر","الثالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر","التاسع عشر","العشرون",
+            "الحادي والعشرون","الثاني والعشرون","الثالث والعشرون","الرابع والعشرون","الخامس والعشرون","السادس والعشرون"
+            ,"السابع والعشرون","الثامن والعشرون","التاسع والعشرون","الثلاثون"};
+
     private void setUpData(){
      surahOfQuran=new SurahOfQuran();
         surahOfQuran.data=new ArrayList<>();
-        for (int i = 1; i <=30 ; i++) {
+        for (int i = 0; i <30 ; i++) {
             Surah surah=new Surah();
-            surah.name="الجزءرقم "+i;
+            surah.name="الجزء "+names[i];
             surah.number=i;
            surahOfQuran.data.add(surah);
         }
