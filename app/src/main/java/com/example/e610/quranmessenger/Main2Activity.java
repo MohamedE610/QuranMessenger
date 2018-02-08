@@ -319,6 +319,7 @@ public class Main2Activity extends AppCompatActivity
         if (bundle == null) {
             if (MySharedPreferences.IsFirstTime()) {
                 MySharedPreferences.FirstTime();
+                MySharedPreferences.setUserSetting("shekhName","mueaqly");
                 viewPager.setCurrentItem(603);
             } else {
                 String pageNumber = MySharedPreferences.getUserSetting("pageNumber");

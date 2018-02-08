@@ -67,7 +67,7 @@ public class SurahAdapter extends RecyclerView.Adapter<SurahAdapter.MyViewHolder
         try {
              surahPlayedNum = Integer.valueOf(MySharedPreferences.getUserSetting(LAST_SURAH));
         }catch (Exception e){
-             surahPlayedNum =0;
+             surahPlayedNum =-1;
         }
 
         if (surahPlayedNum==position) {

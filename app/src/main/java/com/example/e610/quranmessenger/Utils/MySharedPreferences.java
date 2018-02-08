@@ -65,7 +65,7 @@ public class MySharedPreferences {
     }
 
     public static String getMediaPlayerState(){
-        String data = sharedPref.getString("MediaPlayerState","-1");
+        String data = sharedPref.getString("MediaPlayerState","0");
         return data ;
     }
 
