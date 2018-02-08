@@ -77,65 +77,66 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
             fetchAzanData.setNetworkResponse(new NetworkResponse() {
                 @Override
                 public void OnSuccess(String JsonData) {
-                    Gson gson = new Gson();
-                    PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
-                    String s = " الفجر : " + prayerTimes.getData().get(0).getTimings().Fajr + "\n"
-                            + " الظهر : " + prayerTimes.getData().get(0).getTimings().Dhuhr + "\n"
-                            + " العصر : " + prayerTimes.getData().get(0).getTimings().Asr + "\n"
-                            + " المغرب : " + prayerTimes.getData().get(0).getTimings().Maghrib + "\n"
-                            + " االعشاء :" + prayerTimes.getData().get(0).getTimings().Isha + "\n";
+                    try {
+                        Gson gson = new Gson();
+                        PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+                        String s = " الفجر : " + prayerTimes.getData().get(0).getTimings().Fajr + "\n"
+                                + " الظهر : " + prayerTimes.getData().get(0).getTimings().Dhuhr + "\n"
+                                + " العصر : " + prayerTimes.getData().get(0).getTimings().Asr + "\n"
+                                + " المغرب : " + prayerTimes.getData().get(0).getTimings().Maghrib + "\n"
+                                + " االعشاء :" + prayerTimes.getData().get(0).getTimings().Isha + "\n";
 
                     /*dataRecieved.onSuccess(new String[]{prayerTimes.getData().getTimings().Fajr,
                             prayerTimes.getData().getTimings().Dhuhr,prayerTimes.getData().getTimings().Asr,
                             prayerTimes.getData().getTimings().Maghrib,prayerTimes.getData().getTimings().Isha });*/
 
-                    Preference preference = findPreference("azan");
-                    //preference.setSummary(s);
+                        Preference preference = findPreference("azan");
+                        //preference.setSummary(s);
 
-                    Calendar calendar=Calendar.getInstance();
-                    int i= calendar.get(Calendar.DAY_OF_MONTH);
+                        Calendar calendar = Calendar.getInstance();
+                        int i = calendar.get(Calendar.DAY_OF_MONTH);
 
-                    String[] times = new String[6];
-                    String[] ss=new String[2];
+                        String[] times = new String[6];
+                        String[] ss = new String[2];
 
-                    ss=prayerTimes.getData().get(i).getTimings().Fajr.split(" ");
-                    // times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
-                    times[0] =ss[0];
+                        ss = prayerTimes.getData().get(i).getTimings().Fajr.split(" ");
+                        // times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
+                        times[0] = ss[0];
 
-                    ss=prayerTimes.getData().get(i).getTimings().Dhuhr.split(" ");
-                    //times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
-                    times[1] =ss[0];
+                        ss = prayerTimes.getData().get(i).getTimings().Dhuhr.split(" ");
+                        //times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
+                        times[1] = ss[0];
 
-                    //times[2] = prayerTimes.getData().get(0).getTimings().Asr;
-                    ss=prayerTimes.getData().get(i).getTimings().Asr.split(" ");
-                    times[2] =ss[0];
+                        //times[2] = prayerTimes.getData().get(0).getTimings().Asr;
+                        ss = prayerTimes.getData().get(i).getTimings().Asr.split(" ");
+                        times[2] = ss[0];
 
-                    //times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
-                    ss=prayerTimes.getData().get(i).getTimings().Maghrib.split(" ");
-                    times[3] =ss[0];
+                        //times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
+                        ss = prayerTimes.getData().get(i).getTimings().Maghrib.split(" ");
+                        times[3] = ss[0];
 
-                    //times[4] = prayerTimes.getData().get(0).getTimings().Isha;
-                    ss=prayerTimes.getData().get(i).getTimings().Isha.split(" ");
-                    times[4] =ss[0];
+                        //times[4] = prayerTimes.getData().get(0).getTimings().Isha;
+                        ss = prayerTimes.getData().get(i).getTimings().Isha.split(" ");
+                        times[4] = ss[0];
 
-                    //times[5] = prayerTimes.getData().get(0).getTimings().Sunrise;
-                    ss=prayerTimes.getData().get(i).getTimings().Sunrise.split(" ");
-                    times[5] =ss[0];
+                        //times[5] = prayerTimes.getData().get(0).getTimings().Sunrise;
+                        ss = prayerTimes.getData().get(i).getTimings().Sunrise.split(" ");
+                        times[5] = ss[0];
                     /*String[] times = new String[5];
                     times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
                     times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
                     times[2] = prayerTimes.getData().get(0).getTimings().Asr;
                     times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
                     times[4] = prayerTimes.getData().get(0).getTimings().Isha;*/
-                    //dataRecieved.onSuccess(times);
+                        //dataRecieved.onSuccess(times);
 
-                    MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
-                    MySharedPreferences.setAzanState("1");
-                    MySharedPreferences.setUserSetting("Fajr",times[0]);
-                    MySharedPreferences.setUserSetting("Dhuhr", times[1]);
-                    MySharedPreferences.setUserSetting("Asr", times[2]);
-                    MySharedPreferences.setUserSetting("Maghrib", times[3]);
-                    MySharedPreferences.setUserSetting("Isha", times[4]);
+                        MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+                        MySharedPreferences.setAzanState("1");
+                        MySharedPreferences.setUserSetting("Fajr", times[0]);
+                        MySharedPreferences.setUserSetting("Dhuhr", times[1]);
+                        MySharedPreferences.setUserSetting("Asr", times[2]);
+                        MySharedPreferences.setUserSetting("Maghrib", times[3]);
+                        MySharedPreferences.setUserSetting("Isha", times[4]);
                     /*MySharedPreferences.setUpMySharedPreferences(context, "extraSetting");
                     MySharedPreferences.setAzanState("1");
                     MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().get(0).getTimings().Fajr);
@@ -143,6 +144,9 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                     MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().get(0).getTimings().Asr);
                     MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().get(0).getTimings().Maghrib);
                     MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().get(0).getTimings().Isha);*/
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "لقد حدث خطاء", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
@@ -192,60 +196,62 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                     fetchAzanData.setNetworkResponse(new NetworkResponse() {
                         @Override
                         public void OnSuccess(String JsonData) {
-                            Gson gson = new Gson();
-                            PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
-                            String s = " الفجر : " + prayerTimes.getData().get(0).getTimings().Fajr + "\n"
-                                    + " الظهر : " + prayerTimes.getData().get(0).getTimings().Dhuhr + "\n"
-                                    + " العصر : " + prayerTimes.getData().get(0).getTimings().Asr + "\n"
-                                    + " المغرب : " + prayerTimes.getData().get(0).getTimings().Maghrib + "\n"
-                                    + " االعشاء :" + prayerTimes.getData().get(0).getTimings().Isha + "\n";
-                            Preference preference = findPreference("azan");
-                            //preference.setSummary(s);
+                            try {
 
-                            Calendar calendar=Calendar.getInstance();
-                            int i= calendar.get(Calendar.DAY_OF_MONTH);
+                                Gson gson = new Gson();
+                                PrayerTimes prayerTimes = gson.fromJson(JsonData, PrayerTimes.class);
+                                String s = " الفجر : " + prayerTimes.getData().get(0).getTimings().Fajr + "\n"
+                                        + " الظهر : " + prayerTimes.getData().get(0).getTimings().Dhuhr + "\n"
+                                        + " العصر : " + prayerTimes.getData().get(0).getTimings().Asr + "\n"
+                                        + " المغرب : " + prayerTimes.getData().get(0).getTimings().Maghrib + "\n"
+                                        + " االعشاء :" + prayerTimes.getData().get(0).getTimings().Isha + "\n";
+                                Preference preference = findPreference("azan");
+                                //preference.setSummary(s);
 
-                            String[] times = new String[6];
-                            String[] ss=new String[2];
+                                Calendar calendar = Calendar.getInstance();
+                                int i = calendar.get(Calendar.DAY_OF_MONTH);
 
-                            ss=prayerTimes.getData().get(i).getTimings().Fajr.split(" ");
-                            // times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
-                            times[0] =ss[0];
+                                String[] times = new String[6];
+                                String[] ss = new String[2];
 
-                            ss=prayerTimes.getData().get(i).getTimings().Dhuhr.split(" ");
-                            //times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
-                            times[1] =ss[0];
+                                ss = prayerTimes.getData().get(i).getTimings().Fajr.split(" ");
+                                // times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
+                                times[0] = ss[0];
 
-                            //times[2] = prayerTimes.getData().get(0).getTimings().Asr;
-                            ss=prayerTimes.getData().get(i).getTimings().Asr.split(" ");
-                            times[2] =ss[0];
+                                ss = prayerTimes.getData().get(i).getTimings().Dhuhr.split(" ");
+                                //times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
+                                times[1] = ss[0];
 
-                            //times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
-                            ss=prayerTimes.getData().get(i).getTimings().Maghrib.split(" ");
-                            times[3] =ss[0];
+                                //times[2] = prayerTimes.getData().get(0).getTimings().Asr;
+                                ss = prayerTimes.getData().get(i).getTimings().Asr.split(" ");
+                                times[2] = ss[0];
 
-                            //times[4] = prayerTimes.getData().get(0).getTimings().Isha;
-                            ss=prayerTimes.getData().get(i).getTimings().Isha.split(" ");
-                            times[4] =ss[0];
+                                //times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
+                                ss = prayerTimes.getData().get(i).getTimings().Maghrib.split(" ");
+                                times[3] = ss[0];
 
-                            //times[5] = prayerTimes.getData().get(0).getTimings().Sunrise;
-                            ss=prayerTimes.getData().get(i).getTimings().Sunrise.split(" ");
-                            times[5] =ss[0];
+                                //times[4] = prayerTimes.getData().get(0).getTimings().Isha;
+                                ss = prayerTimes.getData().get(i).getTimings().Isha.split(" ");
+                                times[4] = ss[0];
+
+                                //times[5] = prayerTimes.getData().get(0).getTimings().Sunrise;
+                                ss = prayerTimes.getData().get(i).getTimings().Sunrise.split(" ");
+                                times[5] = ss[0];
                     /*String[] times = new String[5];
                     times[0] = prayerTimes.getData().get(0).getTimings().Fajr;
                     times[1] = prayerTimes.getData().get(0).getTimings().Dhuhr;
                     times[2] = prayerTimes.getData().get(0).getTimings().Asr;
                     times[3] = prayerTimes.getData().get(0).getTimings().Maghrib;
                     times[4] = prayerTimes.getData().get(0).getTimings().Isha;*/
-                            //dataRecieved.onSuccess(times);
+                                //dataRecieved.onSuccess(times);
 
-                            MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
-                            MySharedPreferences.setAzanState("1");
-                            MySharedPreferences.setUserSetting("Fajr",times[0]);
-                            MySharedPreferences.setUserSetting("Dhuhr", times[1]);
-                            MySharedPreferences.setUserSetting("Asr", times[2]);
-                            MySharedPreferences.setUserSetting("Maghrib", times[3]);
-                            MySharedPreferences.setUserSetting("Isha", times[4]);
+                                MySharedPreferences.setUpMySharedPreferences(getActivity(), "extraSetting");
+                                MySharedPreferences.setAzanState("1");
+                                MySharedPreferences.setUserSetting("Fajr", times[0]);
+                                MySharedPreferences.setUserSetting("Dhuhr", times[1]);
+                                MySharedPreferences.setUserSetting("Asr", times[2]);
+                                MySharedPreferences.setUserSetting("Maghrib", times[3]);
+                                MySharedPreferences.setUserSetting("Isha", times[4]);
                     /*MySharedPreferences.setUpMySharedPreferences(context, "extraSetting");
                     MySharedPreferences.setAzanState("1");
                     MySharedPreferences.setUserSetting("Fajr", prayerTimes.getData().get(0).getTimings().Fajr);
@@ -253,10 +259,13 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                     MySharedPreferences.setUserSetting("Asr", prayerTimes.getData().get(0).getTimings().Asr);
                     MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().get(0).getTimings().Maghrib);
                     MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().get(0).getTimings().Isha);*/
-                            //times[4]="19:30";
-                            for (int ii = 0; ii < times.length; ii++) {
-                                String[] str = times[ii].split(":");
-                                startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), ii + 8000);
+                                //times[4]="19:30";
+                                for (int ii = 0; ii < times.length; ii++) {
+                                    String[] str = times[ii].split(":");
+                                    startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), ii + 8000);
+                                }
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity(), "لقد حدث خطاء", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -296,7 +305,7 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                 } else
                     Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
             } else {
-                MySharedPreferences.setUpMySharedPreferences(getActivity(),getActivity().getResources().getString(R.string.shared_pref_file_name));
+                MySharedPreferences.setUpMySharedPreferences(getActivity(), getActivity().getResources().getString(R.string.shared_pref_file_name));
                 MySharedPreferences.setAzanState("-1");
                 Preference preference = findPreference("azan");
                 preference.setSummary("");
