@@ -92,6 +92,21 @@ public class PrayerTimesActivity extends AppCompatActivity implements NetworkRes
             intent.setAction("azan_settings");
             startActivity(intent);
             return true;
+        }else if (id == R.id.azan_update) {
+            /*Intent intent= new Intent(this,SettingsActivity.class);
+            intent.setAction("azan_settings");
+            startActivity(intent);*/
+
+            MySharedPreferences.setUpMySharedPreferences(this,getString(R.string.shared_pref_file_name));
+            MySharedPreferences.setUserSetting("gps_lat","");
+            MySharedPreferences.setUserSetting("gps_long","");
+
+            Intent intent= new Intent(this,PrayerTimesActivity.class);
+            intent.setAction("azan_settings");
+            finish();
+            startActivity(intent);
+
+            return true;
         }
 
 

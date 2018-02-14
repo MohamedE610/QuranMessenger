@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
      <item
+         android:id="@+id/azan_update"
+         android:title="تحديث مواقيت الصلاه" />
+
+     <item
         android:id="@+id/azan_settings"
         android:title="الاعدادات" />
 </menu>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.Utils.GPSUtils.MyAlertDialog;
 import com.example.e610.quranmessenger.Utils.GPSUtils.MyGPSTracker;
 
@@ -102,7 +103,9 @@ public class FetchAzanData extends AsyncTask<Void,Void,String> {
         // check if GPS location can get
         if (myGPSTracker.canGetLocation()) {
             lati=myGPSTracker.getLatitude()+"";
+            MySharedPreferences.setUserSetting("gps_lat",lati);
             longi= myGPSTracker.getLongitude()+"";
+            MySharedPreferences.setUserSetting("gps_long",longi);
             finalUrl=BasicUrl+latitude+lati+longitude+longi+method;
             Log.d("Your Location", "latitude:" + myGPSTracker.getLatitude() + ", longitude: " + myGPSTracker.getLongitude());
         } else {
@@ -116,7 +119,14 @@ public class FetchAzanData extends AsyncTask<Void,Void,String> {
 
     @Override
     protected void onPreExecute() {
-        getLatLong();
+        MySharedPreferences.setUpMySharedPreferences(context,context.getString(R.string.shared_pref_file_name));
+        String latStr=MySharedPreferences.getUserSetting("gps_lat");
+        String longStr=MySharedPreferences.getUserSetting("gps_long");
+        if(latStr.equals(""))
+            getLatLong();
+        else
+            finalUrl=BasicUrl+latitude+latStr+longitude+longStr+method;
+
         super.onPreExecute();
     }
 
@@ -125,9 +135,10 @@ public class FetchAzanData extends AsyncTask<Void,Void,String> {
 
         String JsonData = "";
         try {
-            lati=myGPSTracker.getLatitude()+"";
+            /*lati=myGPSTracker.getLatitude()+"";
             longi= myGPSTracker.getLongitude()+"";
-            finalUrl=BasicUrl+latitude+lati+longitude+longi+method;
+            finalUrl=BasicUrl+latitude+lati+longitude+longi+method;*/
+
             JsonData = Fetching_Data(finalUrl);
             if(JsonData==null||JsonData.equals("")) {
                 networkResponse.OnFailure(true);
