@@ -12,8 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Main2Activity;
-import com.example.e610.quranmessenger.MainActivity;
+import com.example.e610.quranmessenger.Activities.Main2Activity;
 import com.example.e610.quranmessenger.R;
 import com.example.e610.quranmessenger.Services.HeadService;
 

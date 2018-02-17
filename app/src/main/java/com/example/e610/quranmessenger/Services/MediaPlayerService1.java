@@ -23,12 +23,12 @@ import android.view.WindowManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Main2Activity;
-import com.example.e610.quranmessenger.NotificationDismissedReceiver;
+import com.example.e610.quranmessenger.Activities.Main2Activity;
+import com.example.e610.quranmessenger.BroadcastRecievers.NotificationDismissedReceiver;
 import com.example.e610.quranmessenger.Utils.Constants;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
-import com.example.e610.quranmessenger.SettingsActivity;
+import com.example.e610.quranmessenger.Activities.SettingsActivity;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;

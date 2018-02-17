@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_fhres"
+            android:icon="@drawable/index"
+            android:title="@string/fahrs"
+            />
+        <item
+            android:id="@+id/nav_azan"
+            android:icon="@drawable/azantwo"
+            android:title="@string/azan" />
+        <item
+            android:id="@+id/nav_azkar"
+            android:icon="@drawable/azkartwo"
+            android:title="@string/azkar" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/icond"
+            android:title="@string/setting" />
+
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/info"
+            android:title="@string/about" />
+
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/support"
+            android:title="@string/support" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/face"
+                android:title="@string/facebook" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/insta"
+                android:title="@string/insta" />
+        </menu>
+    </item>
+
+</menu>

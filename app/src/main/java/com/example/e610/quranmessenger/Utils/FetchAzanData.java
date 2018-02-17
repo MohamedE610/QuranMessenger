@@ -122,7 +122,7 @@ public class FetchAzanData extends AsyncTask<Void,Void,String> {
         MySharedPreferences.setUpMySharedPreferences(context,context.getString(R.string.shared_pref_file_name));
         String latStr=MySharedPreferences.getUserSetting("gps_lat");
         String longStr=MySharedPreferences.getUserSetting("gps_long");
-        if(latStr.equals(""))
+        if(latStr.equals("")||latStr.equals("0.0"))
             getLatLong();
         else
             finalUrl=BasicUrl+latitude+latStr+longitude+longStr+method;

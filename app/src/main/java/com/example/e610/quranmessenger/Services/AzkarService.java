@@ -15,13 +15,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.AzkarActivity;
-import com.example.e610.quranmessenger.AzkarDetailedActivity;
-import com.example.e610.quranmessenger.Main2Activity;
-import com.example.e610.quranmessenger.SettingsAzkarFragment;
+import com.example.e610.quranmessenger.Activities.AzkarActivity;
+import com.example.e610.quranmessenger.Activities.AzkarDetailedActivity;
+import com.example.e610.quranmessenger.Fragments.SettingsAzkarFragment;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
-import com.example.e610.quranmessenger.SettingsActivity;
 
 /**
  * Foreground service. Creates a head view.

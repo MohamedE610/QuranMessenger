@@ -58,7 +58,7 @@
                 >
                 <intent
                     android:targetPackage="package com.example.e610.quranmessenger"
-                    android:targetClass="package com.example.e610.quranmessenger.PrayerTimesActivity" />
+                    android:targetClass="package com.example.e610.quranmessenger.Activities.PrayerTimesActivity" />
             </Preference>
             <Preference
                 android:key="azan_setting"

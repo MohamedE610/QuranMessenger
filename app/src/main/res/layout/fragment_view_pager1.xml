@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    tools:context="com.example.e610.quranmessenger.viewPagerFragment">
+    tools:context=".Fragments.viewPagerFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/c"
+        app:itemBackground="@drawable/ffff"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
         app:menu="@menu/bottom_navigation_main"

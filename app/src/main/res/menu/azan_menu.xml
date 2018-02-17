@@ -5,7 +5,8 @@
          android:id="@+id/azan_update"
          android:title="تحديث مواقيت الصلاه" />
 
-     <item
+    <!-- <item
         android:id="@+id/azan_settings"
-        android:title="الاعدادات" />
+        android:title="الاعدادات" />-->
+
 </menu>

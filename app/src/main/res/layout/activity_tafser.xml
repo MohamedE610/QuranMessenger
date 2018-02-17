@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.e610.quranmessenger.TafserActivity"
+    tools:context=".Activities.TafserActivity"
     android:background="#FFF3E0" >
 
     <android.support.design.widget.AppBarLayout

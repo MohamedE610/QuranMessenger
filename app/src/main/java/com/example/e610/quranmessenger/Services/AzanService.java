@@ -13,11 +13,10 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.NotificationDismissedReceiver;
-import com.example.e610.quranmessenger.OtherSettingsActivity;
-import com.example.e610.quranmessenger.PrayerTimesActivity;
+import com.example.e610.quranmessenger.BroadcastRecievers.NotificationDismissedReceiver;
+import com.example.e610.quranmessenger.Activities.OtherSettingsActivity;
+import com.example.e610.quranmessenger.Activities.PrayerTimesActivity;
 import com.example.e610.quranmessenger.R;
-import com.example.e610.quranmessenger.SettingsActivity;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 
 /**

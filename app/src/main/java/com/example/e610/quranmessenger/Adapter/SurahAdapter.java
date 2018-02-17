@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.FahrsFragment;
-import com.example.e610.quranmessenger.JuzFragment;
+import com.example.e610.quranmessenger.Fragments.FahrsFragment;
+import com.example.e610.quranmessenger.Fragments.JuzFragment;
 import com.example.e610.quranmessenger.Models.SurahOfQuran.SurahOfQuran;
 import com.example.e610.quranmessenger.R;
-import com.example.e610.quranmessenger.TafserActivity;
+import com.example.e610.quranmessenger.Activities.TafserActivity;
 import com.example.e610.quranmessenger.Utils.MySharedPreferences;
 import com.example.e610.quranmessenger.Utils.ServiceUtils;
 

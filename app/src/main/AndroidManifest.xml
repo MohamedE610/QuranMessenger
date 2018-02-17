@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androids="http://schemas.android.com/apk/res-auto"
     package="com.example.e610.quranmessenger">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -11,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
 
-
     <application
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize"
@@ -20,14 +20,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SettingsActivity"
-            android:launchMode="singleTop" />
+            android:name=".Activities.SettingsActivity"
+            android:launchMode="singleTop" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.Main2Activity" />
+
+            </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:launchMode="singleTop" />
         <!-- android:keepScreenOn="true" -->
         <activity
-            android:name=".Main2Activity"
+            android:name=".Activities.Main2Activity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -44,7 +49,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".NotificationDismissedReceiver"
+            android:name=".BroadcastRecievers.NotificationDismissedReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="notification_cancelled" />
@@ -59,12 +64,12 @@
         -->
 
         <activity
-            android:name=".FahrsActivity"
+            android:name=".Activities.FahrsActivity"
             android:label="الفهرس"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main2Activity" />
+                android:value=".Activities.Main2Activity" />
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -74,12 +79,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PrayerTimesActivity"
+            android:name=".Activities.PrayerTimesActivity"
             android:label="الاذان"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.Main2Activity" />
+        </activity>
         <activity
-            android:name=".SplashActivity"
+            android:name=".Activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,9 +97,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TafserActivity"
+            android:name=".Activities.TafserActivity"
             android:label="التفسير"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.Main2Activity" />
+        </activity>
 
         <receiver android:name=".Widget.QuranMessangerWidget">
             <intent-filter>
@@ -106,23 +119,38 @@
         </receiver>
 
         <activity
-            android:name=".AzkarActivity"
+            android:name=".Activities.AzkarActivity"
             android:label="اذكار الصباح و المساء"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".AzkarDetailedActivity"
-            android:label="الاذكار"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".OtherSettingsActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.Main2Activity" />
+        </activity>
 
-        <receiver android:name=".Utils.BootCompleteReceiver">
+        <activity
+            android:name=".Activities.AzkarDetailedActivity"
+            android:label="الاذكار"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.AzkarActivity" />
+            </activity>
+
+        <activity android:name=".Activities.OtherSettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.SettingsActivity" />
+        </activity>
+
+        <receiver android:name=".BroadcastRecievers.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".Utils.PhonecallReceiver" >
+        <receiver android:name=".BroadcastRecievers.PhonecallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
@@ -136,6 +164,17 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>-->
+
+        <receiver android:name=".BroadcastRecievers.AlarmBroadcastReciever" >
+            <intent-filter>
+                <action android:name="azkar_b" />
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name=".forcanWork.Navegation_drawer"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            >
+        </activity>
 
     </application>
 

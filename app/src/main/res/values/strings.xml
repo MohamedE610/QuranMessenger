@@ -43,4 +43,19 @@
     <string name="text_favorites">Favorites</string>
     <string name="text_schedules">Schedules</string>
     <string name="text_music">Music</string>
+
+    <string name="quran">قران</string>
+    <string name="back">الانتقال الي</string>
+    <string name="azkar">الأذكار</string>
+    <string name="setting">الإعدادات</string>
+    <string name="title_activity_navegation_drawer">Navegation_drawer</string>
+
+    <string name="alforqan">الفرقان</string>
+    <string name="azan">الآذان</string>
+    <string name="about">معلومات عنا</string>
+    <string name="support">الدعم الفني</string>
+    <string name="facebook">facebook</string>
+    <string name="insta">Instagram</string>
+
+
 </resources>

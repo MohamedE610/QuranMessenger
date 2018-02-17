@@ -8,17 +8,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.example.e610.quranmessenger.Main2Activity;
+import com.example.e610.quranmessenger.Activities.Main2Activity;
 import com.example.e610.quranmessenger.Utils.HeadLayer;
 import com.example.e610.quranmessenger.R;
-import com.example.e610.quranmessenger.SettingsActivity;
+import com.example.e610.quranmessenger.Activities.SettingsActivity;
 
 /**
  * Foreground service. Creates a head view.

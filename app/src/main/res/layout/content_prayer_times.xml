@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.e610.quranmessenger.PrayerTimesActivity"
+    tools:context=".Activities.PrayerTimesActivity"
     tools:showIn="@layout/activity_prayer_times"
     android:background="@drawable/p1"
     >
