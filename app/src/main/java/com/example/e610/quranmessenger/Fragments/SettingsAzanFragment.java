@@ -262,7 +262,7 @@ public class SettingsAzanFragment extends PreferenceFragment implements SharedPr
                     MySharedPreferences.setUserSetting("Maghrib", prayerTimes.getData().get(0).getTimings().Maghrib);
                     MySharedPreferences.setUserSetting("Isha", prayerTimes.getData().get(0).getTimings().Isha);*/
                                 //times[4]="19:30";
-                                for (int ii = 0; ii < times.length; ii++) {
+                                for (int ii = 0; ii < times.length-1; ii++) {
                                     String[] str = times[ii].split(":");
                                     startAzanService(Integer.valueOf(str[0]), Integer.valueOf(str[1]), ii + 8000);
                                 }
