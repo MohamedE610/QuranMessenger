@@ -29,7 +29,7 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
 
     static HashMap<Integer, PendingIntent> pendingIntentList = new HashMap<>();
     static AlarmManager alarmManager;
-    static Context ctx;
+    public static Context ctx;
     private PermissionChecker mPermissionChecker;
 
     @Override
@@ -202,10 +202,10 @@ public class SettingsAzkarFragment extends PreferenceFragment implements SharedP
         alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, _alarm , pendingIntent);
-        }else{
-            alarmManager.set(AlarmManager.RTC_WAKEUP, _alarm , pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
         }
 
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,_alarm,2*60*1000,pendingIntent);

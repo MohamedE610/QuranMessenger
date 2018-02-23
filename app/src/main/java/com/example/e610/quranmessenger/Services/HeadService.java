@@ -45,8 +45,11 @@ public class HeadService extends Service {
     ;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String action = "";
 
-        String action=intent.getAction();
+        if(intent!=null&&intent.getAction()!=null)
+            action=intent.getAction();
+
         if( action==null || (!action.equals("cancel") && !action.equals("ok"))){
             logServiceStarted();
             //initHeadLayer();

@@ -116,8 +116,8 @@ public class AlarmManagerUtils {
         azkarAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
         //azkarAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, _alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            azkarAlarmManager.setExact(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            azkarAlarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
         }else{
             azkarAlarmManager.set(AlarmManager.RTC_WAKEUP, _alarm, pendingIntent);
         }

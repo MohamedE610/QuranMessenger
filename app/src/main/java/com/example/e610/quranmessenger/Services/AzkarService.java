@@ -59,6 +59,7 @@ public class AzkarService extends Service {
             id=intent.getIntExtra("id",0);
             int azkar_type=intent.getIntExtra("azkar_type",-1);
 
+            SettingsAzkarFragment.ctx=getApplicationContext();
             SettingsAzkarFragment.startHeadService(h,m,id,azkar_type);
 
             String title="";

@@ -168,21 +168,36 @@ public class MediaPlayerService extends Service implements ExoPlayer.EventListen
 
         PendingIntent deleteIntent=createOnDismissedIntent(this,99);
         String contentStr="صفحه "+pageNum;
-        builder.setContentIntent(contentPendingIntent)
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Al Furqan")
-                .setContentText(contentStr)
-                .setContentInfo(SettingsFragment.getArabicShekhName(sh_name))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setDeleteIntent(deleteIntent)
-                .addAction(settingAction)
-                .addAction(playPauseAction)
-                .addAction(restartAction)
-                .setStyle(new NotificationCompat.MediaStyle()
-                        .setMediaSession(mediaSessionCompat.getSessionToken())
-                        .setShowActionsInCompactView(0,1)
-                        .setShowCancelButton(true)
-                        .setCancelButtonIntent(closePendingIntent));
+        if (action.equals("azkar"))
+            builder.setContentIntent(contentPendingIntent)
+                    .setSmallIcon(R.drawable.logo)
+                    .setContentTitle("Al Furqan")
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setDeleteIntent(deleteIntent)
+                    .addAction(settingAction)
+                    .addAction(playPauseAction)
+                    .addAction(restartAction)
+                    .setStyle(new NotificationCompat.MediaStyle()
+                            .setMediaSession(mediaSessionCompat.getSessionToken())
+                            .setShowActionsInCompactView(0, 1)
+                            .setShowCancelButton(true)
+                            .setCancelButtonIntent(closePendingIntent));
+        else
+            builder.setContentIntent(contentPendingIntent)
+                    .setSmallIcon(R.drawable.logo)
+                    .setContentTitle("Al Furqan")
+                    .setContentText(contentStr)
+                    .setContentInfo(SettingsFragment.getArabicShekhName(sh_name))
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setDeleteIntent(deleteIntent)
+                    .addAction(settingAction)
+                    .addAction(playPauseAction)
+                    .addAction(restartAction)
+                    .setStyle(new NotificationCompat.MediaStyle()
+                            .setMediaSession(mediaSessionCompat.getSessionToken())
+                            .setShowActionsInCompactView(0, 1)
+                            .setShowCancelButton(true)
+                            .setCancelButtonIntent(closePendingIntent));
 
         /*mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.notify(99, builder.build());*/
